@@ -75,6 +75,7 @@ handle_info({tcp, Socket, RawData}, State) ->
     do_JSCall(Socket, RawData),
     RequestCount = State#state.request_count,
     {noreply, State#state{request_count = RequestCount + 1}};
+
 handle_info(timeout, #state{lsock = LSock} = State) ->
     {ok, _Sock} = gen_tcp:accept(LSock),
     {noreply, State}.
@@ -90,7 +91,9 @@ code_change(_OldVsn, State, _Extra) ->
 %%-----------------------------------------------------
 
 do_JSCall(Socket, Data) ->
-   gen_tcp:send(Socket, io_lib:fwrite("~p~n", ["I got a call from j00!"])).
+    Port = js_runner:boot(),
+    Ret = js_runner:executeJS(Port, Data),
+    gen_tcp:send(Socket, io_lib:fwrite("~p~n", [Ret])).
 
 args_to_terms(RawArgs) ->
     {ok, Toks, _Line} = erl_scan:string("[" ++ RawArgs ++ "]. ", 1),

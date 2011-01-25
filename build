@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-erlc *.erl -o ebin
+for i in `find src -name "*.erl"`
+do
+	erlc -o ebin $i
+done
+

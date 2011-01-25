@@ -9,7 +9,7 @@ s = TCPSocket.open(hostname, port)
 
 print "What to echo? "
 q = gets
-s.print(q)
+s.print(q.chop)
 
 while true
   line = s.gets   # Read lines from the socket

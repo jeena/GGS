@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
 erlc *.erl -o ebin
+erlc src/*.erl -o ebin

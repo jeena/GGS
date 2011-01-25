@@ -1,0 +1,3 @@
+[submodule "erlang_js"]
+	path = erlang_js
+	url = https://github.com/basho/erlang_js.git

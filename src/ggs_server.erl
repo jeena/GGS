@@ -91,11 +91,7 @@ code_change(_OldVsn, State, _Extra) ->
 %%-----------------------------------------------------
 
 do_JSCall(Socket, Data) ->
+    io:format("Data: ~p", [Data]),
     Port = js_runner:boot(),
     Ret = js_runner:executeJS(Port, Data),
     gen_tcp:send(Socket, io_lib:fwrite("~p~n", [Ret])).
-
-args_to_terms(RawArgs) ->
-    {ok, Toks, _Line} = erl_scan:string("[" ++ RawArgs ++ "]. ", 1),
-    {ok, Args} = erl_parse:parse_term(Toks),
-    Args.

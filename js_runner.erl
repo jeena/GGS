@@ -8,4 +8,4 @@ boot() ->
 
 executeJS(Port, Data) ->
     ok = js:define(Port, <<"function helloworld(name){return 'Hello, ' + name}">>),
-    js:call(Port, <<"helloworld">>, [Data]).
+    js:call(Port, <<"helloworld">>, [list_to_binary(Data)]).

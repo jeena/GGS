@@ -1,0 +1,12 @@
+1. From terminal: erl -mnesia dir '"/home/user/dir/to/GGS/GameDB.Player"'
+2. mnesia:create_schema([node()]).
+3. mnesia:start().
+4. c(gamedb).
+5. gamedb:init().
+6. mnesia:info().
+7. gamedb:test_player().
+
+Last output should be: 
+ Player name: Tux
+ {atomic,ok}
+

@@ -35,7 +35,6 @@ class TicTacToeBoard(Board):
                 image = self.image_x
             elif game_rectangle.state == 'o':
                 image = self.image_o
-            print(game_rectangle.state)
             table_image.blit(image, Rect(x, y, w, h))
 
     def make_turn(self, mouse_point):

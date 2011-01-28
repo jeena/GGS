@@ -1,0 +1,91 @@
+- background image
+- subimages for game_area:s
+- subimages for game markers (X or 0)
+- rectangle collision on game_area:s
+- redraw background then all game_area:s
+- board_state: a hashtable where key is game_area_index
+               and value is either'x' 'o' or ' '
+
+ board contains nr_of_squares = 9
+ board contains array of squares with nr_of_squares elements
+ board contains x, y, width and height
+ board contains a frame
+
+ frame contains width and height
+
+ game_area contains.
+ game_area contains index.
+
+   
+
+game init:
+t
+ //frame is initialized with given width and height
+ //frame is initialized with color
+ //board is initialized with frame
+ board is initialized with given nr_of_squares
+ square_dimensions is initialized with x, y width and height
+ board is initialized with square_dimensions
+ board method init() is invoked
+
+
+
+
+board:init(canva, nr_of_squares, square_dimensions):
+  img_sqr_x = load x image from harddisk
+  img_sqr_y = load y image from harddisk
+
+  squares = new array of squares with nr_of squares elements
+
+  for i in nr_of_squares:
+    square[i].init(square_dimensions, i, nr_of_squares)
+     
+      
+state of all game_areas is set to ' '.
+
+board:paint(): 
+  frame_paint()
+  squares_paint()
+
+
+board:
+  ptr canva
+  img_sqr_x
+  img_sqr_o
+  //img_sqr_blank
+
+  //frame
+
+  array of squares
+
+squares_paint():
+    for square in squares:
+       // May paint blank also
+       if square.state is x:
+          canva.paint(square.x, square.y, img_sqr_x)
+       elif square.state is o:
+          canva.paint(square.x, square.y, img_sqr_o)
+
+square:
+  int x,y,width,height
+  char state
+
+  init(square_dimensions, index, nr_of_squares):
+    //calculate x and y based on width, height and index
+    //should really been done in squares class instead
+    self.x = width * (index % (sqrt(nr_of_squares))) 
+    self.y = height * (index % (sqrt(nr_of_squares)))
+    state is ' '
+
+
+
+
+ all values of board_state is ' '.
+ array of game_area:s initialized with game_positions
+ according to the board
+-game loop: 
+1. print background
+2. f
+
+--marked gamepositions when hovering them
+

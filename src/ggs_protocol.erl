@@ -6,10 +6,17 @@
 
 parse(JSONData) ->
     {struct, Struct} = js_mochijson2:decode(JSONData),
-    RequestType = proplists:get_value(<<"request">>, Struct),
+    io:format("~p~n", [Struct]),
+    [{RequestType, Rest}] = Struct,%proplists:get_value(<<"request">>, Struct),
     case RequestType of
         <<"define">> ->
+            %Name = proplists:get_value(<<"name">>, Rest),
+            %{struct, Name} = proplists:get_value(<<"name">>, Rest),
+            {struct, Rest2} = Rest,
+            io:format("~p", [Rest2]),
             ok_you_said_define;
+        <<"call">> ->
+            ok_you_said_call;
         Other ->
             io:format("~p", [RequestType]),
             ok_i_dont_understand

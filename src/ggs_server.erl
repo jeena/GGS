@@ -72,8 +72,10 @@ handle_cast(stop, State) ->
     {stop, normal, State}.
 
 handle_info({tcp, Socket, RawData}, State) ->
-    do_JSCall(Socket, RawData),
+    %do_JSCall(Socket, RawData),
+    Parsed = ggs_protocol:parse(RawData), 
     RequestCount = State#state.request_count,
+    gen_tcp:send(Socket, io_lib:fwrite("~p~n", [Parsed])),
     {noreply, State#state{request_count = RequestCount + 1}};
 
 handle_info(timeout, #state{lsock = LSock} = State) ->
@@ -90,8 +92,10 @@ code_change(_OldVsn, State, _Extra) ->
 %% Internal functions
 %%-----------------------------------------------------
 
-do_JSCall(Socket, Data) ->
-    io:format("Data: ~p", [Data]),
-    Port = js_runner:boot(),
-    Ret = js_runner:executeJS(Port, Data),
+do_JSDefine(Socket, Data) ->
+    JSVM = js_runner:boot(), 
+    Ret = js_runner:define(JSVM, Data),
     gen_tcp:send(Socket, io_lib:fwrite("~p~n", [Ret])).
+
+do_JSCall(Socket, Function, Parameters) ->
+    ok.    

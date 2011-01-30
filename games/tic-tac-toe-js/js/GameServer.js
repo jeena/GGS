@@ -55,7 +55,7 @@ GameServer.prototype.callCommand = function(game_name, client, command, attrs) {
 		if(typeof game.instance.userCommand == "function") {
 			var user = null;
 			for (var i=0; i < game.users.length; i++) {
-				if (game.users[i].client == client) {
+				if (game.users[i].isClient(client)) {
 					user = game.users[i];
 				}
 			}
@@ -129,7 +129,7 @@ GameServer.prototype.clear = function(game_name, type) {
 	} else throw "GGS: Unknown game " + game_name		
 }
 
-var GameServerI = new GameServer();
+var GameServer = new GameServer();
 
 
 
@@ -143,9 +143,11 @@ function User(id, client) {
 	
 	return {
 		id: id,
-		client: client,
 		sendCommand: function(command, args) {
 			client.commandCalled(command, args);
+		},
+		isClient: function(c) {
+			return c == client;
 		}
 	}
 }
@@ -159,24 +161,24 @@ function Storage(game_name, type) {
 		
 		return {
 			setItem: function(key, value) {
-				GameServerI.set(self.gameName, self.type, key, value);
+				GameServer.set(self.gameName, self.type, key, value);
 			},
 			getItem: function(key) {
-				return GameServerI.get(self.gameName, self.type, key);
+				return GameServer.get(self.gameName, self.type, key);
 			},
 			key: function(position) {
-				return GameServerI.key(self.gameName, self.type, position);
+				return GameServer.key(self.gameName, self.type, position);
 			},
 			length: {
 				get: function() {
-						return GameServerI.length(self.gameName, self.type);					
+						return GameServer.length(self.gameName, self.type);					
 				}
 			},
 			removeItem: function(key) {
-				GameServerI.remove(self.gameName, self.type, key);
+				GameServer.remove(self.gameName, self.type, key);
 			},
 			clear: function() {
-				GameServerI.clear(self.gameName, self.type);
+				GameServer.clear(self.gameName, self.type);
 			}
 		}
 	} else throw "GGS: No such storage available " + type;

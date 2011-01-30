@@ -1,4 +1,4 @@
-function GGSI(game_name) {
+function GGS(game_name) {
 	var world = new Storage(game_name, "world");
 	this.__defineGetter__("world", function(){
 		return world;
@@ -11,6 +11,6 @@ function GGSI(game_name) {
 	
 	var game_n = game_name;
 	this.__defineGetter__("users", function(){
-		return GameServerI.users(game_n);
+		return GameServer.users(game_n);
 	});
 }

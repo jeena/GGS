@@ -1,11 +1,12 @@
 // This first version doesn't take networking into account yet.
+// Only tested in FireFox, Safari, Chrome and Opera
+// Will not work in IE <9 because getters and setters are used.
 
 function TicTacToeClient(container, server) {
 	this.server = server;
 	this.container = container;	
 	this.init();
 }
-
 
 TicTacToeClient.prototype.init = function() {
 	this.rows = 3;

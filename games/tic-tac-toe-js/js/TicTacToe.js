@@ -1,7 +1,30 @@
-function TicTacToe() {};
-TicTacToe.prototype.init = function() {
+/*
+This code is public domain, it's just a example how a game
+on our Generic Game Server could look like.
 
+API:
+
+GGS.world // webstorage interface
+GGS.localStorage // webstorage interface
+http://dev.w3.org/html5/webstorage/
+
+GGS.users is a array with User objects:
+User {
+	id // integer attribute
+	sendCommand: function(command, args)
 }
+
+There are optional and mandatory methods a Game should implement:
+
+Game main() // m - should return a instance of the game, is called at startup
+userCommand(user, command, args) // m - is called when a client sends a message
+userAllowed(user) // o - should return a bolean, is called when a new is added
+userAdded(user) // o - is called when a client was added
+
+*/
+
+
+function TicTacToe() {};
 
 TicTacToe.prototype.userAllowed = function(user) {
 	if(GGS.users.length <= 2) return true
@@ -58,8 +81,10 @@ TicTacToe.prototype.userCommand = function(user, command, args) {
 			var gameBoard = JSON.parse(GGS.world.getItem("game_board"));
 			
 			if (gameBoard[props.x][props.y] == 0) {
+				
 				gameBoard[props.x][props.y] = p;
-				GGS.world.setItem("game_board", JSON.stringify(gameBoard))
+				GGS.world.setItem("game_board", JSON.stringify(gameBoard));
+				
 				if (this.checkIfWon(p, gameBoard)) {
 					if (p == 1) {
 						this.getUser(p1_id).sendCommand("winner", "You win!");
@@ -92,44 +117,36 @@ TicTacToe.prototype.checkIfWon = function(player, gameBoard) {
 	var rows = gameBoard.length;
 
 	for (i = 0; i < rows; ++i) {
-		for (j = 0; j < rows; ++j) {
-			if (gameBoard[i][j] != player) {
+		for (j = 0; j < rows; ++j)
+			if (gameBoard[i][j] != player)
 				break;
-			}
-		}
-		if (j == rows) {
-			return true;
-		}
 
-		for (j = 0; j < rows; ++j) {
-			if (gameBoard[j][i] != player) {
+		if (j == rows)
+			return true;
+
+		for (j = 0; j < rows; ++j)
+			if (gameBoard[j][i] != player)
 				break;
-			}
-		}
-		if (j == rows) {
+
+		if (j == rows)
 			return true;			
-		}
 	}
 	
 	// Now check diagnols
-	for (i = 0; i < rows; ++i) {
-		if (gameBoard[i][i] != player) {
+	for (i = 0; i < rows; ++i)
+		if (gameBoard[i][i] != player)
 			break;			
-		}
-	}
+
 	
-	if (i == rows) {
+	if (i == rows)
 		return true;		
-	}
 	
-	for (i = 0; i < rows; ++i) {
-		if (gameBoard[i][rows - i - 1] != player) {
+	for (i = 0; i < rows; ++i)
+		if (gameBoard[i][rows - i - 1] != player)
 			break;			
-		}
-	}
-	if (i == rows) {
+
+	if (i == rows)
 		return true;
-	}
 	
 	return false;
 }

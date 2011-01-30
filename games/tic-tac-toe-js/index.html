@@ -8,12 +8,12 @@
 	<script src="js/TicTacToeClient.js"></script>
 	<script>
 	var game_name ="tictactoe"
-	var GGS = new GGSI(game_name);
+	var GGS = new GGS(game_name);
 	
 	function init() {
-		GameServerI.addGame(game_name, main());
-		GameServerI.addClient(game_name, new TicTacToeClient(frames.player1.document.getElementById("p1"), GameServerI));
-		GameServerI.addClient(game_name, new TicTacToeClient(frames.player2.document.getElementById("p2"), GameServerI));
+		GameServer.addGame(game_name, main());
+		GameServer.addClient(game_name, new TicTacToeClient(frames.player1.document.getElementById("p1"), GameServer));
+		GameServer.addClient(game_name, new TicTacToeClient(frames.player2.document.getElementById("p2"), GameServer));
 	}		
 	</script>
 	<link rel="stylesheet" href="css/screen.css" type="text/css" media="screen">

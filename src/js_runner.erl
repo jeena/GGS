@@ -10,4 +10,4 @@ define(Port, Data) ->
     ok = js:define(Port, list_to_binary(Data)).
     
 call(Port, Func, Params) ->
-    js:call(Port, list_to_binary(Func), [Params]).
+    js:call(Port, list_to_binary(Func), Params).

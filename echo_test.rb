@@ -10,7 +10,7 @@ port = gets
 
 s = TCPSocket.open(hostname, port.chop)
 
-s.print("{\"request\": \"define\"}")
+s.print(" __boot")
 
 while true
   line = s.gets   # Read lines from the socket

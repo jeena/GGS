@@ -4,20 +4,23 @@
 -module(ggs_protocol).
 -export([parse/1]).
 
-parse(JSONData) ->
-    {struct, Struct} = js_mochijson2:decode(JSONData),
-    io:format("~p~n", [Struct]),
-    [{RequestType, Rest}] = Struct,%proplists:get_value(<<"request">>, Struct),
-    case RequestType of
-        <<"define">> ->
-            %Name = proplists:get_value(<<"name">>, Rest),
-            %{struct, Name} = proplists:get_value(<<"name">>, Rest),
-            {struct, Rest2} = Rest,
-            io:format("~p", [Rest2]),
-            ok_you_said_define;
-        <<"call">> ->
-            ok_you_said_call;
+parse(Data) ->
+    Message = string:tokens(Data, " "),
+    case Message of
+        [RefID, "__error", Message      ] ->
+            {ok, you_said_error};
+        [_,     "__boot" ]                ->
+            {ok, you_said_boot};
+        [RefID, "__stop"]                 ->
+            {ok, you_said_stop};
+        [RefID, "__start"]                ->
+            {ok, you_said_start};
+        [_,     "__hello" , _           ] ->
+            {ok, you_said_hello};
+        [RefID, "__define", JavaScript  ] ->
+            {ok, you_said_define};
+        [RefID, Command, Parameter      ] ->
+            {cmd, Command, Parameter}; 
         Other ->
-            io:format("~p", [RequestType]),
-            ok_i_dont_understand
+            {out_of_bounds, Other}
     end.

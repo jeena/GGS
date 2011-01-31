@@ -23,7 +23,7 @@
 -define(SERVER, ?MODULE).
 -define(DEFAULT_PORT, 1055).
 
--record(state, {port, lsock, request_count = 0}).
+-record(state, {port, lsock, client_vm_map = []}).
 
 %%%====================================================
 %%% API
@@ -66,15 +66,16 @@ init([Port]) ->
     {ok, #state{port = Port, lsock = LSock}, 0}.
 
 handle_call(get_count, _From, State) ->
-    {reply, {ok, State#state.request_count}, State}.
+    {reply, {ok, State#state.client_vm_map}, State}.
 
 handle_cast(stop, State) ->
     {stop, normal, State}.
 
 handle_info({tcp, Socket, RawData}, State) ->
-    do_JSDefine(Socket, RawData),
-    RequestCount = State#state.request_count,
-    {noreply, State#state{request_count = RequestCount + 1}};
+    NewState = do_JSCall(Socket, RawData, State),
+    OldMap = State#state.client_vm_map,
+    io:format("Old map: ~p NewState: ~p~n", [OldMap, NewState]),
+    {noreply, State#state{client_vm_map = OldMap ++ [NewState]}};
 
 handle_info(timeout, #state{lsock = LSock} = State) ->
     {ok, _Sock} = gen_tcp:accept(LSock),
@@ -90,26 +91,34 @@ code_change(_OldVsn, State, _Extra) ->
 %% Internal functions
 %%-----------------------------------------------------
 
-do_JSDefine(Socket, Data) ->
+do_JSCall(Socket, Data, State) ->
     JSVM = js_runner:boot(), 
     js_runner:define(JSVM, "function userCommand(cmd, par) {return cmd+' '+ par}"),
     Parsed = ggs_protocol:parse(Data),
-    case Parsed of
+    NewState = case Parsed of
         {cmd, Command, Parameter} ->
+        % Set the new state to []
             Ret = js_runner:call(JSVM, "userCommand", 
                 [list_to_binary(Command), 
                  list_to_binary(Parameter)]),
-            send(Socket, "JS says: ", Ret);
+            send(Socket, "JS says: ", Ret),
+            [];
+        % Set the new state to the reference generated, and JSVM associated
         {hello} ->
-            io:format("Got hello!"),
-            send(Socket, make_ref(), "__ok_hello");
+            Client = make_ref(),
+            send(Socket, Client, "__ok_hello"),
+            {Client, JSVM};
+        % Set the new state to []
         Other ->
             io:format("Got '~p'", [Other]),
-            send(Socket, "__error")
-    end.
-
-do_JSCall(Socket, Function, Parameters) ->
-    ok.
+            send(Socket, "__error"),
+            []
+    end,
+    % Return the new state
+    NewState.
+%%-----------------------------------------------------
+%% Helpers 
+%%-----------------------------------------------------
 
 send(Socket, String) ->
     gen_tcp:send(Socket, io_lib:fwrite("~p~n", [String])).

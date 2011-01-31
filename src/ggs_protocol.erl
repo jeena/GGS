@@ -10,17 +10,17 @@ parse(Data) ->
     case Message of
         [RefID, "__error", Size, Message      ] ->
             {ok, you_said_error};
-        [_,     "__boot",  _ ]                ->
+        [_,     "__boot",  _ ]                  ->
             {ok, you_said_boot};
-        [RefID, "__stop",  _]                 ->
+        [RefID, "__stop",  _]                   ->
             {ok, you_said_stop};
-        [RefID, "__start", _]                ->
+        [RefID, "__start", _]                   ->
             {ok, you_said_start};
-        ["__hello",        _]                       ->
+        ["__hello",        _]                   ->
             {hello};
-        [RefID, "__define",_, JavaScript  ] ->
+        [RefID, "__define",_, JavaScript  ]     ->
             {ok, you_said_define};
-        [RefID, Command,   _, Parameter      ] ->
+        [RefID, Command,   _, Parameter      ]  ->
             {cmd, Command, Parameter}; 
         Other ->
             {out_of_bounds, Other}

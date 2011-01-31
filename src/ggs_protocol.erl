@@ -6,20 +6,21 @@
 
 parse(Data) ->
     Message = string:tokens(Data, " "),
+    io:format(Message),
     case Message of
-        [RefID, "__error", Message      ] ->
+        [RefID, "__error", Size, Message      ] ->
             {ok, you_said_error};
-        [_,     "__boot" ]                ->
+        [_,     "__boot",  _ ]                ->
             {ok, you_said_boot};
-        [RefID, "__stop"]                 ->
+        [RefID, "__stop",  _]                 ->
             {ok, you_said_stop};
-        [RefID, "__start"]                ->
+        [RefID, "__start", _]                ->
             {ok, you_said_start};
-        [_,     "__hello" , _           ] ->
-            {ok, you_said_hello};
-        [RefID, "__define", JavaScript  ] ->
+        ["__hello",        _]                       ->
+            {hello};
+        [RefID, "__define",_, JavaScript  ] ->
             {ok, you_said_define};
-        [RefID, Command, Parameter      ] ->
+        [RefID, Command,   _, Parameter      ] ->
             {cmd, Command, Parameter}; 
         Other ->
             {out_of_bounds, Other}

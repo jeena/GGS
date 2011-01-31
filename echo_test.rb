@@ -10,10 +10,11 @@ port = gets
 
 s = TCPSocket.open(hostname, port.chop)
 
-s.print(" __boot")
+s.print("__hello")
 
 while true
   line = s.gets   # Read lines from the socket
-  puts "Got Echo: " + line.chop      # And print with platform line terminator
+  puts ">> " + line.chop      # And print with platform line terminator
+  s.print(gets.chop)
 end
 s.close               # Close the socket when done

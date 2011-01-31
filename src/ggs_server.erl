@@ -73,9 +73,7 @@ handle_cast(stop, State) ->
 
 handle_info({tcp, Socket, RawData}, State) ->
     do_JSDefine(Socket, RawData),
-    %Parsed = ggs_protocol:parse(RawData), 
     RequestCount = State#state.request_count,
-    %gen_tcp:send(Socket, io_lib:fwrite("~p~n", [Parsed])),
     {noreply, State#state{request_count = RequestCount + 1}};
 
 handle_info(timeout, #state{lsock = LSock} = State) ->
@@ -101,10 +99,20 @@ do_JSDefine(Socket, Data) ->
             Ret = js_runner:call(JSVM, "userCommand", 
                 [list_to_binary(Command), 
                  list_to_binary(Parameter)]),
-            gen_tcp:send(Socket, io_lib:fwrite("JS says: ~p~n", [Ret]));
+            send(Socket, "JS says: ", Ret);
+        {hello} ->
+            io:format("Got hello!"),
+            send(Socket, make_ref(), "__ok_hello");
         Other ->
-            ok
+            io:format("Got '~p'", [Other]),
+            send(Socket, "__error")
     end.
 
 do_JSCall(Socket, Function, Parameters) ->
-    ok.    
+    ok.
+
+send(Socket, String) ->
+    gen_tcp:send(Socket, io_lib:fwrite("~p~n", [String])).
+
+send(Socket, String1, String2) ->
+    gen_tcp:send(Socket, io_lib:fwrite("~p ~p~n", [String1, String2])).

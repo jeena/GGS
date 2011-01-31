@@ -5,11 +5,12 @@ require 'socket'      # Sockets are in standard library
 hostname = 'localhost'
 port = 7000
 
-s = TCPSocket.open(hostname, port)
+print "Which port @ loclhost?"
+port = gets
 
-print "What to echo? "
-q = gets
-s.print(q.chop)
+s = TCPSocket.open(hostname, port.chop)
+
+s.print(" __boot")
 
 while true
   line = s.gets   # Read lines from the socket

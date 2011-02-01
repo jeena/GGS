@@ -20,6 +20,9 @@ parse(Data) ->
             {hello};
         [RefID, "__define",_, JavaScript  ]     ->
             {ok, you_said_define};
+        [RefID, "__echo", Length, Msg ]         ->
+            {Ref, _} = string:to_integer(RefID),
+            {echo, Ref, Length, Msg};
         [RefID, Command,   _, Parameter      ]  ->
             {cmd, Command, Parameter}; 
         Other ->

@@ -101,17 +101,20 @@ do_JSCall(Socket, Data, State) ->
             Ret = js_runner:call(JSVM, "userCommand", 
                 [list_to_binary(Command), 
                  list_to_binary(Parameter)]),
-            send(Socket, "JS says: ", Ret),
+            send(Socket, "RefID", "JS says: ", Ret),
             [];
         % Set the new state to the reference generated, and JSVM associated
         {hello} ->
-            Client = make_ref(),
+            Client = getRef(),
             send(Socket, Client, "__ok_hello"),
             {Client, JSVM};
+        {echo, RefID, _, MSG} ->
+            send(Socket, RefID, "Your VM is ", getJSVM(RefID, State)),
+            [];
         % Set the new state to []
         Other ->
             io:format("Got '~p'", [Other]),
-            send(Socket, "__error"),
+            send(Socket, "RefID", "__error"),
             []
     end,
     % Return the new state
@@ -119,9 +122,18 @@ do_JSCall(Socket, Data, State) ->
 %%-----------------------------------------------------
 %% Helpers 
 %%-----------------------------------------------------
+getRef() ->
+    {A1,A2,A3} = now(),
+    random:seed(A1, A2, A3),
+    random:uniform(1000).
 
-send(Socket, String) ->
-    gen_tcp:send(Socket, io_lib:fwrite("~p~n", [String])).
+getJSVM(RefID, State) ->
+    VMs = State#state.client_vm_map,
+    {value, {_,VM}} = lists:keysearch(RefID, 1, VMs),
+    VM.
 
-send(Socket, String1, String2) ->
-    gen_tcp:send(Socket, io_lib:fwrite("~p ~p~n", [String1, String2])).
+send(Socket, RefID, String) ->
+    gen_tcp:send(Socket, io_lib:fwrite("~p ~p~n", [RefID,String])).
+
+send(Socket, RefID, String1, String2) ->
+    gen_tcp:send(Socket, io_lib:fwrite("~p ~p ~p~n", [RefID, String1, String2])).

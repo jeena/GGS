@@ -34,6 +34,7 @@
 %% @end
 %%-----------------------------------------------------
 start_link(Port) ->
+    process_flag(trap_exit, true),
     gen_server:start_link({local, ?SERVER}, ?MODULE, [Port], []).
 
 start_link() ->
@@ -114,9 +115,10 @@ do_JSCall(Socket, Data, State) ->
             [];
         {crash, Zero} ->
             10/Zero;
+        {vms} ->
+            send(Socket, "RefID", State);
         % Set the new state to []
         Other ->
-            io:format("Got '~p'", [Other]),
             send(Socket, "RefID", "__error"),
             []
     end,

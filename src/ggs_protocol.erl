@@ -8,6 +8,8 @@ parse(Data) ->
     Message = string:tokens(Data, " "),
     io:format(Message),
     case Message of
+        ["__get_vms"]                           ->
+            {vms};
         [RefID, "__error", Size, Message      ] ->
             {ok, you_said_error};
         [_,     "__boot",  _ ]                  ->
@@ -23,10 +25,12 @@ parse(Data) ->
         [RefID, "__echo", Length, Msg ]         ->
             {Ref, _} = string:to_integer(RefID),
             {echo, Ref, Length, Msg};
+        [RefID, Command,   _, Parameter      ]  ->
+            {cmd, Command, Parameter};
+        %% Debugging tools, not for production use
         ["__crash"]                             ->
             {crash, 0};
-        [RefID, Command,   _, Parameter      ]  ->
-            {cmd, Command, Parameter}; 
+        %% End debugging tools
         Other ->
             {out_of_bounds, Other}
     end.

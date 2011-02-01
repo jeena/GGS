@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-erl -boot start_sasl -pa erlang_js/ebin/ -pa erlv8/ebin -pa ebin -pa src -eval "ggs_server:start_link($1)."
+erl -boot start_sasl -pa erlang_js/ebin/ -pa erlv8/ebin -pa ebin -pa src -eval "ggs_sup:start_link($1)."

@@ -62,7 +62,8 @@ stop() ->
 %%-----------------------------------------------------
 
 init([Port]) ->
-    {ok, LSock} = gen_tcp:listen(Port, [{active, true}]),
+    {ok, LSock} = gen_tcp:listen(Port, [{active, true},
+                                        {reuseaddr, true}]),
     {ok, #state{port = Port, lsock = LSock}, 0}.
 
 handle_call(get_count, _From, State) ->
@@ -111,6 +112,8 @@ do_JSCall(Socket, Data, State) ->
         {echo, RefID, _, MSG} ->
             send(Socket, RefID, "Your VM is ", getJSVM(RefID, State)),
             [];
+        {crash, Zero} ->
+            10/Zero;
         % Set the new state to []
         Other ->
             io:format("Got '~p'", [Other]),

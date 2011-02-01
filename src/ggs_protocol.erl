@@ -23,6 +23,8 @@ parse(Data) ->
         [RefID, "__echo", Length, Msg ]         ->
             {Ref, _} = string:to_integer(RefID),
             {echo, Ref, Length, Msg};
+        ["__crash"]                             ->
+            {crash, 0};
         [RefID, Command,   _, Parameter      ]  ->
             {cmd, Command, Parameter}; 
         Other ->

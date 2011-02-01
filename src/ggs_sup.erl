@@ -2,11 +2,16 @@
 -behaviour(supervisor).
 
 %% API
--export([start_link/1]).
+-export([start/1, start_link/1]).
 
 %% Supervisor callbacks
 -export([init/1]).
 -define(SERVER, ?MODULE).
+
+start(Port) ->
+    [FirstArg] = Port, 
+    {IntPort, _} = string:to_integer(FirstArg),
+    start_link(IntPort).
 
 start_link(Port) ->
     supervisor:start_link({local, ?SERVER}, ?MODULE, [Port]).

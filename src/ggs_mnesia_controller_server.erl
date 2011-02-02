@@ -46,8 +46,13 @@ init([]) ->
 handle_cast(a, State) ->
     {noreply, State}.
 
-handle_call({getValue, Key},_From,State) ->
-    {reply,value_of_key_requested_goes_here, State}.
+% Request a value from the Mnesia database
+handle_call({getValue, _Key},_From,State) ->
+    {reply,value_of_key_requested_goes_here, State};
+
+% Set a value in the Mnesia database
+handle_call({setValue, _Key, Value},_From,State) ->
+    {reply,value_set_or_updated, State}.
 
 handle_info(timeout, State) ->
     {noreply, State}.

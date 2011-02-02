@@ -3,8 +3,7 @@
     {vsn, "0.1.0"},
     {modules, [
         ggs_app,
-        ggs_sup,
-        ggs_server
+        ggs_sup
             ]},
     {registered, [ggs_sup]},
     {applications, [kernel, stdlib]},

@@ -109,6 +109,7 @@ do_JSCall(Socket, Data, State) ->
         {hello} ->
             Client = getRef(),
             send(Socket, Client, "__ok_hello"),
+            %gen_server:call(ggs_mnesia_controller_server, {hello, "Someone said hello!"}),
             {Client, JSVM};
         {echo, RefID, _, MSG} ->
             send(Socket, RefID, "Your VM is ", getJSVM(RefID, State)),

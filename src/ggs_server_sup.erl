@@ -1,4 +1,4 @@
--module(ggs_sup).
+-module(ggs_server_sup).
 -behaviour(supervisor).
 
 %% API
@@ -17,14 +17,21 @@ start_link(Port) ->
     supervisor:start_link({local, ?SERVER}, ?MODULE, [Port]).
 
 init([Port]) ->
-    Server =    {ggs_server_sup, 
-                    {ggs_server_sup, start_link, [Port]},
+    GGSServer =    {ggs_server, 
+                    {ggs_server, start_link, [Port]},
                     permanent, 
                     2000, 
                     worker, 
-                    [ggs_server_sup]
+                    [ggs_server]
                 },
-    Children = [Server],
+    MnesiaServer = {ggs_mnesia_controller_server,
+                    {ggs_mnesia_controller_server, start_link, []},
+                    permanent,
+                    2000,
+                    worker,
+                    [ggs_mnesia_controller_server]
+                },
+    Children = [MnesiaServer, GGSServer],
 
     RestartStrategy = { one_for_one, % Restart only crashing child
                         10,          % Allow ten crashes per..

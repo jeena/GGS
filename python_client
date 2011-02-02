@@ -8,7 +8,13 @@ HOST = 'localhost'    # The remote host
 PORT = int(sys.argv[1]) # The same port as used by the server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
-s.send('__hello 0')
+s.send(
+'Token: 1001\n\
+Command: define\n\
+Content-Type: text\n\
+Content-Length: 40\n\
+\n\
+function helloWorld(x) {return x + 2 ;}')
 fs = s.makefile()
 data = fs.readline()
 token = data.split(" ")[0]

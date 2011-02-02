@@ -5,32 +5,51 @@
 -export([parse/1]).
 
 parse(Data) ->
-    Message = string:tokens(Data, " "),
-    io:format(Message),
-    case Message of
-        ["__get_vms"]                           ->
-            {vms};
-        [RefID, "__error", Size, Message      ] ->
-            {ok, you_said_error};
-        [_,     "__boot",  _ ]                  ->
-            {ok, you_said_boot};
-        [RefID, "__stop",  _]                   ->
-            {ok, you_said_stop};
-        [RefID, "__start", _]                   ->
-            {ok, you_said_start};
-        ["__hello",        _]                   ->
-            {hello};
-        [RefID, "__define",_, JavaScript  ]     ->
-            {ok, you_said_define};
-        [RefID, "__echo", Length, Msg ]         ->
-            {Ref, _} = string:to_integer(RefID),
-            {echo, Ref, Length, Msg};
-        [RefID, Command,   _, Parameter      ]  ->
-            {cmd, Command, Parameter};
-        %% Debugging tools, not for production use
-        ["__crash"]                             ->
-            {crash, 0};
-        %% End debugging tools
-        Other ->
-            {out_of_bounds, Other}
-    end.
+    Message =string:tokens(Data, "\n"),
+    % Turn "A: B" pairs into "{A, B}" tuples, for searching.
+    MsgKV = lists:map((fun(Str) -> 
+                    list_to_tuple(string:tokens(Str, ": ")) end
+              ), Message),
+    % Hacky way to build a tuple, filter out not_found later on
+    Processed = { 
+                case lists:keysearch("Token", 1, MsgKV) of
+                    {value,{_, Value}} ->
+                        Value;
+                    false ->
+                        not_found
+                end,
+                case lists:keysearch("Command", 1, MsgKV) of
+                    {value,{_, "define"}} ->
+                        define;
+                    false ->
+                        not_found
+                end
+                },
+    Processed.
+%    case Message of
+%        ["__get_vms"]                           ->
+%            {vms};
+%        [RefID, "__error", Size, Message      ] ->
+%            {ok, you_said_error};
+%        [_,     "__boot",  _ ]                  ->
+%            {ok, you_said_boot};
+%        [RefID, "__stop",  _]                   ->
+%            {ok, you_said_stop};
+%        [RefID, "__start", _]                   ->
+%            {ok, you_said_start};
+%        ["__hello",        _]                   ->
+%            {hello};
+%        [RefID, "__define",_, JavaScript  ]     ->
+%            {ok, you_said_define};
+%        [RefID, "__echo", Length, Msg ]         ->
+%            {Ref, _} = string:to_integer(RefID),
+%            {echo, Ref, Length, Msg};
+%        [RefID, Command,   _, Parameter      ]  ->
+%            {cmd, Command, Parameter};
+%        %% Debugging tools, not for production use
+%        ["__crash"]                             ->
+%            {crash, 0};
+%        %% End debugging tools
+%        Other ->
+%            {out_of_bounds, Other}
+%    end.

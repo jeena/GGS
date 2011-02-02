@@ -98,6 +98,9 @@ do_JSCall(Socket, Data, State) ->
     js_runner:define(JSVM, "function userCommand(cmd, par) {return cmd+' '+ par}"),
     Parsed = ggs_protocol:parse(Data),
     NewState = case Parsed of
+        {Token, define} ->
+            io:format("Got define!!\n"),
+            [];
         {cmd, Command, Parameter} ->
         % Set the new state to []
             Ret = js_runner:call(JSVM, "userCommand", 

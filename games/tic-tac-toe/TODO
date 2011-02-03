@@ -1,12 +1,6 @@
-- background image
-- subimages for game_area:s
-- subimages for game markers (X or 0)
-- rectangle collision on game_area:s
+- background
 - redraw background then all game_area:s
-- board_state: a hashtable where key is game_area_index
-               and value is either'x' 'o' or ' '
 
- board contains nr_of_squares = 9
  board contains array of squares with nr_of_squares elements
  board contains x, y, width and height
  board contains a frame

@@ -1,12 +1,14 @@
 %%%----------------------------------------------------
 %%% @author     Jonatan Pålsson <Jonatan.p@gmail.com>
 %%% @copyright  2010 Jonatan Pålsson
-%%% @doc        RPC over TCP server
 %%% @end
 %%%----------------------------------------------------
 
 -module(ggs_server).
 -behaviour(gen_server).
+
+% import
+-import(ggs_connection).
 
 %% API
 -export([start_link/1,
@@ -16,8 +18,7 @@
          ]).
 
 %% gen_server callbacks
--export([init/1, handle_call/3, handle_cast/2, 
-         handle_info/2, terminate/2, code_change/3]).
+-export([terminate/2, code_change/3]).
 
 
 -define(SERVER, ?MODULE).
@@ -61,28 +62,6 @@ stop() ->
 %%-----------------------------------------------------
 %% gen_server callbacks
 %%-----------------------------------------------------
-
-init([Port]) ->
-    {ok, LSock} = gen_tcp:listen(Port, [{active, true},
-                                        {reuseaddr, true}]),
-    {ok, #state{port = Port, lsock = LSock}, 0}.
-
-handle_call(get_count, _From, State) ->
-    {reply, {ok, State#state.client_vm_map}, State}.
-
-handle_cast(stop, State) ->
-    {stop, normal, State}.
-
-handle_info({tcp, Socket, RawData}, State) ->
-    NewState = do_JSCall(Socket, RawData, State),
-    OldMap = State#state.client_vm_map,
-    io:format("Old map: ~p NewState: ~p~n", [OldMap, NewState]),
-    {noreply, State#state{client_vm_map = OldMap ++ [NewState]}};
-
-handle_info(timeout, #state{lsock = LSock} = State) ->
-    {ok, _Sock} = gen_tcp:accept(LSock),
-    {noreply, State}.
-
 terminate(_Reason, _State) ->
     ok.
 
@@ -92,7 +71,6 @@ code_change(_OldVsn, State, _Extra) ->
 %%-----------------------------------------------------
 %% Internal functions
 %%-----------------------------------------------------
-
 do_JSCall(Socket, Data, State) ->
     JSVM = js_runner:boot(), 
     js_runner:define(JSVM, "function userCommand(cmd, par) {return cmd+' '+ par}"),
@@ -103,23 +81,23 @@ do_JSCall(Socket, Data, State) ->
             Ret = js_runner:call(JSVM, "userCommand", 
                 [list_to_binary(Command), 
                  list_to_binary(Parameter)]),
-            send(Socket, "RefID", "JS says: ", Ret),
+            connection:send(Socket, "RefID", "JS says: ", Ret),
             [];
         % Set the new state to the reference generated, and JSVM associated
         {hello} ->
             Client = getRef(),
-            send(Socket, Client, "__ok_hello"),
+            connection:send(Socket, Client, "__ok_hello"),
             {Client, JSVM};
         {echo, RefID, _, MSG} ->
-            send(Socket, RefID, "Your VM is ", getJSVM(RefID, State)),
+            connection:send(Socket, RefID, "Your VM is ", getJSVM(RefID, State)),
             [];
         {crash, Zero} ->
             10/Zero;
         {vms} ->
-            send(Socket, "RefID", State);
+            connection:send(Socket, "RefID", State);
         % Set the new state to []
         Other ->
-            send(Socket, "RefID", "__error"),
+            ggs_connection:send(Socket, "RefID", "__error"),
             []
     end,
     % Return the new state
@@ -136,9 +114,3 @@ getJSVM(RefID, State) ->
     VMs = State#state.client_vm_map,
     {value, {_,VM}} = lists:keysearch(RefID, 1, VMs),
     VM.
-
-send(Socket, RefID, String) ->
-    gen_tcp:send(Socket, io_lib:fwrite("~p ~p~n", [RefID,String])).
-
-send(Socket, RefID, String1, String2) ->
-    gen_tcp:send(Socket, io_lib:fwrite("~p ~p ~p~n", [RefID, String1, String2])).

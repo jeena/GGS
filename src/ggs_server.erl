@@ -47,8 +47,11 @@ start_link() ->
 %%  Count = integer()
 %% @end
 %%-----------------------------------------------------
-get_count() ->
-    gen_server:call(?SERVER, get_count).
+get_count() -> gen_server:call(?SERVER, get_count).
+_crash()    -> gen_server:call(?SERVER, _crash).
+_vms() 	    -> gen_server:call(?SERVER, _vms).
+_hello()    -> gen_server:call(?SERVER, _hello).
+_echo()     -> gen_server:call(?SERVER, {_echo, RefID, _, MSG}).
 
 %%-----------------------------------------------------
 %% @doc     Stops the server.
@@ -68,7 +71,27 @@ init([Port]) ->
     {ok, #state{port = Port, lsock = LSock}, 0}.
 
 handle_call(get_count, _From, State) ->
-    {reply, {ok, State#state.client_vm_map}, State}.
+    {reply, {ok, State#state.client_vm_map}, State};
+
+handle_call(_crash, _From, State) -> 
+	Zero/10.
+	{reply, sdas , State};
+
+%handle_call(_hello, _From, State) ->
+% Client = getRef();
+% send(Socket, Client, "_ok_hello"),
+%   {Client, JVSM)
+%{reply, Client, State};
+
+%handle_call(_vms, _From, State) ->
+% send(Socket, "RefID", State)
+%{reply, , State};
+
+%handle_call(_echo, RefID, _, MSG) ->
+%{reply, ,State};  
+
+handle_call(_Message, _From, State)
+	{reply, error, State}.
 
 handle_cast(stop, State) ->
     {stop, normal, State}.

@@ -43,10 +43,10 @@ start(Port) ->
 get_count() ->
     ggs_network:get_count(get_count).
 
-_crash()    -> gen_network:crash().
-_vms() 	    -> gen_network:vms().
-_hello()    -> gen_network:hello().
-_echo()     -> gen_network:echo().
+_crash()    -> gss_network:crash().
+_vms() 	    -> gss_network:vms().
+_hello()    -> gss_network:hello().
+_echo()     -> gss_network:echo().
 
 %%-----------------------------------------------------
 %% @doc     Stops the server.

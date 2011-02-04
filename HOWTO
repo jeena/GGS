@@ -12,7 +12,6 @@ INSTALL
 12. 
 
 USAGE
-1. start a second terminal
-2. telnet localhost 7000
-3. back to first terminal
-4. ./start
+./build
+./start
+./python_client 9000

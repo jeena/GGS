@@ -57,10 +57,7 @@ _echo()     -> gen_server:call(?SERVER, {_echo, RefID, _, MSG}).
 %% @end
 %%-----------------------------------------------------
 stop() ->
-<<<<<<< HEAD
     ggs_network:stop().
-=======
-    gen_server:cast(?SERVER, stop).
 
 %%-----------------------------------------------------
 %% gen_server callbacks

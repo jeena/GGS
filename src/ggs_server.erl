@@ -10,12 +10,9 @@
 -import(ggs_network).
 
 %% API
--export([start/0,
-         start/1,
-         get_count/0,
-         stop/0
-         ]).
-
+-export([start/0, start/1, stop/0 ]).
+%-export([crash/0, vms/0, hello/0, echo/0]).
+-export([get_count/0]).
 
 
 %%%====================================================
@@ -43,10 +40,10 @@ start(Port) ->
 get_count() ->
     ggs_network:get_count(get_count).
 
-_crash()    -> gss_network:crash().
-_vms() 	    -> gss_network:vms().
-_hello()    -> gss_network:hello().
-_echo()     -> gss_network:echo().
+%crash()    -> gss_network:crash().
+%vms() 	    -> gss_network:vms().
+%hello()    -> gss_network:hello().
+%echo()     -> gss_network:echo().
 
 %%-----------------------------------------------------
 %% @doc     Stops the server.

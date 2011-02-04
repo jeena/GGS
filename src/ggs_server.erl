@@ -79,6 +79,9 @@ handle_info({tcp, Socket, RawData}, State) ->
     io:format("Old map: ~p NewState: ~p~n", [OldMap, NewState]),
     {noreply, State#state{client_vm_map = OldMap ++ [NewState]}};
 
+handle_info({tcp_closed, _}, State) ->
+    {stop, "Client closed socket", State};
+
 handle_info(timeout, #state{lsock = LSock} = State) ->
     {ok, _Sock} = gen_tcp:accept(LSock),
     {noreply, State}.
@@ -95,19 +98,16 @@ code_change(_OldVsn, State, _Extra) ->
 
 do_JSCall(Socket, Data, State) ->
     JSVM = js_runner:boot(), 
-    js_runner:define(JSVM, "function userCommand(cmd, par) {return cmd+' '+ par}"),
     Parsed = ggs_protocol:parse(Data),
     NewState = case Parsed of
-        {Token, define} ->
-            io:format("Got define!!\n"),
+        {define, Token, Payload} ->
+            js_runner:define(JSVM, Payload),
+            send(Socket, "RefID", "Okay, defined that for you!"),
             [];
-        {cmd, Command, Parameter} ->
-        % Set the new state to []
-            Ret = js_runner:call(JSVM, "userCommand", 
-                [list_to_binary(Command), 
-                 list_to_binary(Parameter)]),
-            send(Socket, "RefID", "JS says: ", Ret),
-            [];
+        {call, Token, Payload} ->
+            Ret = js_runner:call(JSVM, Payload, []),%Payload, []),
+            send(Socket, "RefID", "JS says: ", Ret);
+            
         % Set the new state to the reference generated, and JSVM associated
         {hello} ->
             Client = getRef(),
@@ -120,11 +120,11 @@ do_JSCall(Socket, Data, State) ->
         {crash, Zero} ->
             10/Zero;
         {vms} ->
-            send(Socket, "RefID", State);
+            send(Socket, "RefID", State)
         % Set the new state to []
-        Other ->
-            send(Socket, "RefID", "__error"),
-            []
+%        Other ->
+%            send(Socket, "RefID", "__error"),
+%            []
     end,
     % Return the new state
     NewState.

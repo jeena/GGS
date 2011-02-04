@@ -8,21 +8,35 @@ HOST = 'localhost'    # The remote host
 PORT = int(sys.argv[1]) # The same port as used by the server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
+
+# Define ourselves a function!
+
 s.send(
-'Token: 1001\n\
+"Token: 1001\n\
 Command: define\n\
 Content-Type: text\n\
-Content-Length: 40\n\
+Content-Length: 42\n\
 \n\
-function helloWorld(x) {return x + 2 ;}')
+function myFun() {return 'Hello world!' ;}")
 fs = s.makefile()
 data = fs.readline()
 token = data.split(" ")[0]
 print "Token:", token
+print "Data: ", ' '.join(data.split(" ")[1:])
 
-s.send(token+" __echo 0 msg")
-data = s.recv(1024)
-print data
+# Call that function!
 
+s.send(
+"Token: 1001\n\
+Command: call\n\
+Content-Type: text\n\
+Content-Length: 6\n\
+\n\
+myFun()")
+fs = s.makefile()
+data = fs.readline()
+token = data.split(" ")[0]
+print "Token:", token
+print "Data: ", ' '.join(data.split(" ")[1:])
 s.close()
 

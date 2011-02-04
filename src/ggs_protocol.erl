@@ -12,15 +12,27 @@ parse(Data) ->
               ), Message),
     % Hacky way to build a tuple, filter out not_found later on
     Processed = { 
+                case lists:keysearch("Command", 1, MsgKV) of
+                    {value,{_, "define"}} ->
+                        define;
+                    {value,{_, "call"}} ->
+                        call;
+                    false ->
+                        not_found
+                end,
                 case lists:keysearch("Token", 1, MsgKV) of
                     {value,{_, Value}} ->
                         Value;
                     false ->
                         not_found
                 end,
-                case lists:keysearch("Command", 1, MsgKV) of
-                    {value,{_, "define"}} ->
-                        define;
+                case lists:keysearch("Content-Length", 1, MsgKV) of
+                    {value,{_, Value}} ->
+                        {Length, _} = string:to_integer(Value),
+                        [_|Cont] = re:split(Data, "\n\n",[{return,list}]),
+                        Content = string:join(Cont, "\n\n"),
+                        Payload = string:substr(Content,1,Length),
+                        Payload;
                     false ->
                         not_found
                 end

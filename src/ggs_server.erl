@@ -10,7 +10,7 @@
 -import(ggs_network).
 
 %% API
--export([start/0, start/1, stop/0 ]).
+-export([start_link/0, start_link/1, stop/0 ]).
 %-export([crash/0, vms/0, hello/0, echo/0]).
 -export([get_count/0]).
 
@@ -23,10 +23,10 @@
 %% @doc Starts the server
 %% @end
 %%-----------------------------------------------------
-start() ->
+start_link() ->
     ggs_network:start_link().
 
-start(Port) ->
+start_link(Port) ->
     ggs_network:start_link(Port).
 
 

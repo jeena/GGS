@@ -22,7 +22,8 @@
 % export
 -export([start_link/0,start_link/1]).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2]).
--export([get_count/1, send/3, send/4]).
+-export([get_count/1,crash/0,vms/0,hello/0,echo/0]). 
+-export([send/3, send/4]).
 -export([stop/0]).
 
 %% gen_server callbacks
@@ -60,6 +61,14 @@ init([Port]) ->
 %%-----------------------------------------------------
 get_count(get_count) ->
     gen_server:call(?SERVER, get_count).
+
+crash()    -> gen_server:call(?server, _crash).
+vms()      -> gen_server:call(?SERVER, _vms).
+hello()    -> gen_server:call(?SERVER, _hello).
+echo()     -> gen_server:call(?SERVER, {_echo, RefID, _, MSG}).
+
+
+
 
 %%-----------------------------------------------------
 %% @doc     Stops the server.

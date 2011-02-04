@@ -102,17 +102,17 @@ do_JSCall(Socket, Data, State) ->
         {define, Token, Payload} ->
             JSVM = getJSVM(Token, State),
             js_runner:define(JSVM, Payload),
-            send(Socket, "RefID", "Okay, defined that for you!"),
+            send(Socket, Token, "Okay, defined that for you!"),
             [];
         {call, Token, Payload} ->
             JSVM = getJSVM(Token, State),
-            Ret = js_runner:call(JSVM, Payload, []),%Payload, []),
-            send(Socket, "RefID", "JS says: ", Ret);
+            {ok, Ret} = js_runner:call(JSVM, Payload, []),%Payload, []),
+            send(Socket, Token, "JS says:", binary_to_list(Ret));
             
         % Set the new state to the reference generated, and JSVM associated
         {hello, _, _} ->
             JSVM = js_runner:boot(), 
-            Client = integer_to_list(getRef()),
+            Client = getRef(),
             send(Socket, Client, "This is your refID"),
             {Client, JSVM};
         {echo, RefID, _, MSG} ->
@@ -133,9 +133,10 @@ do_JSCall(Socket, Data, State) ->
 %% Helpers 
 %%-----------------------------------------------------
 getRef() ->
-    {A1,A2,A3} = now(),
-    random:seed(A1, A2, A3),
-    random:uniform(1000).
+    %{A1,A2,A3} = now(),
+    %#random:seed(A1, A2, A3),
+    %random:uniform(1000).
+    string:strip(os:cmd("uuidgen"), right, $\n ).
 
 getJSVM(RefID, State) ->
     VMs = State#state.client_vm_map,
@@ -145,9 +146,7 @@ getJSVM(RefID, State) ->
     VM.
 
 send(Socket, RefID, String) ->
-    {Ref, _} = string:to_integer(RefID),
-    gen_tcp:send(Socket, io_lib:fwrite("~p ~p~n", [Ref,String])).
+    gen_tcp:send(Socket, string:join([RefID,String,"\n"], " ")).
 
 send(Socket, RefID, String1, String2) ->
-    {Ref, _} = string:to_integer(RefID),
-    gen_tcp:send(Socket, io_lib:fwrite("~p ~p ~p~n", [Ref, String1, String2])).
+    gen_tcp:send(Socket, string:join([RefID,String1, String2,"\n"], " ")).

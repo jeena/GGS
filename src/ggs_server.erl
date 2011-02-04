@@ -97,22 +97,23 @@ code_change(_OldVsn, State, _Extra) ->
 %%-----------------------------------------------------
 
 do_JSCall(Socket, Data, State) ->
-    JSVM = js_runner:boot(), 
     Parsed = ggs_protocol:parse(Data),
     NewState = case Parsed of
         {define, Token, Payload} ->
+            JSVM = getJSVM(Token, State),
             js_runner:define(JSVM, Payload),
             send(Socket, "RefID", "Okay, defined that for you!"),
             [];
         {call, Token, Payload} ->
+            JSVM = getJSVM(Token, State),
             Ret = js_runner:call(JSVM, Payload, []),%Payload, []),
             send(Socket, "RefID", "JS says: ", Ret);
             
         % Set the new state to the reference generated, and JSVM associated
-        {hello} ->
-            Client = getRef(),
-            send(Socket, Client, "__ok_hello"),
-            %gen_server:call(ggs_mnesia_controller_server, {hello, "Someone said hello!"}),
+        {hello, _, _} ->
+            JSVM = js_runner:boot(), 
+            Client = integer_to_list(getRef()),
+            send(Socket, Client, "This is your refID"),
             {Client, JSVM};
         {echo, RefID, _, MSG} ->
             send(Socket, RefID, "Your VM is ", getJSVM(RefID, State)),
@@ -138,11 +139,15 @@ getRef() ->
 
 getJSVM(RefID, State) ->
     VMs = State#state.client_vm_map,
+    erlang:display(RefID),
+    erlang:display(VMs),
     {value, {_,VM}} = lists:keysearch(RefID, 1, VMs),
     VM.
 
 send(Socket, RefID, String) ->
-    gen_tcp:send(Socket, io_lib:fwrite("~p ~p~n", [RefID,String])).
+    {Ref, _} = string:to_integer(RefID),
+    gen_tcp:send(Socket, io_lib:fwrite("~p ~p~n", [Ref,String])).
 
 send(Socket, RefID, String1, String2) ->
-    gen_tcp:send(Socket, io_lib:fwrite("~p ~p ~p~n", [RefID, String1, String2])).
+    {Ref, _} = string:to_integer(RefID),
+    gen_tcp:send(Socket, io_lib:fwrite("~p ~p ~p~n", [Ref, String1, String2])).

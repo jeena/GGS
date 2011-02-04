@@ -9,33 +9,48 @@ PORT = int(sys.argv[1]) # The same port as used by the server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 
-# Define ourselves a function!
+# Say hello 
 
+print "Saying hello to server"
 s.send(
-"Token: 1001\n\
-Command: define\n\
+"Command: hello\n\
 Content-Type: text\n\
-Content-Length: 42\n\
+Content-Length: 0\n\
 \n\
-function myFun() {return 'Hello world!' ;}")
+")
 fs = s.makefile()
 data = fs.readline()
 token = data.split(" ")[0]
 print "Token:", token
 print "Data: ", ' '.join(data.split(" ")[1:])
 
+# Define ourselves a function!
+
+print "Defining a function called myFun"
+s.send(
+"Token: %s\n\
+Command: define\n\
+Content-Type: text\n\
+Content-Length: 42\n\
+\n\
+function myFun() {return 'Hello world!' ;}" % token)
+fs = s.makefile()
+data = fs.readline()
+print "Token:", token
+print "Data: ", ' '.join(data.split(" ")[1:])
+
 # Call that function!
 
+print "Calling myFun"
 s.send(
-"Token: 1001\n\
+"Token: %s\n\
 Command: call\n\
 Content-Type: text\n\
 Content-Length: 6\n\
 \n\
-myFun()")
+myFun" % token)
 fs = s.makefile()
 data = fs.readline()
-token = data.split(" ")[0]
 print "Token:", token
 print "Data: ", ' '.join(data.split(" ")[1:])
 s.close()

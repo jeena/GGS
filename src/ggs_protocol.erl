@@ -17,6 +17,8 @@ parse(Data) ->
                         define;
                     {value,{_, "call"}} ->
                         call;
+                    {value,{_, "hello"}} ->
+                        hello;
                     false ->
                         not_found
                 end,

@@ -131,23 +131,23 @@ do_JSCall(Socket, Data, State) ->
             Ret = js_runner:call(JSVM, "userCommand", 
                 [list_to_binary(Command), 
                  list_to_binary(Parameter)]),
-            connection:send(Socket, "RefID", "JS says: ", Ret),
+            send(Socket, "RefID", "JS says: ", Ret),
             [];
         % Set the new state to the reference generated, and JSVM associated
         {hello} ->
             Client = getRef(),
-            connection:send(Socket, Client, "__ok_hello"),
+            send(Socket, Client, "__ok_hello"),
             {Client, JSVM};
         {echo, RefID, _, MSG} ->
-            connection:send(Socket, RefID, "Your VM is ", getJSVM(RefID, State)),
+            send(Socket, RefID, "Your VM is ", getJSVM(RefID, State)),
             [];
         {crash, Zero} ->
             10/Zero;
         {vms} ->
-            connection:send(Socket, "RefID", State);
+            send(Socket, "RefID", State);
         % Set the new state to []
         Other ->
-            ggs_connection:send(Socket, "RefID", "__error"),
+            send(Socket, "RefID", "__error"),
             []
     end,
     % Return the new state

@@ -1,3 +1,6 @@
+PREREQUISITES:
+python version 2.x set to default.
+
 INSTALL
 1.  Cd into directory where you to have the project
 2.  git-clone git@github.com:jeena/GGS.git (remember to have a local key)
@@ -6,13 +9,13 @@ INSTALL
 5.  git submodule update
 6.  cd erlang_js
 7.  make
-8.  make test (If not all tests are passed then you are screwed!)
+8.  make test (Optional. It has to work though.)
 10. cd ../
 11. ./build
 12. 
 
 USAGE
 1. start a second terminal
-2. telnet localhost 7000
+2. ./python_client 9000
 3. back to first terminal
 4. ./start

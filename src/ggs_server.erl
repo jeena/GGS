@@ -34,8 +34,11 @@
 %% @end
 %%-----------------------------------------------------
 start_link(Port) ->
-    process_flag(trap_exit, true),
     gen_server:start_link({local, ?SERVER}, ?MODULE, [Port], []).
+
+start_link(start_as_slave, State) ->
+    gen_server:start_link({local, ?SERVER}, ?MODULE, 
+            [start_as_slave, State], []).
 
 start_link() ->
     start_link(?DEFAULT_PORT).
@@ -63,12 +66,23 @@ stop() ->
 %%-----------------------------------------------------
 
 init([Port]) ->
-    {ok, LSock} = gen_tcp:listen(Port, [{active, true},
-                                        {reuseaddr, true}]),
-    {ok, #state{port = Port, lsock = LSock}, 0}.
+    case gen_server:call(ggs_backup, get_backup) of
+        {backup_state, not_initialized} ->
+            {ok, LSock} = gen_tcp:listen(Port, [{active, true},
+                                                {reuseaddr, true}]),
+            {ok, #state{port = Port, lsock = LSock}, 0};
+        {backup_state, State} ->
+            {ok, LSock} = gen_tcp:listen(Port, [{active, true},
+                                                {reuseaddr, true}]),
+            {ok, State#state{lsock = LSock}, 0}
+    end.
 
 handle_call(get_count, _From, State) ->
-    {reply, {ok, State#state.client_vm_map}, State}.
+    {reply, {ok, State#state.client_vm_map}, State};
+ 
+handle_call({backup_state, OldState}, _From, State) ->
+    io:format("Received old state from backup~n"),
+    {noreply, OldState}.
 
 handle_cast(stop, State) ->
     {stop, normal, State}.
@@ -79,12 +93,16 @@ handle_info({tcp, Socket, RawData}, State) ->
     io:format("Old map: ~p NewState: ~p~n", [OldMap, NewState]),
     {noreply, State#state{client_vm_map = OldMap ++ [NewState]}};
 
-handle_info({tcp_closed, _}, State) ->
+handle_info({tcp_closed, Socket}, State) ->
+    gen_tcp:close(Socket),
     {stop, "Client closed socket", State};
 
 handle_info(timeout, #state{lsock = LSock} = State) ->
     {ok, _Sock} = gen_tcp:accept(LSock),
-    {noreply, State}.
+    {noreply, State};
+
+handle_info(Other, State) ->
+    erlang:display(Other).
 
 terminate(_Reason, _State) ->
     ok.
@@ -105,6 +123,7 @@ do_JSCall(Socket, Data, State) ->
             send(Socket, Token, "Okay, defined that for you!"),
             [];
         {call, Token, Payload} ->
+            io:format("Got call request: ~p~n", [Payload]),
             JSVM = getJSVM(Token, State),
             {ok, Ret} = js_runner:call(JSVM, Payload, []),%Payload, []),
             send(Socket, Token, "JS says:", binary_to_list(Ret));
@@ -114,6 +133,13 @@ do_JSCall(Socket, Data, State) ->
             JSVM = js_runner:boot(), 
             Client = getRef(),
             send(Socket, Client, "This is your refID"),
+            
+            %% This shouldnt be here...
+            OldMap = State#state.client_vm_map,
+            BackupState = State#state{client_vm_map = OldMap ++ [{Client, JSVM}]},
+            gen_server:cast(ggs_backup, {set_backup, BackupState}),
+            %%
+            
             {Client, JSVM};
         {echo, RefID, _, MSG} ->
             send(Socket, RefID, "Your VM is ", getJSVM(RefID, State)),
@@ -121,11 +147,11 @@ do_JSCall(Socket, Data, State) ->
         {crash, Zero} ->
             10/Zero;
         {vms} ->
-            send(Socket, "RefID", State)
+            send(Socket, "RefID", State);
         % Set the new state to []
-%        Other ->
-%            send(Socket, "RefID", "__error"),
-%            []
+        Other ->
+            send(Socket, "RefID", "__error"),
+            []
     end,
     % Return the new state
     NewState.

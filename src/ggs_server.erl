@@ -36,10 +36,6 @@
 start_link(Port) ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, [Port], []).
 
-start_link(start_as_slave, State) ->
-    gen_server:start_link({local, ?SERVER}, ?MODULE, 
-            [start_as_slave, State], []).
-
 start_link() ->
     start_link(?DEFAULT_PORT).
 
@@ -125,6 +121,7 @@ do_JSCall(Socket, Data, State) ->
         {call, Token, Payload} ->
             io:format("Got call request: ~p~n", [Payload]),
             JSVM = getJSVM(Token, State),
+            erlang:display(erlang:port_info(JSVM)),
             {ok, Ret} = js_runner:call(JSVM, Payload, []),%Payload, []),
             send(Socket, Token, "JS says:", binary_to_list(Ret));
             

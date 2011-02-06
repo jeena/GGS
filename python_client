@@ -52,7 +52,12 @@ data = fs.readline()
 print "Token:", token
 print "Data: ", ' '.join(data.split(" ")[1:])
 
+s.close()
 
+HOST = 'localhost'    # The remote host
+PORT = int(sys.argv[1]) # The same port as used by the server
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((HOST, PORT))
 # Call that function!
 
 print "Calling myFun"

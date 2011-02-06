@@ -24,6 +24,13 @@ init([Port]) ->
                     worker, 
                     [ggs_server]
                 },
+    Backup = {ggs_backup, 
+                    {ggs_backup, start_link, []},
+                    permanent, 
+                    2000, 
+                    worker, 
+                    [ggs_backup]
+                },
     MnesiaServer = {ggs_mnesia_controller_server,
                     {ggs_mnesia_controller_server, start_link, []},
                     permanent,
@@ -31,7 +38,7 @@ init([Port]) ->
                     worker,
                     [ggs_mnesia_controller_server]
                 },
-    Children = [MnesiaServer, GGSServer],
+    Children = [MnesiaServer, Backup, GGSServer],
 
     RestartStrategy = { one_for_one, % Restart only crashing child
                         10,          % Allow ten crashes per..

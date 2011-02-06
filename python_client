@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-import sys
-
-import socket
+import sys, time, socket
 
 HOST = 'localhost'    # The remote host
 PORT = int(sys.argv[1]) # The same port as used by the server
@@ -53,5 +51,26 @@ fs = s.makefile()
 data = fs.readline()
 print "Token:", token
 print "Data: ", ' '.join(data.split(" ")[1:])
+
 s.close()
 
+HOST = 'localhost'    # The remote host
+PORT = int(sys.argv[1]) # The same port as used by the server
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((HOST, PORT))
+# Call that function!
+
+print "Calling myFun"
+s.send(
+"Token: %s\n\
+Command: call\n\
+Content-Type: text\n\
+Content-Length: 6\n\
+\n\
+myFun" % token)
+fs = s.makefile()
+data = fs.readline()
+print "Token:", token
+print "Data: ", ' '.join(data.split(" ")[1:])
+
+s.close()

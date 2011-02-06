@@ -11,7 +11,6 @@
 %% API
 -export([start_link/1,
          start_link/0,
-         get_count/0,
          stop/0
          ]).
 
@@ -40,16 +39,6 @@ start_link() ->
     start_link(?DEFAULT_PORT).
 
 %%-----------------------------------------------------
-%% @doc     Fetches the number of requests made to this server
-%% @spec    get_count() -> {ok, Count}
-%% where
-%%  Count = integer()
-%% @end
-%%-----------------------------------------------------
-get_count() ->
-    gen_server:call(?SERVER, get_count).
-
-%%-----------------------------------------------------
 %% @doc     Stops the server.
 %% @spec    stop() -> ok
 %% @end
@@ -73,21 +62,14 @@ init([Port]) ->
             {ok, State#state{lsock = LSock}, 0}
     end.
 
-handle_call(get_count, _From, State) ->
-    {reply, {ok, State#state.client_vm_map}, State};
- 
 handle_call({backup_state, OldState}, _From, State) ->
     io:format("Received old state from backup~n"),
     {noreply, OldState}.
 
-handle_cast(stop, State) ->
-    {stop, normal, State}.
 
 handle_info({tcp, Socket, RawData}, State) ->
-    NewState = do_JSCall(Socket, RawData, State),
-    OldMap = State#state.client_vm_map,
-    io:format("Old map: ~p NewState: ~p~n", [OldMap, NewState]),
-    {noreply, State#state{client_vm_map = OldMap ++ [NewState]}};
+    ggs_protocol:parse(RawData),
+    {noreply, State#state{lsock = Socket}};
 
 handle_info({tcp_closed, Socket}, State) ->
     gen_tcp:close(Socket),
@@ -109,49 +91,34 @@ code_change(_OldVsn, State, _Extra) ->
 %%-----------------------------------------------------
 %% Internal functions
 %%-----------------------------------------------------
+handle_cast(stop, State) ->
+    {stop, normal, State};
 
-do_JSCall(Socket, Data, State) ->
-    Parsed = ggs_protocol:parse(Data),
-    NewState = case Parsed of
-        {define, Token, Payload} ->
-            JSVM = getJSVM(Token, State),
-            js_runner:define(JSVM, Payload),
-            send(Socket, Token, "Okay, defined that for you!"),
-            [];
-        {call, Token, Payload} ->
-            io:format("Got call request: ~p~n", [Payload]),
-            JSVM = getJSVM(Token, State),
-            erlang:display(erlang:port_info(JSVM)),
-            {ok, Ret} = js_runner:call(JSVM, Payload, []),%Payload, []),
-            send(Socket, Token, "JS says:", binary_to_list(Ret));
+% Handle javascript defines
+handle_cast({define, Token, Payload}, State) ->
+    JSVM = getJSVM(Token, State),
+    js_runner:define(JSVM, Payload),
+    send(State#state.lsock, Token, "Okay, defined that for you!"),
+    {noreply, State};
+
+% Handle javascript calls
+handle_cast({call, Token, Payload}, State) ->
+    io:format("Got call request: ~p~n", [Payload]),
+    JSVM = getJSVM(Token, State),
+    erlang:display(erlang:port_info(JSVM)),
+    {ok, Ret} = js_runner:call(JSVM, Payload, []),%Payload, []),
+    send(State#state.lsock, Token, "JS says:", binary_to_list(Ret)),
+    {noreply, State};
             
-        % Set the new state to the reference generated, and JSVM associated
-        {hello, _, _} ->
-            JSVM = js_runner:boot(), 
-            Client = getRef(),
-            send(Socket, Client, "This is your refID"),
-            
-            %% This shouldnt be here...
-            OldMap = State#state.client_vm_map,
-            BackupState = State#state{client_vm_map = OldMap ++ [{Client, JSVM}]},
-            gen_server:cast(ggs_backup, {set_backup, BackupState}),
-            %%
-            
-            {Client, JSVM};
-        {echo, RefID, _, MSG} ->
-            send(Socket, RefID, "Your VM is ", getJSVM(RefID, State)),
-            [];
-        {crash, Zero} ->
-            10/Zero;
-        {vms} ->
-            send(Socket, "RefID", State);
-        % Set the new state to []
-        Other ->
-            send(Socket, "RefID", "__error"),
-            []
-    end,
-    % Return the new state
-    NewState.
+% Set the new state to the reference generated, and JSVM associated
+handle_cast({hello, _, _}, State) ->
+    JSVM = js_runner:boot(), 
+    Client = getRef(),
+    send(State#state.lsock, Client, "This is your refID"),
+    OldMap = State#state.client_vm_map,
+    NewState = State#state{client_vm_map = OldMap ++ [{Client, JSVM}]},
+    gen_server:cast(ggs_backup, {set_backup, NewState}),
+    {noreply, NewState}.
 %%-----------------------------------------------------
 %% Helpers 
 %%-----------------------------------------------------

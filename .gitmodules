@@ -1,6 +1,6 @@
 [submodule "erlang_js"]
 	path = erlang_js
-	url = https://github.com/basho/erlang_js.git
+	url = https://github.com/jonte/erlang_js.git
 [submodule "erlv8"]
 	path = erlv8
 	url = https://github.com/beamjs/erlv8.git

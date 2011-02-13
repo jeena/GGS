@@ -106,13 +106,13 @@ handle_cast({call, Token, Payload}, State) ->
     io:format("Got call request: ~p~n", [Payload]),
     JSVM = getJSVM(Token, State),
     erlang:display(erlang:port_info(JSVM)),
-    {ok, Ret} = js_runner:call(JSVM, Payload, []),%Payload, []),
+    {ok, Ret} = js_runner:call(JSVM, Payload, []),
     send(State#state.lsock, Token, "JS says:", binary_to_list(Ret)),
     {noreply, State};
             
 % Set the new state to the reference generated, and JSVM associated
 handle_cast({hello, _, _}, State) ->
-    JSVM = js_runner:boot(), 
+    JSVM = js_runner:boot(),
     Client = getRef(),
     send(State#state.lsock, Client, "This is your refID"),
     OldMap = State#state.client_vm_map,

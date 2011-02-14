@@ -104,8 +104,8 @@ handle_cast({define, Token, SourceCode}, State) ->
 % Handle javascript calls
 handle_cast({call, Token, Command}, State) ->
     GameVM = getJSVM(Token, State), 
-    ggs_vm_runner:user_command(GameVM, "User", Command, []),
-    %send(State#state.lsock, Token, "JS says:", binary_to_list(Ret)), Unessecary
+    Ret = ggs_vm_runner:user_command(GameVM, "User", Command, []),
+    send(State#state.lsock, Token, "JS says:", binary_to_list(Ret)),
     {noreply, State};
 
 % Set the new state to the reference generated, and JSVM associated

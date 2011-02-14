@@ -4,25 +4,41 @@
 %Mattias
 start_link() ->  
     erlang_js:start(),
-    {ok, Port} = js_driver:new(),
-    js:define(Port, <<"function userCommand(user, command, args){}">>),  
-    PortPid = spawn_link(fun() -> loop(Port) end ),
+    PortPid = spawn_link(   fun() ->
+                                process_flag(trap_exit, true),
+                                {ok, Port} = js_driver:new(),
+                                js:define(Port, <<"function userCommand(user, command, args){return 'Hello world';}">>),  
+                                loop(Port)
+                            end ),
     PortPid. 
 
 
 loop(Port) ->
-receive
-    {define, SourceCode} ->
-        ok = js:define(Port, list_to_binary(SourceCode)),
-        loop(Port); 
-    {user_command, User, Command, Args} -> 
-        {ok, Ret} = js:call(Port, <<"userCommand">>, list_to_binary([User,Command,Args])),
-        loop(Port)
-end.
+    io:format("I am PID"),
+    erlang:display(self()),
+    receive
+        {define, SourceCode} ->
+            ok = js:define(Port, list_to_binary(SourceCode)),
+            loop(Port); 
+        {user_command, User, Command, Args, From, Ref} -> 
+            {ok, Ret} = js:call(Port, <<"userCommand">>, 
+                                    [   list_to_binary(User),
+                                        list_to_binary(Command),
+                                        list_to_binary(Args)
+                                    ]),
+            From ! {Ref, Ret},
+            loop(Port)
+    end.
     
 
 define(GameVM, SourceCode) ->
     GameVM ! {define,SourceCode}.
 
 user_command(GameVM, User, Command, Args) ->
-    GameVM ! {user_command, User, Command, Args}.
+    Ref = make_ref(),
+    GameVM ! {user_command, User, Command, Args, self(), Ref},
+    receive 
+        {Ref, RetVal} ->
+            RetVal;
+        Other -> Other
+    end.

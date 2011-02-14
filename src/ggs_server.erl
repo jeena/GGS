@@ -1,10 +1,3 @@
-%%%----------------------------------------------------
-%%% @author     Jonatan Pålsson <Jonatan.p@gmail.com>
-%%% @copyright  2010 Jonatan Pålsson
-%%% @doc        RPC over TCP server
-%%% @end
-%%%----------------------------------------------------
-
 -module(ggs_server).
 -behaviour(gen_server).
 
@@ -95,37 +88,36 @@ handle_cast(stop, State) ->
     {stop, normal, State};
 
 % Handle javascript defines
-handle_cast({srv_cmd, "define", Args, Data}, State) ->
-    %JSVM = getJSVM(Token, State),
-    %js_runner:define(JSVM, Payload),
+handle_cast({srv_cmd, "define", Headers, Data}, State) ->
+    Token = ggs_protocol:getToken(Headers),
+    JSVM = getJSVM(Token, State),
+    js_runner:define(JSVM, Data),
     send(State#state.lsock, "Token", "Okay, defined that for you!"),
     {noreply, State};
 
 % Handle javascript calls
-handle_cast({srv_cmd, "call", Args, Data}, State) ->
-    %io:format("Got call request: ~p~n", [Payload]),
-    %JSVM = getJSVM(Token, State),
-    %erlang:display(erlang:port_info(JSVM)),
-    %{ok, Ret} = js_runner:call(JSVM, Payload, []),%Payload, []),
-    %send(State#state.lsock, Token, "JS says:", binary_to_list(Ret)),
+handle_cast({srv_cmd, "call", Headers, Data}, State) ->
+    Token = ggs_protocol:getToken(Headers),
+    io:format("Got call request: ~p~n", [Data]),
+    JSVM = getJSVM(Token, State),
+    erlang:display(erlang:port_info(JSVM)),
+    {ok, Ret} = js_runner:call(JSVM, Data, []),%Payload, []),
+    send(State#state.lsock, Token, "JS says:", binary_to_list(Ret)),
     {noreply, State};
             
 % Set the new state to the reference generated, and JSVM associated
 handle_cast({srv_cmd, "hello", Headers, Data}, State) ->
-    %JSVM = js_runner:boot(), 
+    JSVM = js_runner:boot(), 
     Client = getRef(),
     send(State#state.lsock, Client, "This is your refID"),
-    %OldMap = State#state.client_vm_map,
-    %NewState = State#state{client_vm_map = OldMap ++ [{Client, JSVM}]},
-    %gen_server:cast(ggs_backup, {set_backup, NewState}),
-    {noreply, State}. %NewState
+    OldMap = State#state.client_vm_map,
+    NewState = State#state{client_vm_map = OldMap ++ [{Client, JSVM}]},
+    gen_server:cast(ggs_backup, {set_backup, NewState}),
+    {noreply, NewState}.
 %%-----------------------------------------------------
 %% Helpers 
 %%-----------------------------------------------------
 getRef() ->
-    %{A1,A2,A3} = now(),
-    %#random:seed(A1, A2, A3),
-    %random:uniform(1000).
     string:strip(os:cmd("uuidgen"), right, $\n ).
 
 getJSVM(RefID, State) ->

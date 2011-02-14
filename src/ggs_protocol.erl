@@ -1,10 +1,20 @@
 -module(ggs_protocol).
--export([parse/1]).
+-export([parse/1, getToken/1]).
 
+%% API Functions
 parse(Data) ->
     Parsed = do_parse(Data, []),
     prettify(Parsed).
 
+getToken(Parsed) ->
+    case lists:keyfind(token, 1, Parsed) of
+        {_, Value} ->
+            Value;
+        false ->
+            false
+    end.
+
+%% Internal helpers
 do_parse(Data, ParsedMessage) ->
     NewLinePos = string:chr(Data, $\n),
     Line = string:substr(Data, 1, NewLinePos-1),
@@ -15,7 +25,8 @@ do_parse(Data, ParsedMessage) ->
         {separator, data_next} ->
             {_, Value} = lists:keyfind(content_len, 1, ParsedMessage),
             {ContentLength, []} = string:to_integer(Value),
-            {ParsedMessage, handle_data(string:substr(Data, NewLinePos+1), ContentLength)}
+            {data, ArgumentData} = handle_data(string:substr(Data, NewLinePos+1), ContentLength),
+            {ParsedMessage, ArgumentData}
     end.
 
 handle([[]]) ->
@@ -33,7 +44,6 @@ handle_data(Data, Length) ->
     {data, string:substr(Data,1,Length)}.
 
 
-%% Helpers
 prettify({Args, Data}) ->
     case lists:keyfind(srv_cmd, 1, Args) of
         {_, Value} ->

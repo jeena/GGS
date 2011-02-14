@@ -95,44 +95,29 @@ handle_cast(stop, State) ->
     {stop, normal, State};
 
 % Handle javascript defines
-handle_cast({define, Token, Payload}, State) ->
-    JSVM = getJSVM(Token, State),
-    %js_runner:define(JSVM, Payload),
-    JSVM!{define,self(),Payload},
+handle_cast({define, Token, SourceCode}, State) ->
+    GameVM = getJSVM(Token, State),
+    ggs_vm_runner:define(GameVM, SourceCode),
     send(State#state.lsock, Token, "Okay, defined that for you!"),
     {noreply, State};
 
 % Handle javascript calls
-handle_cast({call, Token, Payload}, State) ->
-    io:format("test1~n"),
-    io:format("Got call request: ~p~n", [Payload]),
-    io:format("test2~n"),
-    JSVM = getJSVM(Token, State), 
-    JSVM!{get_port, self()}, 
-    receive
-        {ok, Port} -> erlang:display(erlang:port_info(Port)),
-                      io:format("test1~n")
-        end,
-    %erlang:display(erlang:port_info(Port)),
-    %{ok, Ret} = js_runner:call(JSVM, Payload, []),
-    JSVM!{call, self(), Payload, []},
-    receive
-    {ok, Ret} ->
-        send(State#state.lsock, Token, "JS says:", binary_to_list(Ret)),
-        {noreply, State}
-        end;    
+handle_cast({call, Token, Command}, State) ->
+    GameVM = getJSVM(Token, State), 
+    ggs_vm_runner:user_command(GameVM, "User", Command, []),
+    %send(State#state.lsock, Token, "JS says:", binary_to_list(Ret)), Unessecary
+    {noreply, State};
+
 % Set the new state to the reference generated, and JSVM associated
 handle_cast({hello, _, _}, State) ->
-    JSVM = js_runner:boot(), 
+    GameVM = ggs_vm_runner:start_link(), 
     Client = getRef(),
     send(State#state.lsock, Client, "This is your refID"),
     OldMap = State#state.client_vm_map,
-    JSVM!{get_port, self()},
-    receive
-    {ok, Port} -> NewState = State#state{client_vm_map = OldMap ++ [{Client, Port}]},
-                  gen_server:cast(ggs_backup, {set_backup, NewState}),
-                  {noreply, NewState}
-    end.
+    NewState = State#state{client_vm_map = OldMap ++ [{Client, GameVM}]},
+    gen_server:cast(ggs_backup, {set_backup, NewState}), 
+    {noreply, NewState}.
+
 %%-----------------------------------------------------
 %% Helpers 
 %%-----------------------------------------------------

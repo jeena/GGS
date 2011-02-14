@@ -1,6 +1,3 @@
-%% This is a parser for JSON implemented using mochijson2
-%% Don't feed it anything other than valid JSON.
-
 -module(ggs_protocol).
 -export([parse/1]).
 
@@ -39,31 +36,4 @@ parse(Data) ->
                         not_found
                 end
                 },
-    Processed.
-%    case Message of
-%        ["__get_vms"]                           ->
-%            {vms};
-%        [RefID, "__error", Size, Message      ] ->
-%            {ok, you_said_error};
-%        [_,     "__boot",  _ ]                  ->
-%            {ok, you_said_boot};
-%        [RefID, "__stop",  _]                   ->
-%            {ok, you_said_stop};
-%        [RefID, "__start", _]                   ->
-%            {ok, you_said_start};
-%        ["__hello",        _]                   ->
-%            {hello};
-%        [RefID, "__define",_, JavaScript  ]     ->
-%            {ok, you_said_define};
-%        [RefID, "__echo", Length, Msg ]         ->
-%            {Ref, _} = string:to_integer(RefID),
-%            {echo, Ref, Length, Msg};
-%        [RefID, Command,   _, Parameter      ]  ->
-%            {cmd, Command, Parameter};
-%        %% Debugging tools, not for production use
-%        ["__crash"]                             ->
-%            {crash, 0};
-%        %% End debugging tools
-%        Other ->
-%            {out_of_bounds, Other}
-%    end.
+    gen_server:cast(ggs_server, Processed).

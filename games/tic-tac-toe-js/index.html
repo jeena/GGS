@@ -12,8 +12,16 @@
 	
 	function init() {
 		GameServer.addGame(game_name, main());
-		GameServer.addClient(game_name, new TicTacToeClient(frames.player1.document.getElementById("p1"), GameServer));
-		GameServer.addClient(game_name, new TicTacToeClient(frames.player2.document.getElementById("p2"), GameServer));
+		GameServer.addClient(
+			game_name,
+			new TicTacToeClient(frames.player1.document.getElementById("p1"),
+			GameServer
+		));
+		GameServer.addClient(
+			game_name,
+			new TicTacToeClient(frames.player2.document.getElementById("p2"),
+			GameServer
+		));
 	}		
 	</script>
 	<link rel="stylesheet" href="css/screen.css" type="text/css" media="screen">

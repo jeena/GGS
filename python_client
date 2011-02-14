@@ -31,7 +31,7 @@ Command: define\n\
 Content-Type: text\n\
 Content-Length: 49\n\
 \n\
-function myFun() {return callErlang('a', 'b') ;}" % token)
+function myFun() {return 'Hello World!' ;}" % token)
 fs = s.makefile()
 data = fs.readline()
 print "Token:", token

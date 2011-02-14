@@ -90,8 +90,8 @@ handle_cast(stop, State) ->
 % Handle javascript defines
 handle_cast({srv_cmd, "define", Headers, Data}, State) ->
     Token = ggs_protocol:getToken(Headers),
-    JSVM = getJSVM(Token, State),
-    js_runner:define(JSVM, Data),
+    GameVM = getJSVM(Token, State),
+    ggs_vm_runner:define(GameVM, Data),
     send(State#state.lsock, "Token", "Okay, defined that for you!"),
     {noreply, State};
 
@@ -99,21 +99,21 @@ handle_cast({srv_cmd, "define", Headers, Data}, State) ->
 handle_cast({srv_cmd, "call", Headers, Data}, State) ->
     Token = ggs_protocol:getToken(Headers),
     io:format("Got call request: ~p~n", [Data]),
-    JSVM = getJSVM(Token, State),
-    erlang:display(erlang:port_info(JSVM)),
-    {ok, Ret} = js_runner:call(JSVM, Data, []),%Payload, []),
+    GameVM = getJSVM(Token, State), 
+    Ret = ggs_vm_runner:user_command(GameVM, "User", Data, []),
     send(State#state.lsock, Token, "JS says:", binary_to_list(Ret)),
     {noreply, State};
-            
+
 % Set the new state to the reference generated, and JSVM associated
 handle_cast({srv_cmd, "hello", Headers, Data}, State) ->
-    JSVM = js_runner:boot(), 
+    GameVM = ggs_vm_runner:start_link(), 
     Client = getRef(),
     send(State#state.lsock, Client, "This is your refID"),
     OldMap = State#state.client_vm_map,
-    NewState = State#state{client_vm_map = OldMap ++ [{Client, JSVM}]},
-    gen_server:cast(ggs_backup, {set_backup, NewState}),
+    NewState = State#state{client_vm_map = OldMap ++ [{Client, GameVM}]},
+    gen_server:cast(ggs_backup, {set_backup, NewState}), 
     {noreply, NewState}.
+
 %%-----------------------------------------------------
 %% Helpers 
 %%-----------------------------------------------------

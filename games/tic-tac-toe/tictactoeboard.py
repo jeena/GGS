@@ -4,6 +4,7 @@ from point import Point
 from pygame.image import load
 from pygame.rect import Rect
 from pygame import Surface
+from data import greatest_sequence
 
 #inherits Board.
 #Used for displaying the board on the screen and interact with it
@@ -47,4 +48,14 @@ class TicTacToeBoard(Board):
                     game_rectangle.state = 'o'
                 self.players_turn = (self.players_turn + 1) % 2
 
+       """
+    def turn(self, mouse_point):
+        if player.id != players_turn:
+            print "Other players turn"
             
+        else:
+            for game_rectangle in self.game_rectangles:
+                if (mouse_point.inside(game_rectangle) and
+                game_rectangle.state == ' '):
+                    server.turn(player.id, game_rectangle.index)
+          """

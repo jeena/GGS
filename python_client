@@ -29,9 +29,9 @@ s.send(
 "Token: %s\n\
 Server-Command: define\n\
 Content-Type: text\n\
-Content-Length: 42\n\
+Content-Length: 49\n\
 \n\
-function myFun() {return 'Hello world!' ;}" % token)
+function myFun() {return 'Hello World!' ;}" % token)
 fs = s.makefile()
 data = fs.readline()
 print "Token:", token
@@ -53,6 +53,8 @@ print "Token:", token
 print "Data: ", ' '.join(data.split(" ")[1:])
 
 s.close()
+
+time.sleep(2)
 
 HOST = 'localhost'    # The remote host
 PORT = int(sys.argv[1]) # The same port as used by the server

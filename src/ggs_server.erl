@@ -105,26 +105,33 @@ handle_cast({srv_cmd, "call", Headers, Data}, State) ->
     {noreply, State};
 
 % Set the new state to the reference generated, and JSVM associated
+%handle_cast({server, hello, Headers}, State) ->
 handle_cast({srv_cmd, "hello", Headers, Data}, State) ->
-    GameVM = ggs_vm_runner:start_link(), 
-    Client = getRef(),
-    send(State#state.lsock, Client, "This is your refID"),
+	GameToken = case proplist:get_value(game_token, Headers) of ->
+		undefined -> getNewToken();
+		GT -> GT;
+	end,
+	ClientToken = getNewToken(),
     OldMap = State#state.client_vm_map,
-    NewState = State#state{client_vm_map = OldMap ++ [{Client, GameVM}]},
+    NewState = State#state{client_vm_map = OldMap ++ [{ClientToken, GameVM, GameToken}]},
     gen_server:cast(ggs_backup, {set_backup, NewState}), 
     {noreply, NewState}.
+
 
 %%-----------------------------------------------------
 %% Helpers 
 %%-----------------------------------------------------
-getRef() ->
+getNewToken() ->
     string:strip(os:cmd("uuidgen"), right, $\n ).
 
-getJSVM(RefID, State) ->
+getJSVM(ClientToken, State) ->
     VMs = State#state.client_vm_map,
-    erlang:display(RefID),
-    erlang:display(VMs),
-    {value, {_,VM}} = lists:keysearch(RefID, 1, VMs),
+    {value, {_,VM}} = lists:keysearch(ClientToken, 1, VMs),
+    VM.
+
+getGameVMByGameToken(GameToken, State) ->
+    VMs = State#state.client_vm_map,
+    {value, {_,VM}} = lists:keysearch(GameToken, 3, VMs),
     VM.
 
 send(Socket, RefID, String) ->

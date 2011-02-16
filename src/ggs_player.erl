@@ -13,7 +13,7 @@
 %% identifying the player.
 %% @spec start_link(Socket::socket()) -> ok
 start_link(Socket) ->
-    not_implemented().
+    ggs_logger:not_implemented().
 
 
 %% @doc Handles incoming messages from the GGS and forwards them through the player
@@ -21,16 +21,16 @@ start_link(Socket) ->
 %% @spec notify(Player::Pid(), From::Pid(), 
 %%              {Command::String(), Message::string()}) -> ok
 notify(Player, From, Message) ->
-    not_implemented().
+    ggs_logger:not_implemented().
 
 %% @doc Get the player token uniquely representing the player.
 %% @spec get_token() -> string()
 get_token() ->
-    not_implemented().
+    ggs_logger:not_implemented().
 
 
 %% @doc Properly terminates the player process. The player token will be destroyed. 
 %% Makes table token unreferenced and destroys the process in the end.
 %% @spec stop(Table::pid()) -> Reason::string()
 stop(Table) ->
-    not_implemented().
+    ggs_logger:not_implemented().

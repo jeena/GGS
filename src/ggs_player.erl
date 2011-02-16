@@ -12,25 +12,32 @@
 %% an argument for storage and later usage. Creates a unique player token
 %% identifying the player.
 %% @spec start_link(Socket::socket()) -> ok
-start_link(Socket) ->
-    not_implemented().
-
+start_link(Socket) -> 
+    loop(Socket).
 
 %% @doc Handles incoming messages from the GGS and forwards them through the player
 %% socket to the player.
 %% @spec notify(Player::Pid(), From::Pid(), 
 %%              {Command::String(), Message::string()}) -> ok
 notify(Player, From, Message) ->
-    not_implemented().
+    helpers:not_implemented().
 
 %% @doc Get the player token uniquely representing the player.
 %% @spec get_token() -> string()
-get_token() ->
-    not_implemented().
-
+get_token(_Player) ->
+    helpers:not_implemented().
 
 %% @doc Properly terminates the player process. The player token will be destroyed. 
 %% Makes table token unreferenced and destroys the process in the end.
 %% @spec stop(Table::pid()) -> Reason::string()
 stop(Table) ->
-    not_implemented().
+    helpers:not_implemented().
+
+
+%% Internals
+
+loop(Socket) ->
+    receive {tcp, Socket, Data} -> % Just echo for now..
+        gen_tcp:send(Socket,Data),
+        loop(Socket)
+    end.

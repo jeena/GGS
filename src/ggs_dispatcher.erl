@@ -20,12 +20,12 @@
 %%      Port = Integer
 %%      Pid = #<Pid>
 start_link(Port) ->
-    not_implemented.
+    not_implemented().
 
 %% @doc Stops the dispatcher with the specified reason.
 %% @spec stop(Reason) -> ok.
 %%      Reason = String
-stop(Reason) -> not_implemented.
+stop(Reason) -> not_implemented().
 
 
 %% gen_server callbacks

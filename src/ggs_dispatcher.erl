@@ -1,5 +1,12 @@
 -module(ggs_dispatcher).
+
+%% API Exports
 -export([start_link/1, stop/1]).
+
+%% gen_server callback exports
+-export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, 
+            code_change/3]).
+
 
 %% @doc This module is the entry-point for clients connecting to GGS. This is
 %% the module responsible for:
@@ -19,3 +26,22 @@ start_link(Port) ->
 %% @spec stop(Reason) -> ok.
 %%      Reason = String
 stop(Reason) -> not_implemented.
+
+
+%% gen_server callbacks
+
+%% @doc Initiate the dispatcher. This is called from gen_server
+init([Port]) ->
+    {ok, ok}.
+
+handle_call(_Message, _From, State) ->
+    {noreply, State}.
+
+handle_cast(_Message, State) ->
+    {noreply, State}.
+
+terminate(normal, _State) ->
+    ok.
+
+code_change(_OldVsn, State, Extra) ->
+    {ok, State}.

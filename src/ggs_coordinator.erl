@@ -42,7 +42,11 @@ respawn_table(_Token) ->
 
 %% @doc Removes a player from coordinator.
 remove_player(_From, _Player) -> 
+<<<<<<< HEAD
     helpers:not_implemented().
+=======
+    not_implemented.
+>>>>>>> jonte_rewrite
 
 %% gen_server callbacks
 

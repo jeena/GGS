@@ -31,6 +31,7 @@ start_link(Port) ->
 %%      Reason = String
 stop(_Reason) -> helpers:not_implemented().
 
+
 %% gen_server callbacks
 
 %% @doc Initiate the dispatcher. This is called from gen_server

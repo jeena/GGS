@@ -30,13 +30,17 @@ get_token(_Player) ->
 %% @doc Properly terminates the player process. The player token will be destroyed. 
 %% Makes table token unreferenced and destroys the process in the end.
 %% @spec stop(Table::pid()) -> Reason::string()
-stop(Table) ->
+stop(_Table) ->
     helpers:not_implemented().
-
 
 %% Internals
 
 loop(Socket) ->
+    % The socket is in 'active' mode, and that means we are pushed any data
+    % that arrives on it, we do not need to recv() manually. Since the socket
+    % was opened in our parent process, we need to change the owner of it to
+    % us, otherwise these messages end up in our parent.
+    erlang:port_connect(Socket, self()),
     receive {tcp, Socket, Data} -> % Just echo for now..
         gen_tcp:send(Socket,Data),
         loop(Socket)

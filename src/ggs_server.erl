@@ -76,7 +76,7 @@ handle_call(get_count, _From, State) ->
 
 handle_call(_crash, _From, State) -> 
 	Zero/10.
-	{reply, sdas , State};
+	{reply, , State};
 
 %handle_call(_hello, _From, State) ->
 % Client = getRef();

@@ -11,7 +11,7 @@
 %% @doc Spawns a process representing the player in GGS. Takes the player socket as
 %% an argument for storage and later usage. Creates a unique player token
 %% identifying the player.
-%% @spec start_link(Socket::socket()) -> ok
+%% @spec start_link(Socket::socket()) -> {ok, Pid} | {error, Reason}
 start_link(Socket) -> 
     loop(Socket).
 
@@ -27,10 +27,11 @@ notify(Player, From, Message) ->
 get_token(_Player) ->
     helpers:not_implemented().
 
-%% @doc Properly terminates the player process. The player token will be destroyed. 
-%% Makes table token unreferenced and destroys the process in the end.
+%% @doc Properly terminates the player process. The player token will be lost
+%% together with the table token. It should also close the player socket and the 
+%% process should return in the end.
 %% @spec stop(Table::pid()) -> Reason::string()
-stop(_Table) ->
+stop(_Player,_Table) ->
     helpers:not_implemented().
 
 %% Internals

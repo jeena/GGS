@@ -1,5 +1,3 @@
-%% @doc This module represents a Player with a Socket and a Token
-
 -module(ggs_table).
 -export([
     start_link/1,
@@ -9,28 +7,47 @@
     notify/3
 ]).
 
+%% @doc This module represents a Player with a Socket and a Token
+
 % @doc returns a new table
-start_link(_Token) ->
-    helpers:not_implemented().
+start_link(Token, Socket) ->
+    spawn_link(fun(Token, Socket) ->
+        GameVM = ggs_gamevm:start_link();
+        loop(Token, Socket, GameVM, [])
+    ).
 
 % @doc adds a player to a table
-add_player(_Table, _Player) ->
-    helpers:not_implemented().
+add_player(Table, Player) ->
+    ggs_logger:not_implemented().
     
 % @doc removes player form a table
-remove_player(_Table, _Player) ->
-    helpers:not_implemented().
+remove_player(Table, Player) ->
+    ggs_logger:not_implemented().
     
 % @doc stops the table process
-stop(_Table, _Msg) ->
-    helpers:not_implemented().
+stop(Table) ->
+    Table ! {'EXIT', self(), normal}
     
 % @doc notifies the table with a message from a player
-notify(_Table, _Player, _Message) ->
-    helpers:not_implemented().
-    
+notify(Table, Player, Message) ->
+    Table ! {notify, Player, Message}.    
        
 % loop
-
-
-% private helpers
+loop(Token, Socket, GameVM, PlayerList) ->
+    receive
+        {add_player, Player} ->
+            NewPlayerList = list:append(PlayerList, [Player]),
+            loop(Token, Socket, GameVM, NewPlayerList);
+        {remove_player, Player} ->
+            NewPlayerList = list:delete(Player, PlayerList),
+            loop(Token, Socket, GameVM, NewPlayerList);
+        {notify, Player, Message} ->
+            case Message of
+                {server, define, Args} ->
+                    ggs_gamevm:define(GameVM, Args),
+                    loop(Token, Socket, GameVM, PlayerList);
+                {game, Command, Args} ->
+                    ggs_gamevm:user_command(GameVM, Player, Command, Args),
+                    loop(Token, Socket, GameVM, PlayerList);
+            end
+    end.

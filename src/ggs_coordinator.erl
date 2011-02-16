@@ -1,18 +1,19 @@
 -module(ggs_coordinator).
 
 %% API Exports
--export([start_link/1, stop/1]).
+-export([start_link/0, stop/1]).
 
 %% gen_server callback exports
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, 
             code_change/3]).
+-define(SERVER, ?MODULE).
 
 %% @doc This module act as "the man in the middle". 
 %%	Creates the starting connection between table and players.
 
 %% @doc Starts the coordinator process.
 start_link() ->
-    not_implemented.
+    gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
 %% @doc Terminates the coordinator process.
 stop(_Reason) ->
@@ -40,12 +41,12 @@ respawn_table(_Token) ->
     not_implemented.
 
 %% @doc Removes a player from coordinator.
-remove_player(From, Player) -> 
+remove_player(_From, _Player) -> 
     not_implemented.
 
 %% gen_server callbacks
 
-init([Port]) ->
+init([]) ->
     {ok, ok}.
 
 handle_call(_Message, _From, State) ->
@@ -54,8 +55,11 @@ handle_call(_Message, _From, State) ->
 handle_cast(_Message, State) ->
     {noreply, State}.
 
+handle_info(_Message, State) ->
+    {noreply, State}.
+
 terminate(normal, _State) ->
     ok.
 
-code_change(_OldVsn, State, Extra) ->
+code_change(_OldVsn, State, _Extra) ->
     {ok, State}.

@@ -1,4 +1,4 @@
--module(ggs_vm_runner).
+-module(ggs_gamevm).
 -export([start_link/0, define/2, user_command/4]).
 %% @doc This module is responsible for running the game VM:s. You can issue
 %% commands to a vm using this module.

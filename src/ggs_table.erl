@@ -10,24 +10,24 @@
 ]).
 
 % @doc returns a new table
-start_link(Token) ->
-    not_implemented().
+start_link(_Token) ->
+    helpers:not_implemented().
 
 % @doc adds a player to a table
-add_player(Table, Player) ->
-    not_implemented().
+add_player(_Table, _Player) ->
+    helpers:not_implemented().
     
 % @doc removes player form a table
-remove_player(Table, Player) ->
-    not_implemented().
+remove_player(_Table, _Player) ->
+    helpers:not_implemented().
     
 % @doc stops the table process
-stop(Table) ->
-    not_implemented().
+stop(_Table, _Msg) ->
+    helpers:not_implemented().
     
 % @doc notifies the table with a message from a player
-notify(Table, Player, Message) ->
-    not_implemented().
+notify(_Table, _Player, _Message) ->
+    helpers:not_implemented().
     
        
 % loop

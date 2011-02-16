@@ -30,8 +30,7 @@ stop(Table) ->
     
 % @doc notifies the table with a message from a player
 notify(Table, Player, Message) ->
-    Table ! {notify, Player, Message}.
-    
+    Table ! {notify, Player, Message}.    
        
 % loop
 loop(Token, Socket, GameVM, PlayerList) ->
@@ -52,6 +51,3 @@ loop(Token, Socket, GameVM, PlayerList) ->
                     loop(Token, Socket, GameVM, PlayerList);
             end
     end.
-    
-
-% private helpers

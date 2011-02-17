@@ -61,6 +61,8 @@ handle_call({add_player, Player}, _From, #state { players = Players } = State) -
     {reply, ok, State#state { players = [Player | Players] }};
 handle_call({remove_player, Player}, _From, #state { players = Players } = State) ->
     {reply, ok, State#state { players = Players -- [Player] }};
+handle_call(get_player_list, _From, #state { players = Players } = State) ->
+	{reply, {ok, Players}, State};
 handle_call(Msg, _From, State) ->
     error_logger:error_report([unknown_msg, Msg]),
     {reply, ok, State}.
@@ -98,8 +100,15 @@ code_change(_OldVsn, State, _Extra) ->
 
 % Tests
 
-%% @private
 start_link_test() ->
 	ClientToken = "123",
 	Pid = start_link(ClientToken, none),
 	?assertNot(Pid =:= undefined).
+	
+add_player_test() ->
+	Table = start_link("123", none),
+	Player = "test", %ggs_player:start_link(none),
+	add_player(Table, Player),
+	{ok, [Player]} = gen_server:call(Table, get_player_list).
+	
+	

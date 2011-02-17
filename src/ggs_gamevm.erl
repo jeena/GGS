@@ -70,7 +70,8 @@ handle_cast({define, SourceCode}, #state { port = Port } = State) ->
     ok = js:define(Port, list_to_binary(SourceCode)),
     {noreply, State};
 handle_cast({user_command, Player, Command, Args}, #state { port = Port } = State) ->
-    Arguments = string:sub(string:join([Player, Command, Args], ","), "'", "\'"),
+    Arguments = string:concat("'", string:concat(
+		string:join([js_escape(Player), js_escape(Command), js_escape(Args)], "','"), "'")),
     Js = list_to_binary(string:concat(string:concat("userCommand(", Arguments), ");")),
     js_driver:define_js(Port, Js),
     {noreply, State};
@@ -93,6 +94,9 @@ terminate(_Reason, _State) ->
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
+js_escape(S) ->
+	lists:flatmap(fun($\') -> [$\\, $\']; (X) -> [X] end, S).
+
 %% ----------------------------------------------------------------------
 % Tests
 
@@ -113,6 +117,6 @@ stop_test() ->
 user_command_test() ->
     GameVM = start_link(test_table),
     define(GameVM, "var t = '';\nfunction userCommand(user, command, args) { t = user + command + args; }\n"),
-    user_command(GameVM, "'jeena'", "'thecommand'", "'theargs'"),
-    ?assertMatch(<<"jeenathecommandtheargs">>, gen_server:call(GameVM, {eval, "t;"})).
+    user_command(GameVM, "'jeena", "thecommand", "theargs'"),
+    ?assertMatch(<<"'jeenathecommandtheargs'">>, gen_server:call(GameVM, {eval, "t;"})).
     

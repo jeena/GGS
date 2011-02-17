@@ -17,32 +17,32 @@ start_link() ->
 
 %% @doc Terminates the coordinator process.
 stop(_Reason) ->
-    helpers:not_implemented().
+    ggs_logger:not_implemented().
 
 %% @doc Joins table with specified token
 join_table(_Token) ->
-    helpers:not_implemented().
+    ggs_logger:not_implemented().
 
 %% @doc Create a new table 
 create_table(_Params) ->
-    helpers:not_implemented().
+    ggs_logger:not_implemented().
 
 %% @doc This is the first function run by a newly created players. 
 %%	Generates a unique token that we use to identify the player.
 join_lobby() -> 
-    helpers:not_implemented().
+    ggs_logger:not_implemented().
 
 %% @doc Act as a supervisor to player and respawns player when it gets bad data.
 respawn_player(_Player, _Socket) ->
-    helpers:not_implemented().
+    ggs_logger:not_implemented().
 
 %% @doc Act as a supervisor to table and respawns table when it gets bad data.
 respawn_table(_Token) ->
-    helpers:not_implemented().
+    ggs_logger:not_implemented().
 
 %% @doc Removes a player from coordinator.
 remove_player(_From, _Player) -> 
-    helpers:not_implemented().
+    ggs_logger:not_implemented().
 
 %% gen_server callbacks
 

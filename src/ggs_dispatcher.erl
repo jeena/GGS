@@ -29,7 +29,7 @@ start_link(Port) ->
 %% @doc Stops the dispatcher with the specified reason.
 %% @spec stop(Reason) -> ok.
 %%      Reason = String
-stop(_Reason) -> helpers:not_implemented().
+stop(_Reason) -> ggs_logger:not_implemented().
 
 %% gen_server callbacks
 

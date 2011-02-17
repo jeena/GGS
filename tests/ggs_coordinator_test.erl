@@ -15,7 +15,7 @@ coordinator_test_() ->
             fun test_start_link/0,
             fun test_stop/0,
             fun test_join_bad_table/0,
-            fun test_create_table/0
+            fun test_join_lobby/0
         ]
     }.
 
@@ -34,9 +34,20 @@ test_join_bad_table() ->
     Response = ggs_coordinator:join_table("Nonexistant table"),
     ?assert(Response == {error, no_such_table}).
 
+test_join_lobby() ->
+    {Response, _} = ggs_coordinator:join_lobby(),
+    ?assert(Response /= error).
 
-test_create_table() ->
+%% 'Manual' tests
+
+create_table_test() ->
+    {ok, _Coord} = ggs_coordinator:start_link(),
+    timer:sleep(100),
     % Forcibly create a table. This functionality should be disabled
     % in the production system, but is pretty nice for testing.
     Response = ggs_coordinator:create_table({force, 1337}),
+    ?assert(Response == {ok, 1337}).
+
+join_good_table_test() ->
+    Response = ggs_coordinator:join_table(1337),
     ?assert(Response == {ok, 1337}).

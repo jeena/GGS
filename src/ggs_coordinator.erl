@@ -1,7 +1,7 @@
 -module(ggs_coordinator).
 
 %% API Exports
--export([start_link/0, stop/1]).
+-export([start_link/0, stop/1, join_table/1, create_table/1]).
 
 %% gen_server callback exports
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, 
@@ -19,13 +19,14 @@ start_link() ->
 stop(Reason) ->
     gen_server:cast(ggs_coordinator, {stop, Reason}).
 
-%% @doc Joins table with specified token
-join_table(_Token) ->
-    ggs_logger:not_implemented().
+%% @doc Joins table with specified token, returns {error, no_such_table}
+%% if the specified table token does not exist
+join_table(Token) ->
+    gen_server:call(ggs_coordinator, {join_table, Token}). 
 
-%% @doc Create a new table 
-create_table(_Params) ->
-    ggs_logger:not_implemented().
+%% @doc Create a new table, return {error, Reason} or {ok, TableToken} 
+create_table(Params) ->
+    gen_server:call(ggs_coordinator, {create_table, Params}). 
 
 %% @doc This is the first function run by a newly created players. 
 %%	Generates a unique token that we use to identify the player.
@@ -48,6 +49,12 @@ remove_player(_From, _Player) ->
 
 init([]) ->
     {ok, ok}.
+
+handle_call({join_table, Table}, From, State) ->
+    {reply, {error, no_such_table}, State};
+
+handle_call({create_table, {force, TID}}, From, State) ->
+    {reply, {ok, TID}, State};
 
 handle_call(_Message, _From, State) ->
     {noreply, State}.

@@ -1,4 +1,4 @@
-%% @doc This module represents a Player with a Socket and a Token
+%% @doc This module represents a table with players
 
 -module(ggs_table).
 -behaviour(gen_server).
@@ -7,10 +7,10 @@
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
          terminate/2, code_change/3]).
 
--record(state, { token, players, socket, game_vm } ).
+-record(state, { players, game_vm } ).
 
 %% API
--export([start_link/2,
+-export([start_link/0,
 	 add_player/2,
 	 remove_player/2,
 	 stop/1,
@@ -22,9 +22,9 @@
 % API implementation
 
 % @doc returns a new table
-start_link(Token, Socket) ->
+start_link() ->
     GameVM = ggs_gamevm:start_link(),
-    {ok, Pid} = gen_server:start_link(?MODULE, [Token, Socket, GameVM], []),
+    {ok, Pid} = gen_server:start_link(?MODULE, [GameVM], []),
     Pid.
 
 %% @private
@@ -50,11 +50,8 @@ notify(Table, Player, Message) ->
 %% ----------------------------------------------------------------------
 
 %% @private
-init([Token, Socket, GameVM]) ->
-    {ok, #state { token = Token,
-		  socket = Socket,
-		  game_vm = GameVM,
-		  players = [] }}.
+init([GameVM]) ->
+    {ok, #state { game_vm = GameVM, players = [] }}.
 
 %% @private
 handle_call({add_player, Player}, _From, #state { players = Players } = State) ->
@@ -97,21 +94,20 @@ code_change(_OldVsn, State, _Extra) ->
 
 
 %% ----------------------------------------------------------------------
-
 % Tests
 
 start_link_test() ->
-	Table = start_link("123", none),
+	Table = start_link(),
 	?assertNot(Table =:= undefined).
 	
 add_player_test() ->
-	Table = start_link("123", none),
+	Table = start_link(),
 	Player = test_player,
 	add_player(Table, Player),
 	{ok, [Player]} = gen_server:call(Table, get_player_list).
 	
 remove_player_test() ->
-	Table = start_link("123", none),
+	Table = start_link(),
 	Player = test_player,
 	Player2 = test_player2,
 	add_player(Table, Player),
@@ -124,12 +120,12 @@ remove_player_test() ->
 	{ok, []} = gen_server:call(Table, get_player_list).	
 	
 stop_test() ->
-	Table = start_link("123", none),
+	Table = start_link(),
 	ok = stop(Table).
 
 % @private
 notify_test() ->
-	Table = start_link("123", none),
+	Table = start_link(),
 	Player = test_player,
 	Message = {server, define, "function helloWorld(x) {  }"},
 	ok = notify(Table, Player, Message).

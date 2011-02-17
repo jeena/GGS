@@ -61,21 +61,24 @@ handle_call(join_lobby, _From, State) ->
     Token = helpers:get_new_token(),
     {reply, {ok, Token}, State};
 
-handle_call({join_table, Table}, _From, State) ->
+handle_call({join_table, Table}, From, State) ->
+    {FromPlayer, _Ref}  = From,
     Tables = State#co_state.tables,
     case lists:keyfind(Table, 1, Tables) of
-        {Table} ->
-            {reply, {ok, Table}, State}; %% @TODO: Also add player to table
+        {TableID, TablePID} ->
+            ggs_table:add_player(TablePID, FromPlayer),
+            {reply, {ok, TablePID}, State}; 
         false ->
             {reply, {error, no_such_table}, State}
     end;
 
-handle_call({create_table, {force, TID}}, From, State) ->
-    TIDMap = State#co_state.player_table_map,
-    Tables = State#co_state.tables,
-    {reply, {ok, TID}, State#co_state{
-                                        player_table_map = [{From, TID} | TIDMap],
-                                        tables           = [{TID} | TID]
+handle_call({create_table, {force, TableID}}, From, State) ->
+    TableIDMap          = State#co_state.player_table_map,
+    Tables              = State#co_state.tables,
+    NewTableProc        = ggs_table:start_link(),
+    {reply, {ok, TableID}, State#co_state{
+                                        player_table_map = [{From, TableID} | TableIDMap],
+                                        tables           = [{TableID, NewTableProc} | Tables]
                                         }};
 
 handle_call(_Message, _From, State) ->

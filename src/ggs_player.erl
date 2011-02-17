@@ -1,5 +1,5 @@
 -module(ggs_player).
--export([start_link/1, notify/3, get_token/1, stop/1]).
+-export([start_link/1, notify/3, get_token/1, stop/2]).
 
 %% @doc This module handles communication between a player and GGS. This module is
 %%responsible for: 

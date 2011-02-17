@@ -16,8 +16,8 @@ start_link() ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
 %% @doc Terminates the coordinator process.
-stop(_Reason) ->
-    ggs_logger:not_implemented().
+stop(Reason) ->
+    gen_server:cast(ggs_coordinator, {stop, Reason}).
 
 %% @doc Joins table with specified token
 join_table(_Token) ->
@@ -51,6 +51,9 @@ init([]) ->
 
 handle_call(_Message, _From, State) ->
     {noreply, State}.
+
+handle_cast({stop, Reason}, State) ->
+    {stop, normal, state};
 
 handle_cast(_Message, State) ->
     {noreply, State}.

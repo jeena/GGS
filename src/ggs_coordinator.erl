@@ -8,6 +8,11 @@
             code_change/3]).
 -define(SERVER, ?MODULE).
 
+-record(co_state,
+            {players            = [],   % List of all player processes
+             player_table_map   = [],   % Players <-> Table map
+             table_state_map    = []}). % Table <-> Table state map
+
 %% @doc This module act as "the man in the middle". 
 %%	Creates the starting connection between table and players.
 
@@ -48,13 +53,14 @@ remove_player(_From, _Player) ->
 %% gen_server callbacks
 
 init([]) ->
-    {ok, ok}.
+    {ok, #co_state{}}.
 
 handle_call({join_table, Table}, From, State) ->
     {reply, {error, no_such_table}, State};
 
 handle_call({create_table, {force, TID}}, From, State) ->
-    {reply, {ok, TID}, State};
+    TIDs = State#co_state.player_table_map,
+    {reply, {ok, TID}, State#co_state{player_table_map = [TID | TIDs]}};
 
 handle_call(_Message, _From, State) ->
     {noreply, State}.

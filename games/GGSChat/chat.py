@@ -29,8 +29,6 @@ class GGSChat:
             , "on_chatBox_focus" : lambda x, y: self.wTree.get_widget("entry").grab_focus()
             }
 
-        for i in range(0,9):
-            dic
         self.wTree.signal_autoconnect(dic)
 
         self.wTree.get_widget("nickBox").set_text(getpass.getuser())
@@ -43,8 +41,15 @@ class GGSChat:
     def chat(self):
         exp = self.wTree.get_widget("entry").get_text()
         nick = self.wTree.get_widget("nickBox").get_text()
-        exp = "<%s> %s" % (nick, exp)
-        self.s.send("Game-Command: chat\n"+
+        if exp[0] == "/":
+            self.s.send("Game-Command: %s\n" % exp[1:] +
+                "Token: %s\n" % self.token +
+                "Content-Type: text\n" +
+                "Content-Length: 0\n"+
+                "\n")
+        else:
+            exp = "<%s> %s" % (nick, exp)
+            self.s.send("Game-Command: chat\n"+
                 "Token: %s\n" % self.token +
                 "Content-Type: text\n"+
                 "Content-Length: %s\n" % (len(exp))+

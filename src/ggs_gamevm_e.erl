@@ -50,7 +50,9 @@ do_stuff(Command, Args, Player, Table) ->
         "uname" ->
             Uname = os:cmd("uname -a"),
             ggs_player:notify(Player, server, Uname);
-
+        "lusers" ->
+           {ok, Players} = ggs_table:get_player_list(Table),
+           ggs_player:notify(Player, server,io_lib:format("~p\n",[Players]));
         Other ->
             ggs_player:notify(Player, server, "I don't know that command..\n")
     end.

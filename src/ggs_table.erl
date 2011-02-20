@@ -6,7 +6,7 @@
 %% gen_server callbacks
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
          terminate/2, code_change/3, notify_all_players/2, notify_game/3,
-         add_player/2]).
+         add_player/2, get_player_list/1]).
 
 -record(state, { token, players, socket, game_vm } ).
 
@@ -38,6 +38,10 @@ add_player(Table, Player) ->
 % @doc removes player form a table
 remove_player(Table, Player) ->
 	call(Table, {remove_player, Player}).
+
+%% @doc Get a list of all player processes attached to this table
+get_player_list(Table) ->
+    gen_server:call(Table, get_player_list).
 
 % @doc stops the table process
 stop(Table) ->

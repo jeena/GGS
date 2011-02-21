@@ -6,7 +6,8 @@
 
 -module(ggs_db).
 -import(mnesia).
--export([init/0,setItem/4,getItem/3]).
+%-compile({no_auto_import,[length/2]}).
+-export([init/0,setItem/4,getItem/3,length/2]).
 -include("ggs_db.hrl").
 
 %%-----------------------------------------------------
@@ -45,3 +46,10 @@ getItem(Db,Ns,Key) ->
           end,
     mnesia:transaction(Fun).
  
+length(Db,Ns) ->
+    Fun = fun() ->
+                Keys = mnesia:all_keys(data),
+                length(lists:filter(fun({A,B,_}) -> ((A==Db) and (B==Ns)) end, Keys))
+          end,
+    {atomic, Ret} = mnesia:transaction(Fun),
+    Ret.

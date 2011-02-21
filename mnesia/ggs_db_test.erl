@@ -9,11 +9,18 @@
 
 
 %Key should be a tuple of two elements
-setup_test() -> 
+get_set_test() -> 
     mnesia:start(),
     ggs_db:init(),
     ggs_db:setItem("dbname","nsname","keyname","Hello"),
-    ?assertMatch({atomic,"Hello"},ggs_db:getItem("dbname","nsname","keyname")),
+    ?assertMatch({atomic,"Hello"},ggs_db:getItem("dbname","nsname","keyname")).
+
+length_test() ->
+    ggs_db:setItem(1,1,2,"112"),
+    ggs_db:setItem(1,2,2,"122"),
+    ggs_db:setItem(1,1,3,"113"),
+    ggs_db:setItem(1,1,4,"114"),
+    ?assertEqual(ggs_db:length(1,1), 3),
     mnesia:stop().
 
 %cleanup(Val) ->

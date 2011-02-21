@@ -7,7 +7,7 @@
 -module(ggs_db).
 -import(mnesia).
 %-compile({no_auto_import,[length/2]}).
--export([init/0,setItem/4,getItem/3,length/2]).
+-export([init/0,setItem/4,getItem/3,removeItem/3,length/2]).
 -include("ggs_db.hrl").
 
 %%-----------------------------------------------------
@@ -35,6 +35,15 @@ setItem(Db,Ns,Key,Value) ->
     mnesia:transaction(Fun).
 
 
+%%-----------------------------------------------------
+%% Deletions
+%%-----------------------------------------------------
+removeItem(Db,Ns,Key) ->
+    Fun = fun() ->
+                   mnesia:delete({data,{Db,Ns,Key}})
+           end,
+    mnesia:transaction(Fun).
+
 
 %%-----------------------------------------------------
 %% Querries
@@ -53,3 +62,5 @@ length(Db,Ns) ->
           end,
     {atomic, Ret} = mnesia:transaction(Fun),
     Ret.
+
+

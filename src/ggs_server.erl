@@ -97,28 +97,42 @@ handle_cast(stop, State) ->
 % Handle javascript defines
 handle_cast({define, Token, Payload}, State) ->
     JSVM = getJSVM(Token, State),
-    js_runner:define(JSVM, Payload),
+    %js_runner:define(JSVM, Payload),
+    JSVM!{define,self(),Payload},
     send(State#state.lsock, Token, "Okay, defined that for you!"),
     {noreply, State};
 
 % Handle javascript calls
 handle_cast({call, Token, Payload}, State) ->
+    io:format("test1~n"),
     io:format("Got call request: ~p~n", [Payload]),
-    JSVM = getJSVM(Token, State),
-    erlang:display(erlang:port_info(JSVM)),
-    {ok, Ret} = js_runner:call(JSVM, Payload, []),
-    send(State#state.lsock, Token, "JS says:", binary_to_list(Ret)),
-    {noreply, State};
-            
+    io:format("test2~n"),
+    JSVM = getJSVM(Token, State), 
+    JSVM!{get_port, self()}, 
+    receive
+        {ok, Port} -> erlang:display(erlang:port_info(Port)),
+                      io:format("test1~n")
+        end,
+    %erlang:display(erlang:port_info(Port)),
+    %{ok, Ret} = js_runner:call(JSVM, Payload, []),
+    JSVM!{call, self(), Payload, []},
+    receive
+    {ok, Ret} ->
+        send(State#state.lsock, Token, "JS says:", binary_to_list(Ret)),
+        {noreply, State}
+        end;    
 % Set the new state to the reference generated, and JSVM associated
 handle_cast({hello, _, _}, State) ->
-    JSVM = js_runner:boot(),
+    JSVM = js_runner:boot(), 
     Client = getRef(),
     send(State#state.lsock, Client, "This is your refID"),
     OldMap = State#state.client_vm_map,
-    NewState = State#state{client_vm_map = OldMap ++ [{Client, JSVM}]},
-    gen_server:cast(ggs_backup, {set_backup, NewState}),
-    {noreply, NewState}.
+    JSVM!{get_port, self()},
+    receive
+    {ok, Port} -> NewState = State#state{client_vm_map = OldMap ++ [{Client, Port}]},
+                  gen_server:cast(ggs_backup, {set_backup, NewState}),
+                  {noreply, NewState}
+    end.
 %%-----------------------------------------------------
 %% Helpers 
 %%-----------------------------------------------------

@@ -120,14 +120,11 @@ user_command_test() ->
     user_command(GameVM, "'jeena", "thecommand", "theargs'"),
     ?assertMatch(<<"'jeenathecommandtheargs'">>, gen_server:call(GameVM, {eval, "t;"})).
 
-to_string({A, B, C}) ->
-  "{" ++ integer_to_list(A) ++ ", " ++ integer_to_list(B) ++ ", " ++ integer_to_list(C) ++ "}".
-    
-user_command2_test() ->
+js_erlang_test() ->
     GameVM = start_link(test_table),
     define(GameVM, "var t = '';\nfunction userCommand(user, command, args) { t = callErlang('erlang time') + ''; }\n"),
     user_command(GameVM, "", "", ""),
-	T = to_string(erlang:time()),
-    io:format("test ~p~n", [T]),
-    ?assertMatch(T, binary_to_list(gen_server:call(GameVM, {eval, "t;"}))).
+	{A, B, C} = erlang:time(),
+	T = "{" ++ integer_to_list(A) ++ ", " ++ integer_to_list(B) ++ ", " ++ integer_to_list(C) ++ "}",
+	?assertMatch(T, binary_to_list(gen_server:call(GameVM, {eval, "t;"}))).
 

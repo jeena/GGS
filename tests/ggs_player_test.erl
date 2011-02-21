@@ -1,3 +1,4 @@
+-module(ggs_player_test).
 -include_lib("eunit/include/eunit.hrl").
 -import(ggs_player).
 

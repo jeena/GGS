@@ -1,3 +1,4 @@
+-module(ggs_table_test).
 -include_lib("eunit/include/eunit.hrl").
 -import(ggs_table).
 

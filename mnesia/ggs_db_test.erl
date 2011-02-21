@@ -24,9 +24,12 @@ length_test() ->
 
 removeItem_test() ->
     ggs_db:removeItem(1,1,4),
-    ?assertNot(ggs_db:getItem(1,1,4) =:= {atomic,"114"}),
-    mnesia:stop().
+    ?assertNot(ggs_db:getItem(1,1,4) =:= {atomic,"114"}).
+    %mnesia:stop().
 
+key_test() ->
+    ?assert(ggs_db:key(1,1,2) =:= {1,1,3}),
+    mnesia:stop().
 %cleanup(Val) ->
 %    mnesia:stop().
 

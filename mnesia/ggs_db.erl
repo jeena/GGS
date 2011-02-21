@@ -45,6 +45,16 @@ removeItem(Db,Ns,Key) ->
     mnesia:transaction(Fun).
 
 
+clear(Db,Ns) ->
+    Fun = fun() ->
+                 Keys = mnesia:all_keys(data),
+                 Rest = lists:filter(fun({A,B,_}) -> ((A==Db) and (B==Ns)) end, Keys),
+                 lists:map(fun({A,B,C}) -> removeItem(A,B,C) end, Rest)
+          end,
+    {atomic, Ret} = mnesia:transaction(Fun),
+    Ret.
+
+
 %%-----------------------------------------------------
 %% Querries
 %%-----------------------------------------------------
@@ -73,12 +83,4 @@ key(Db,Ns,Position) ->
     Ret.
 
 
-clear(Db,Ns) ->
-    Fun = fun() ->
-                 Keys = mnesia:all_keys(data),
-                 Rest = lists:filter(fun({A,B,_}) -> ((A==Db) and (B==Ns)) end, Keys),
-                 lists:map(fun({A,B,C}) -> removeItem(A,B,C) end, Rest)
-          end,
-    {atomic, Ret} = mnesia:transaction(Fun),
-    Ret.
     

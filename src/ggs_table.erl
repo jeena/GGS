@@ -6,7 +6,7 @@
 %% gen_server callbacks
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
          terminate/2, code_change/3, notify_all_players/2, notify_game/3,
-         add_player/2, get_player_list/1]).
+         get_player_list/1]).
 
 -record(state, { token, players, socket, game_vm } ).
 

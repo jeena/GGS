@@ -49,7 +49,7 @@ respawn_table(_Token) ->
     ggs_logger:not_implemented().
 
 %% @doc Removes a player from coordinator.
-remove_player(_From, Player) -> 
+remove_player(_From, _Player) -> 
     %gen_server:cast(ggs_coordinator, {remove_player, Player}).
     ggs_logger:not_implemented().
 
@@ -66,7 +66,7 @@ handle_call({join_table, Table}, From, State) ->
     {FromPlayer, _Ref}  = From,
     Tables = State#co_state.tables,
     case lists:keyfind(Table, 1, Tables) of
-        {TableID, TablePID} ->
+        {_TableID, TablePID} ->
             ggs_table:add_player(TablePID, FromPlayer),
             {reply, {ok, TablePID}, State}; 
         false ->
@@ -85,8 +85,8 @@ handle_call({create_table, {force, TableID}}, From, State) ->
 handle_call(_Message, _From, State) ->
     {noreply, State}.
 
-handle_cast({stop, Reason}, State) ->
-    {stop, normal, state};
+handle_cast({stop, _Reason}, State) ->
+    {stop, normal, State};
 
 %% @TODO: Implement me
 %handle_cast({remove_player, Player}) ->

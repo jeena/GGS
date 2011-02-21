@@ -42,11 +42,15 @@ class GGSChat:
         exp = self.wTree.get_widget("entry").get_text()
         nick = self.wTree.get_widget("nickBox").get_text()
         if exp[0] == "/":
+            cmdStr = exp[1:].split(" ")
+            cmd = cmdStr[0]
+            params = ' '.join(cmdStr[1:])
             self.s.send("Game-Command: %s\n" % exp[1:] +
                 "Token: %s\n" % self.token +
                 "Content-Type: text\n" +
-                "Content-Length: 0\n"+
-                "\n")
+                "Content-Length: %s\n" % len(params)+
+                "\n"+
+                params)
         else:
             exp = "<%s> %s" % (nick, exp)
             self.s.send("Game-Command: chat\n"+

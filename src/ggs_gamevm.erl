@@ -6,7 +6,6 @@
 %% @doc Create a new VM process. The process ID is returned and can be used
 %% with for example the define method of this module.
 start_link() ->  
-    erlang_js:start(), %% @TODO: should only be done once
     PortPid = spawn_link(   fun() ->
                                 process_flag(trap_exit, true),
                                 {ok, Port} = js_driver:new(),
@@ -46,5 +45,7 @@ loop(Port) ->
                                         list_to_binary(Args)
                                     ]),
             From ! {Ref, Ret},
-            loop(Port)
+            loop(Port);
+        {eval, JS} ->
+            
     end.

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+./build_db
+./test_db

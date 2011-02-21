@@ -11,7 +11,7 @@ s.connect((HOST, PORT))
 
 print "Saying hello to server"
 s.send(
-"Command: hello\n\
+"Server-Command: hello\n\
 Content-Type: text\n\
 Content-Length: 0\n\
 \n\
@@ -27,7 +27,7 @@ print "Data: ", ' '.join(data.split(" ")[1:])
 print "Defining a function called myFun"
 s.send(
 "Token: %s\n\
-Command: define\n\
+Server-Command: define\n\
 Content-Type: text\n\
 Content-Length: 49\n\
 \n\
@@ -42,7 +42,7 @@ print "Data: ", ' '.join(data.split(" ")[1:])
 print "Calling myFun"
 s.send(
 "Token: %s\n\
-Command: call\n\
+Server-Command: call\n\
 Content-Type: text\n\
 Content-Length: 6\n\
 \n\
@@ -64,7 +64,7 @@ s.connect((HOST, PORT))
 print "Calling myFun"
 s.send(
 "Token: %s\n\
-Command: call\n\
+Server-Command: call\n\
 Content-Type: text\n\
 Content-Length: 6\n\
 \n\

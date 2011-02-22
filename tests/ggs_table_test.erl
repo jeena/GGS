@@ -31,7 +31,7 @@ stop_test() ->
 notify_test() ->
 	Table = ggs_table:start_link(),
 	Player = test_player,
-	Message = {server, define, "function helloWorld(x) {  }"},
+	Message = {server, define, "function helloWorld(x) { }"},
 	ok = ggs_table:notify(Table, Player, Message),
 	Message2 = {game, "helloWorld", "test"},
 	ok = ggs_table:notify(Table, Player, Message2).

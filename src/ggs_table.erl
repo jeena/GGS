@@ -51,9 +51,6 @@ notify_all_players(Table, Message) ->
     gen_server:cast(Table, {notify_all_players, Message}).
 
 notify_game(Table, From, Message) ->
-    io:format("Notify game called on"),
-    erlang:display(Table),
-    io:format("~n"),
     gen_server:cast(Table, {notify_game, Message, From}).
 
 %% ----------------------------------------------------------------------
@@ -95,11 +92,10 @@ handle_cast({notify_game, Message, From}, #state { game_vm = GameVM } = State) -
     {noreply, State};
 
 handle_cast({notify_all_players, Message}, #state{players = Players} = State) ->
-    io:format("Notifying all players... ~p~n", [Players]),
-    lists:foreach(fun(P) -> 
-        io:format("Notifying ~p~n", [P]),
-        ggs_player:notify(P, "Server", Message) 
-        end, Players),
+    lists:foreach(
+        fun(P) -> ggs_player:notify(P, "Server", Message) end,
+        Players
+    ),
     {noreply, State};
 
 handle_cast(stop, State) ->

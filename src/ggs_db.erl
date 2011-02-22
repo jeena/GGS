@@ -6,17 +6,20 @@
 
 -module(ggs_db).
 -import(mnesia).
-%-compile({no_auto_import,[length/2]}).
--export([setItem/4,getItem/3,removeItem/3,key/3,clear/2,clear/1,length/2]).
+-export([init/0,stop/0,setItem/4,getItem/3,removeItem/3,key/3,clear/2,clear/1,length/2]).
 -include("ggs_db.hrl").
 
 %%-----------------------------------------------------
-%% Test
+%% Creation
 %%-----------------------------------------------------
+init() -> 
+    mnesia:create_schema([node()]),
+    mnesia:start(),
+    mnesia:create_table(data, [{attributes, record_info(fields, data)}]).
 
-%test_data() ->
-%    set(0, "Hello"),
-%    get(0).
+stop() -> 
+    mnesia:stop().
+
 
 %%-----------------------------------------------------
 %% Insertions

@@ -64,12 +64,11 @@ clear(GameToken) ->
 %% Querries
 %%-----------------------------------------------------
 getItem(GameToken,Ns,Key) ->
-    Fun = fun() -> 
-                [Data] = mnesia:read(data, {GameToken,Ns,Key}),
-                Data#data.value
-          end,
-    {atomic, Ret} = mnesia:transaction(Fun),
-    Ret.
+    Fun = fun() ->
+        mnesia:read(data, {GameToken,Ns,Key})
+    end,
+    {atomic, [Ret]} = mnesia:transaction(Fun),
+    Ret#data.value.
  
 length(GameToken,Ns) ->
     Fun = fun() ->

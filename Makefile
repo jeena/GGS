@@ -10,8 +10,8 @@ compile:
 	mkdir -p $(BEAMDIR) ;
 	$(ERLC) $(ERLCFLAGS) $(BEAMDIR) $(SRCDIR)/*.erl ;
 
-erlang_js:
-	$(MAKE) -C erlang_js/ ;
+erlang_js: force_look
+	cd erlang_js ; $(MAKE) $(MFLAGS);
 
 test:
 	echo "==> test $(MOD)" ;
@@ -40,4 +40,5 @@ run:
 		-pa src \
 		-s start_ggs
 
-    
+force_look:
+	true

@@ -2,7 +2,7 @@ ERLC=erlc
 ERLCFLAGS=-o
 SRCDIR=src
 TESTDIR=tests
-BEAMDIR=./ebin
+BEAMDIR=ebin
 
 all: compile erlang_js
 
@@ -31,6 +31,13 @@ clean:
 	$(MAKE) -C erlang_js/ clean
 
 run:
-	erl -sname ggs -mnesia -boot start_sasl -pa erlang_js/ebin/ -pa ebin -pa src -s start_ggs
+	erl \
+		-sname ggs \
+		-mnesia dir '"/tmp/ggs"' \
+		-boot start_sasl \
+		-pa erlang_js/ebin/ \
+		-pa ebin \
+		-pa src \
+		-s start_ggs
 
     

@@ -7,7 +7,7 @@
 -module(ggs_db).
 -import(mnesia).
 %-compile({no_auto_import,[length/2]}).
--export([init/0,setItem/4,getItem/3,removeItem/3,key/3,clear/2,clear/1,length/2]).
+-export([setItem/4,getItem/3,removeItem/3,key/3,clear/2,clear/1,length/2]).
 -include("ggs_db.hrl").
 
 %%-----------------------------------------------------

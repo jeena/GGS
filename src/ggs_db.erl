@@ -7,7 +7,7 @@
 -module(ggs_db).
 -import(mnesia).
 %-compile({no_auto_import,[length/2]}).
--export([init/0,setItem/4,getItem/3,removeItem/3,key/3,clear/2,length/2]).
+-export([init/0,setItem/4,getItem/3,removeItem/3,key/3,clear/2,clear/1,length/2]).
 -include("ggs_db.hrl").
 
 %%-----------------------------------------------------
@@ -27,9 +27,9 @@ init() ->
 %%-----------------------------------------------------
 %% Insertions
 %%-----------------------------------------------------
-setItem(Db,Ns,Key,Value) ->
+setItem(GameToken,Ns,Key,Value) ->
     Fun = fun() ->
-                  Data = #data{key = {Db,Ns,Key}, value = Value},
+                  Data = #data{key = {GameToken,Ns,Key}, value = Value},
                   mnesia:write(Data) 
           end,
     mnesia:transaction(Fun).
@@ -38,45 +38,53 @@ setItem(Db,Ns,Key,Value) ->
 %%-----------------------------------------------------
 %% Deletions
 %%-----------------------------------------------------
-removeItem(Db,Ns,Key) ->
+removeItem(GameToken,Ns,Key) ->
     Fun = fun() ->
-                   mnesia:delete({data,{Db,Ns,Key}})
+                   mnesia:delete({data,{GameToken,Ns,Key}})
            end,
     mnesia:transaction(Fun).
 
 
-clear(Db,Ns) ->
+clear(GameToken,Ns) ->
     Fun = fun() ->
                  Keys = mnesia:all_keys(data),
-                 Rest = lists:filter(fun({A,B,_}) -> ((A==Db) and (B==Ns)) end, Keys),
+                 Rest = lists:filter(fun({A,B,_}) -> ((A==GameToken) and (B==Ns)) end, Keys),
                  lists:map(fun({A,B,C}) -> removeItem(A,B,C) end, Rest)
           end,
     {atomic, Ret} = mnesia:transaction(Fun),
     Ret.
 
-
-%%-----------------------------------------------------
-%% Querries
-%%-----------------------------------------------------
-getItem(Db,Ns,Key) ->
-    Fun = fun() -> 
-                [Data] = mnesia:read(data, {Db,Ns,Key}),
-                Data#data.value
-          end,
-    mnesia:transaction(Fun).
- 
-length(Db,Ns) ->
+clear(GameToken) ->
     Fun = fun() ->
                 Keys = mnesia:all_keys(data),
-                length(lists:filter(fun({A,B,_}) -> ((A==Db) and (B==Ns)) end, Keys))
+                Rest = lists:filter(fun({A,_,_}) -> (A==GameToken) end, Keys),
+                lists:map(fun({A,B,C}) -> removeItem(A,B,C) end, Rest)
           end,
     {atomic, Ret} = mnesia:transaction(Fun),
     Ret.
 
-key(Db,Ns,Position) ->
+%%-----------------------------------------------------
+%% Querries
+%%-----------------------------------------------------
+getItem(GameToken,Ns,Key) ->
+    Fun = fun() -> 
+                [Data] = mnesia:read(data, {GameToken,Ns,Key}),
+                Data#data.value
+          end,
+    mnesia:transaction(Fun).
+ 
+length(GameToken,Ns) ->
     Fun = fun() ->
                 Keys = mnesia:all_keys(data),
-                Rest = lists:filter(fun({A,B,_}) -> ((A==Db) and (B==Ns)) end, Keys),
+                length(lists:filter(fun({A,B,_}) -> ((A==GameToken) and (B==Ns)) end, Keys))
+          end,
+    {atomic, Ret} = mnesia:transaction(Fun),
+    Ret.
+
+key(GameToken,Ns,Position) ->
+    Fun = fun() ->
+                Keys = mnesia:all_keys(data),
+                Rest = lists:filter(fun({A,B,_}) -> ((A==GameToken) and (B==Ns)) end, Keys),
                 lists:nth(Position, Rest)
           end,
     {atomic, Ret} = mnesia:transaction(Fun),

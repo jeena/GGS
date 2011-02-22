@@ -31,7 +31,11 @@ key_test() ->
 
 clear_test() ->
     ggs_db:clear(1,1),
-    ?assert(ggs_db:length(1,1) =:= 0),
+    ?assert(ggs_db:length(1,1) =:= 0).
+
+clear_GameToken_test() ->
+    ggs_db:clear(1),
+    ?assert((ggs_db:length(1,1) + ggs_db:length(1,2)) =:= 0),
     mnesia:stop().
 
 %tests() ->

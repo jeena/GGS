@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-erl -eval 'eunit:test(ggs_db_test), q().'

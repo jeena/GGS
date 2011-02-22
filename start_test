@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-erl -boot start_sasl -pa ebin_test -pa erlang_js/ebin/ -pa ebin -pa src -eval 'ggs_coordinator_test:test().'

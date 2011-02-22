@@ -5,17 +5,18 @@
 
 %% gen_server callbacks
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
-         terminate/2, code_change/3, notify_all_players/2, notify_game/3,
-         add_player/2]).
+         terminate/2, code_change/3]).
 
 -record(state, { players, game_vm } ).
 
 %% API
 -export([start_link/0,
-	 add_player/2,
-	 remove_player/2,
-	 stop/1,
-	 notify/3]).
+	add_player/2,
+	remove_player/2,
+	stop/1,
+	notify/3,
+	notify_all_players/2,
+	notify_game/3]).
 
 
 %% ----------------------------------------------------------------------
@@ -24,6 +25,7 @@
 % @doc returns a new table
 start_link() ->
     {ok, Pid} = gen_server:start_link(?MODULE, [], []),
+	Pid.
 
 %% @private
 call(Pid, Msg) ->

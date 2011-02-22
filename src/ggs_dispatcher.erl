@@ -45,7 +45,7 @@ handle_call(_Message, _From, State) ->
 handle_cast(_Message, State) ->
     {noreply, State}.
 
-handle_info({tcp, _Socket, RawData}, State) ->
+handle_info({tcp, _Socket, _RawData}, State) ->
     io:format("Got connect request!~n"),
     {noreply, State};
 

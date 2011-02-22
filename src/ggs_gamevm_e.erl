@@ -32,7 +32,7 @@ user_command(GameVM, Player, Command, Args) ->
 
 loop(Table) ->
     receive
-        {define, SourceCode} ->
+        {define, _SourceCode} ->
             loop(Table); 
         {user_command, _User, Command, _Args, _From, _Ref} ->
             io:format("GameVM received a message~n"),

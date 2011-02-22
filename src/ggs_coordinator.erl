@@ -65,7 +65,7 @@ handle_call({join_table, Table}, From, State) ->
     {FromPlayer, _Ref}  = From,
     Tables = State#co_state.tables,
     case lists:keyfind(Table, 1, Tables) of
-        {TableID, TablePID} ->
+        {_TableID, TablePID} ->
             ggs_table:add_player(TablePID, FromPlayer),
             {reply, {ok, TablePID}, State}; 
         false ->
@@ -84,7 +84,7 @@ handle_call({create_table, {force, TableID}}, From, State) ->
 handle_call(_Message, _From, State) ->
     {noreply, State}.
 
-handle_cast({stop, Reason}, State) ->
+handle_cast({stop, _Reason}, _State) ->
     {stop, normal, state};
 
 handle_cast(_Message, State) ->

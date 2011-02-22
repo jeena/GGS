@@ -60,7 +60,7 @@ loop(#pl_state{token = Token, socket = Socket, table = Table} = State) ->
             io:format("Notifying table..~n"),
             ggs_table:notify_game(Table, Token, Data),
             loop(State);
-        {notify, From, Message} ->
+        {notify, _From, Message} ->
             gen_tcp:send(Socket, Message),
             loop(State)
     end.

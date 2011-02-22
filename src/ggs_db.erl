@@ -5,15 +5,15 @@
 %%% @end
 
 -module(ggs_db).
--import(mnesia).
 -export([init/0,stop/0,setItem/4,getItem/3,removeItem/3,key/3,clear/2,clear/1,length/2]).
--include("ggs_db.hrl").
+%-include("ggs_db.hrl").
+-record(data, {key, value}).
 
 %%-----------------------------------------------------
 %% Creation
 %%-----------------------------------------------------
 init() -> 
-    mnesia:create_schema([node()]),
+%    mnesia:create_schema([node()]),
     mnesia:start(),
     mnesia:create_table(data, [{attributes, record_info(fields, data)}]).
 
@@ -68,7 +68,8 @@ getItem(GameToken,Ns,Key) ->
                 [Data] = mnesia:read(data, {GameToken,Ns,Key}),
                 Data#data.value
           end,
-    mnesia:transaction(Fun).
+    {atomic, Ret} = mnesia:transaction(Fun),
+    Ret.
  
 length(GameToken,Ns) ->
     Fun = fun() ->

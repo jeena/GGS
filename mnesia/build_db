@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+	erlc -o . ggs_db.erl
+    erlc -o . ggs_db_test.erl

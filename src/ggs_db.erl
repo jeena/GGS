@@ -41,7 +41,6 @@ removeItem(GameToken,Ns,Key) ->
            end,
     mnesia:transaction(Fun).
 
-
 clear(GameToken,Ns) ->
     Fun = fun() ->
                  Keys = mnesia:all_keys(data),
@@ -61,14 +60,18 @@ clear(GameToken) ->
     Ret.
 
 %%-----------------------------------------------------
-%% Querries
+%% Queries
 %%-----------------------------------------------------
 getItem(GameToken,Ns,Key) ->
-    Fun = fun() ->
-        mnesia:read(data, {GameToken,Ns,Key})
-    end,
-    {atomic, [Ret]} = mnesia:transaction(Fun),
-    Ret#data.value.
+	Fun = fun() ->
+		mnesia:read(data, {GameToken,Ns,Key})
+	end,
+	case mnesia:transaction(Fun) of
+	{atomic, []} -> 
+		{error};
+	{atomic, [Ret]} ->
+	Ret#data.value
+end.	
  
 length(GameToken,Ns) ->
     Fun = fun() ->
@@ -86,6 +89,3 @@ key(GameToken,Ns,Position) ->
           end,
     {atomic, Ret} = mnesia:transaction(Fun),
     Ret.
-
-
-    

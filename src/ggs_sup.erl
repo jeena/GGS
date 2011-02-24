@@ -26,7 +26,14 @@ init([Port]) ->
                     worker, 
                     [ggs_coordinator]
                 },
-    Children = [Dispatcher, Coordinator],
+    Coordinator_backup = {ggs_coordinator_backup,
+                            {ggs_coordinator_backup, start_link, []},
+                            permanent, 
+                            2000, 
+                            worker, 
+                            [ggs_coordinator_backup]
+                        },
+    Children = [Dispatcher, Coordinator_backup, Coordinator],
 
     RestartStrategy = { one_for_one, % Restart only crashing child
                         10,          % Allow ten crashes per..

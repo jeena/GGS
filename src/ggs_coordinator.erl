@@ -53,13 +53,26 @@ remove_player(_From, _Player) ->
     %gen_server:cast(ggs_coordinator, {remove_player, Player}).
     ggs_logger:not_implemented().
 
+%% Just to shorten the name
+back_up(State) ->
+    ggs_coordinator_backup:back_up(State),
+    State.
+
 %% gen_server callbacks
 
 init([]) ->
-    {ok, #co_state{}}.
+    % Restore old state from backup if there is old state stored there
+    case ggs_coordinator_backup:retrieve() of
+        no_state_stored ->
+            io:format("No old state stored.. Creating new!~n"),
+            {ok, #co_state{}};
+        State ->
+            {ok, State}
+    end.
 
 handle_call(join_lobby, _From, State) ->
     Token = helpers:get_new_token(),
+    back_up(State),
     {reply, {ok, Token}, State};
 
 handle_call({join_table, Table}, From, State) ->
@@ -68,19 +81,23 @@ handle_call({join_table, Table}, From, State) ->
     case lists:keyfind(Table, 1, Tables) of
         {_TableID, TablePID} ->
             ggs_table:add_player(TablePID, FromPlayer),
+            back_up(State),
             {reply, {ok, TablePID}, State}; 
         false ->
+            back_up(State),
             {reply, {error, no_such_table}, State}
     end;
 
 handle_call({create_table, {force, TableID}}, From, State) ->
     TableIDMap          = State#co_state.player_table_map,
     Tables              = State#co_state.tables,
-    NewTableProc        = ggs_table:start_link(),
-    {reply, {ok, TableID}, State#co_state{
-                                        player_table_map = [{From, TableID} | TableIDMap],
-                                        tables           = [{TableID, NewTableProc} | Tables]
-                                        }};
+    NewTableProc        = ggs_table:start(), % With start_link, the table dies with the coordinator
+    NewState = State#co_state{
+                            player_table_map = [{From, TableID} | TableIDMap],
+                            tables           = [{TableID, NewTableProc} | Tables]
+                            },
+    back_up(NewState),
+    {reply, {ok, TableID}, NewState};
 
 handle_call(_Message, _From, State) ->
     {noreply, State}.

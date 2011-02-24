@@ -11,7 +11,7 @@
 -record(state, { players, game_vm } ).
 
 %% API
--export([start_link/0,
+-export([start/0,
 	add_player/2,
 	remove_player/2,
 	stop/1,
@@ -24,8 +24,8 @@
 % API implementation
 
 % @doc returns a new table
-start_link() ->
-    {ok, Pid} = gen_server:start_link(?MODULE, [], []),
+start() ->
+    {ok, Pid} = gen_server:start(?MODULE, [], []),
 	Pid.
 
 %% @private
@@ -56,14 +56,13 @@ notify_all_players(Table, Message) ->
     gen_server:cast(Table, {notify_all_players, Message}).
 
 notify_game(Table, From, Message) ->
-    erlang:display(Table),
-    io:format("~n"),
     gen_server:cast(Table, {notify_game, Message, From}).
 
 %% ----------------------------------------------------------------------
 
 %% @private
 init([]) ->
+    process_flag(trap_exit, true),
     GameVM = ggs_gamevm_e:start_link(self()), %% @TODO: Temporary erlang gamevm
     {ok, #state { 
 		  game_vm = GameVM,

@@ -18,10 +18,10 @@ test:
 	mkdir -p $(BEAMDIR) ;
 ifeq ($(strip $(MOD)),)
 	$(ERLC) $(ERLCFLAGS) $(BEAMDIR) $(TESTDIR)/*.erl ;
-	cd $(BEAMDIR) ; erl -noinput -eval 'eunit:test({dir, "."}, [verbose]), init:stop()' ;
+	cd $(BEAMDIR) ; erl -noinput -pa ../erlang_js/ebin -eval 'eunit:test({dir, "."}, [verbose]), init:stop()' ;
 else
 	$(ERLC) $(ERLCFLAGS) $(BEAMDIR) $(TESTDIR)/$(MOD)_test.erl ;
-	cd $(BEAMDIR) ; erl -noinput -eval 'eunit:test($(MOD)_test, [verbose]), init:stop()' ;
+	cd $(BEAMDIR) ; erl -noinput -pa ../erlang_js/ebin -eval 'eunit:test($(MOD)_test, [verbose]), init:stop()' ;
 endif
 
 clean:

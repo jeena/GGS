@@ -33,6 +33,8 @@ handle([[]]) ->
     {separator, data_next};
 handle(["Server-Command", Param]) ->
     {{srv_cmd, Param}, more};
+handle(["Game-Command", Param]) ->
+    {{game_cmd, Param}, more};
 handle(["Content-Length", Param]) ->
     {{content_len, Param}, more};
 handle(["Token", Param]) ->
@@ -47,11 +49,11 @@ handle_data(Data, Length) ->
 prettify({Args, Data}) ->
     case lists:keyfind(srv_cmd, 1, Args) of
         {_, Value} ->
-            gen_server:cast(ggs_server, {srv_cmd, Value, Args, Data});
+            {srv_cmd, Value, Args, Data};
         _Other ->
             case lists:keyfind(game_cmd, 1, Args) of
                 {_, Value} ->
-                    gen_server:cast(ggs_server, {game_cmd, Value, Args, Data});
+                    {game_cmd, Value, Args, Data};
                 _ ->
                     ok
             end

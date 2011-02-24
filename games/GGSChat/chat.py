@@ -26,6 +26,7 @@ class GGSChat:
         dic = {"on_window1_destroy_event" : gtk.main_quit
             , "on_sendButton_clicked" : lambda x: self.chat()
             , "on_entry_activate"   : lambda x : self.chat()
+            , "on_nickBox_activate"   : lambda x : self.changeNick()
             , "on_chatBox_focus" : lambda x, y: self.wTree.get_widget("entry").grab_focus()
             }
 
@@ -34,9 +35,20 @@ class GGSChat:
         self.wTree.get_widget("nickBox").set_text(getpass.getuser())
         self.wTree.get_widget("window1").show()
         self.wTree.get_widget("entry").grab_focus()
+        self.changeNick()
 
     def setStatus(self, msg):
         self.wTree.get_widget("statusbar").push(0, msg)
+
+    def changeNick(self):
+        params = self.wTree.get_widget("nickBox").get_text()
+        self.s.send("Game-Command: nick\n" +
+            "Token: %s\n" % self.token +
+            "Content-Type: text\n" +
+            "Content-Length: %s\n" % len(params)+
+            "\n"+
+            params)
+
 
     def chat(self):
         exp = self.wTree.get_widget("entry").get_text()
@@ -45,14 +57,13 @@ class GGSChat:
             cmdStr = exp[1:].split(" ")
             cmd = cmdStr[0]
             params = ' '.join(cmdStr[1:])
-            self.s.send("Game-Command: %s\n" % exp[1:] +
+            self.s.send("Game-Command: %s\n" % cmd +
                 "Token: %s\n" % self.token +
                 "Content-Type: text\n" +
                 "Content-Length: %s\n" % len(params)+
                 "\n"+
                 params)
         else:
-            exp = "<%s> %s" % (nick, exp)
             self.s.send("Game-Command: chat\n"+
                 "Token: %s\n" % self.token +
                 "Content-Type: text\n"+

@@ -1,9 +1,3 @@
-%%%%----------------------------------------------------
-%%% @author     Mattias Pettersson <mattiaspgames@gmail.com>
-%%% @copyright  2011 Mattias Pettersson
-%%% @doc        Database for runtime game variable storage.
-%%% @end
-
 -module(ggs_db).
 -export([init/0,stop/0,setItem/4,getItem/3,removeItem/3,key/3,clear/2,clear/1,length/2]).
 %-include("ggs_db.hrl").

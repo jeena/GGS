@@ -38,6 +38,7 @@
                 <property name="invisible_char">•</property>
                 <property name="width_chars">10</property>
                 <property name="text" translatable="yes">Anonymous</property>
+                <signal name="activate" handler="on_nickBox_activate"/>
               </widget>
               <packing>
                 <property name="expand">False</property>

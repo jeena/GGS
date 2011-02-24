@@ -46,14 +46,17 @@ do_stuff(Command, Args, Player, Table) ->
         "greet" ->
             ggs_player:notify(Player, server, "Hello there!\n");
         "chat" ->
-            ggs_table:notify_all_players(Table, Args ++ "\n");
+            Nick = ggs_db:getItem(Table, nicks, Player),
+            ggs_table:notify_all_players(Table, "<"++Nick++"> "++ Args ++ "\n");
         "uname" ->
             Uname = os:cmd("uname -a"),
             ggs_player:notify(Player, server, Uname);
         "lusers" ->
            {ok, Players} = ggs_table:get_player_list(Table),
-           ggs_player:notify(Player, server,io_lib:format("~p\n",[Players]));
+           Nicks = lists:map(fun (P) -> ggs_db:getItem(Table, nicks, P) end, Players),
+           ggs_player:notify(Player, server,io_lib:format("~p\n",[Nicks]));
         "nick" ->
+            ggs_db:setItem(Table,nicks,Player,Args),
             io:format("Changing nickname of ~p to ~p.", [Player, Args]);
         _Other ->
             ggs_player:notify(Player, server, "I don't know that command..\n")

@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-erl -boot start_sasl -pa ebin_test -pa erlang_js/ebin/ -pa erlv8/ebin -pa ebin -pa src

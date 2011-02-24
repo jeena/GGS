@@ -2,3 +2,4 @@
 *.dump
 *.beam
 Mnesia.*
+*.swo

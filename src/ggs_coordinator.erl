@@ -28,15 +28,6 @@ stop(Reason) ->
 
 %% @doc Joins table with specified token, returns {error, no_such_table}
 %% if the specified table token does not exist
-join_table(Token) ->
-    gen_server:call(ggs_coordinator, {join_table, Token}). 
-
-%% @doc Create a new table, return {error, Reason} or {ok, TableToken} 
-create_table(Params) ->
-    gen_server:call(ggs_coordinator, {create_table, Params}). 
-
-%% @doc This is the first function run by a newly created players. 
-%%	Generates a unique token that we use to identify the player.
 join_lobby() -> 
     gen_server:call(ggs_coordinator, join_lobby). 
 
@@ -85,13 +76,8 @@ handle_call({create_table, {force, TableID}}, From, State) ->
 handle_call(_Message, _From, State) ->
     {noreply, State}.
 
-handle_cast({stop, _Reason}, State) ->
-    {stop, normal, State};
-
-%% @TODO: Implement me
-%handle_cast({remove_player, Player}) ->
-%    {noreply, State#co_state{
-                                
+handle_cast({stop, _Reason}, _State) ->
+    {stop, normal, state};
 
 handle_cast(_Message, State) ->
     {noreply, State}.

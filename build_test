@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-./build
-
-for i in `find tests -name "*.erl"`
-do
-	erlc -o ebin_test $i
-done

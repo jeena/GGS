@@ -1,3 +1,35 @@
 GGS is a Generic Game Server
 
 Check out http://ggs-kandidat.blogspot.com/
+
+PREREQUISITES:
+python version 2.x set to default.
+
+INSTALL
+1.  cd into directory where you to have the project
+2.  git clone git@github.com:jeena/GGS.git (remember to have a local key)
+3.  cd GGS/
+4.  git submodule init
+5.  git submodule update
+
+USAGE
+1. start a second terminal
+2. in new terminal do command: ./python_client 9000
+3. back to first terminal
+4. make run
+
+MAKE
+To compile modules (even erlang_js):
+ make
+
+To run server:
+ make run
+
+To clean (even erlang_js):
+ make clean
+
+To compile and run all tests:
+ make test
+
+To compile and run one test:
+ make test MOD=ggs_modulename # (must have /tests/ggs_modulename_test.erl)

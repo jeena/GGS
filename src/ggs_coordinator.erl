@@ -91,7 +91,6 @@ handle_cast({stop, _Reason}, State) ->
 %% @TODO: Implement me
 %handle_cast({remove_player, Player}) ->
 %    {noreply, State#co_state{
-                                
 
 handle_cast(_Message, State) ->
     {noreply, State}.

@@ -33,9 +33,28 @@ user_command(GameVM, Player, Command, Args) ->
 loop(Table) ->
     receive
         {define, _SourceCode} ->
+            io:format("GameVM_e can't define functions, sorry!~n"),
             loop(Table); 
-        {user_command, _User, Command, _Args, _From, _Ref} ->
-            io:format("GameVM received a message~n"),
-            ggs_table:notify_all_players(Table, Command), 
+        {user_command, Player, Command, Args, _From, _Ref} ->
+            erlang:display(Command),
+            do_stuff(Command, Args, Player, Table),
             loop(Table)
+    end.
+
+do_stuff(Command, Args, Player, Table) ->
+    case Command of
+        "greet" ->
+            ggs_player:notify(Player, server, "Hello there!\n");
+        "chat" ->
+            ggs_table:notify_all_players(Table, Args ++ "\n");
+        "uname" ->
+            Uname = os:cmd("uname -a"),
+            ggs_player:notify(Player, server, Uname);
+        "lusers" ->
+           {ok, Players} = ggs_table:get_player_list(Table),
+           ggs_player:notify(Player, server,io_lib:format("~p\n",[Players]));
+        "nick" ->
+            io:format("Changing nickname of ~p to ~p.", [Player, Args]);
+        _Other ->
+            ggs_player:notify(Player, server, "I don't know that command..\n")
     end.

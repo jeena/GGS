@@ -5,7 +5,8 @@
 
 %% gen_server callbacks
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
-         terminate/2, code_change/3]).
+         terminate/2, code_change/3, notify_all_players/2, notify_game/3,
+         get_player_list/1]).
 
 -record(state, { players, game_vm } ).
 
@@ -39,6 +40,10 @@ add_player(Table, Player) ->
 remove_player(Table, Player) ->
 	call(Table, {remove_player, Player}).
 
+%% @doc Get a list of all player processes attached to this table
+get_player_list(Table) ->
+    gen_server:call(Table, get_player_list).
+
 % @doc stops the table process
 stop(Table) ->
     gen_server:cast(Table, stop).
@@ -51,6 +56,8 @@ notify_all_players(Table, Message) ->
     gen_server:cast(Table, {notify_all_players, Message}).
 
 notify_game(Table, From, Message) ->
+    erlang:display(Table),
+    io:format("~n"),
     gen_server:cast(Table, {notify_game, Message, From}).
 
 %% ----------------------------------------------------------------------
@@ -79,15 +86,14 @@ handle_call(Msg, _From, State) ->
 %% @private
 handle_cast({notify, Player, Message}, #state { game_vm = GameVM } = State) ->
     case Message of
-	{server, define, Args} ->
-	    ggs_gamevm_e:define(GameVM, Args);
-	{game, Command, Args} ->
-	    ggs_gamevm_e:user_command(GameVM, Player, Command, Args)
+        {server, define, Args} ->
+            ggs_gamevm_e:define(GameVM, Args);
+        {game, Command, Args} ->
+            ggs_gamevm_e:user_command(GameVM, Player, Command, Args)
     end,
     {noreply, State};
 
 handle_cast({notify_game, Message, From}, #state { game_vm = GameVM } = State) ->
-    io:format("notify_game message received~n"),
     ggs_gamevm_e:user_command(GameVM, From, Message, ""),
     {noreply, State};
 

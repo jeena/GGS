@@ -7,50 +7,56 @@ PORT = int(sys.argv[1]) # The same port as used by the server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 
-# Say hello 
+# Define ourselves a function!
+token = s.recv(1024)
 
-print "Saying hello to server"
+#print "Defining a function called myFun"
+#s.send(
+#"Token: %s\n\
+#Server-Command: define\n\
+#Content-Type: text\n\
+#Content-Length: 49\n\
+#\n\
+#function myFun() {return 'Hello World!' ;}" % token)
+#fs = s.makefile()
+#data = fs.readline()
+#print "Token:", token
+#print "Data: ", ' '.join(data.split(" ")[1:])
+
+# Call that function!
+fs = s.makefile()
+print "Token: ", token
 s.send(
-"Server-Command: hello\n\
+"Token: %s\n\
+Game-Command: greet\n\
 Content-Type: text\n\
 Content-Length: 0\n\
 \n\
-")
-fs = s.makefile()
-data = fs.readline()
-token = data.split(" ")[0]
-print "Token:", token
-print "Data: ", ' '.join(data.split(" ")[1:])
+" % token)
+time.sleep(1)
 
-# Define ourselves a function!
-
-print "Defining a function called myFun"
 s.send(
 "Token: %s\n\
-Server-Command: define\n\
+Game-Command: uname\n\
 Content-Type: text\n\
-Content-Length: 49\n\
+Content-Length: 0\n\
 \n\
-function myFun() {return 'Hello World!' ;}" % token)
-fs = s.makefile()
-data = fs.readline()
-print "Token:", token
-print "Data: ", ' '.join(data.split(" ")[1:])
+" % token)
+time.sleep(1)
 
-# Call that function!
-
-print "Calling myFun"
 s.send(
 "Token: %s\n\
-Server-Command: call\n\
+Game-Command: chat\n\
 Content-Type: text\n\
-Content-Length: 6\n\
+Content-Length: 23\n\
 \n\
-myFun" % token)
-fs = s.makefile()
-data = fs.readline()
-print "Token:", token
-print "Data: ", ' '.join(data.split(" ")[1:])
+Hello guys, what's up?\n" % token)
+time.sleep(1)
+
+
+while True:
+    data = fs.readline()
+    print "Data: ", data
 
 s.close()
 

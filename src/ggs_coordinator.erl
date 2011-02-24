@@ -50,6 +50,7 @@ respawn_table(_Token) ->
 
 %% @doc Removes a player from coordinator.
 remove_player(_From, _Player) -> 
+    %gen_server:cast(ggs_coordinator, {remove_player, Player}).
     ggs_logger:not_implemented().
 
 %% gen_server callbacks
@@ -84,8 +85,12 @@ handle_call({create_table, {force, TableID}}, From, State) ->
 handle_call(_Message, _From, State) ->
     {noreply, State}.
 
-handle_cast({stop, _Reason}, _State) ->
-    {stop, normal, state};
+handle_cast({stop, _Reason}, State) ->
+    {stop, normal, State};
+
+%% @TODO: Implement me
+%handle_cast({remove_player, Player}) ->
+%    {noreply, State#co_state{
 
 handle_cast(_Message, State) ->
     {noreply, State}.

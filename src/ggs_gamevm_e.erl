@@ -54,7 +54,7 @@ do_stuff(Command, Args, Player, Table) ->
         "lusers" ->
            {ok, Players} = ggs_table:get_player_list(Table),
            Nicks = lists:map(fun (P) -> ggs_db:getItem(Table, nicks, P) end, Players),
-           ggs_player:notify(Player, server,io_lib:format("~p\n",[Nicks]));
+           ggs_player:notify(Player, server,io_lib:format("LUSERS ~p\n",[Nicks]));
         "nick" ->
             ggs_db:setItem(Table,nicks,Player,Args),
             io:format("Changing nickname of ~p to ~p.", [Player, Args]);

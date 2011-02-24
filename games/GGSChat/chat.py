@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, socket, thread, gobject, getpass
+import sys, socket, thread, gobject, getpass, time
 try:
  	import pygtk
   	pygtk.require("2.16")
@@ -16,12 +16,14 @@ class GGSChat:
 
     def __init__(self,host, port):	
         #Set the Glade file
+        self.nicksListStore = gtk.ListStore(str)
         self.gladefile = "ggschat.glade"  
         self.wTree = gtk.glade.XML(self.gladefile, "window1") 
 
         self.setStatus("Not connected")
         self.connect(host, port)
         thread.start_new_thread(self.listenChat, ())
+        thread.start_new_thread(self.luserCheck, ())
         #Create our dictionay and connect it
         dic = {"on_window1_destroy_event" : gtk.main_quit
             , "on_sendButton_clicked" : lambda x: self.chat()
@@ -35,7 +37,15 @@ class GGSChat:
         self.wTree.get_widget("nickBox").set_text(getpass.getuser())
         self.wTree.get_widget("window1").show()
         self.wTree.get_widget("entry").grab_focus()
+        nicksList = self.wTree.get_widget("nicksList")
         self.changeNick()
+        nicksList.set_model(self.nicksListStore)
+#        self.nicksListStore.append(["Test!"])
+       
+        rendererText = gtk.CellRendererText()
+        column = gtk.TreeViewColumn("Participants", rendererText, text=0)
+        column.set_sort_column_id(0)    
+        nicksList.append_column(column)
 
     def setStatus(self, msg):
         self.wTree.get_widget("statusbar").push(0, msg)
@@ -90,10 +100,30 @@ class GGSChat:
         while True:
             line    = fs.readline()
             print "Received: ", line
-            gobject.idle_add(self.updateChatText, line)
+            if line.split(" ")[0] == "LUSERS":
+                gobject.idle_add(self.updateUsers, line)
+            else:
+                gobject.idle_add(self.updateChatText, line)
 
     def updateChatText(self, text):
         self.wTree.get_widget("chatBox").get_buffer().insert_at_cursor(text)
+
+    def luserCheck(self):
+        while True:
+            self.s.send("Game-Command: lusers\n" +
+                "Token: %s\n" % self.token +
+                "Content-Type: text\n" +
+                "Content-Length: 0\n"+
+                "\n")
+            time.sleep(2)
+
+    def updateUsers(self, text):
+        nicks = ' '.join(text.split(" ")[1:])
+        evalNicks = eval(nicks)
+        self.nicksListStore.clear()
+        for nick in evalNicks:
+            self.nicksListStore.append([nick])
+
 if __name__ == "__main__":
     host = "localhost"
     port = 9000

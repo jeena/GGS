@@ -25,11 +25,11 @@ class GGSChat:
         thread.start_new_thread(self.listenChat, ())
         thread.start_new_thread(self.luserCheck, ())
         #Create our dictionay and connect it
-        dic = {"on_window1_destroy_event" : gtk.main_quit
-            , "on_sendButton_clicked" : lambda x: self.chat()
-            , "on_entry_activate"   : lambda x : self.chat()
-            , "on_nickBox_activate"   : lambda x : self.changeNick()
-            , "on_chatBox_focus" : lambda x, y: self.wTree.get_widget("entry").grab_focus()
+        dic = {"on_window1_destroy_event"   : gtk.main_quit
+            , "on_sendButton_clicked"       : lambda x: self.chat()
+            , "on_entry_activate"           : lambda x : self.chat()
+            , "on_nickBox_activate"         : lambda x : self.changeNick()
+            , "on_chatBox_focus"            : lambda x, y: self.wTree.get_widget("entry").grab_focus()
             }
 
         self.wTree.signal_autoconnect(dic)

@@ -1,5 +1,5 @@
 -module(ggs_gamevm_e).
--export([start_link/1, define/2, user_command/4]).
+-export([start_link/1, define/2, player_command/4]).
 %% @doc This module is responsible for running the game VM:s. You can issue
 %% commands to a vm using this module.
 
@@ -16,16 +16,16 @@ define(GameVM, SourceCode) ->
     GameVM ! {define,SourceCode},
     ok.
 
-%% @doc Execute a user command on the specified VM. This function is
+%% @doc Execute a player command on the specified VM. This function is
 %% asynchronous, and returns ok.
-%% @spec user_command(GameVM, User, Command, Args) -> ok
+%% @spec player_command(GameVM, User, Command, Args) -> ok
 %%      GameVM  = process IS of VM
 %%      Player  = the player running the command
 %%      Command = a game command to run
 %%      Args    = arguments for the Command parameter
-user_command(GameVM, Player, Command, Args) ->
+player_command(GameVM, Player, Command, Args) ->
     Ref = make_ref(),
-    GameVM ! {user_command, Player, Command, Args, self(), Ref},
+    GameVM ! {player_command, Player, Command, Args, self(), Ref},
     ok.
 
 %% Helper functions
@@ -35,7 +35,7 @@ loop(Table) ->
         {define, _SourceCode} ->
             io:format("GameVM_e can't define functions, sorry!~n"),
             loop(Table); 
-        {user_command, Player, Command, Args, _From, _Ref} ->
+        {player_command, Player, Command, Args, _From, _Ref} ->
             erlang:display(Command),
             do_stuff(Command, Args, Player, Table),
             loop(Table)

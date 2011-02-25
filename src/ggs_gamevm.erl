@@ -11,7 +11,7 @@
 -record(state, { port, table } ).
 
 %% API
--export([start_link/1, define/2, user_command/4, stop/1, call_js/2]).
+-export([start_link/1, define/2, player_command/4, stop/1, call_js/2]).
 
 -include_lib("eunit/include/eunit.hrl").
 
@@ -30,15 +30,15 @@ start_link(Table) ->
 define(GameVM, SourceCode) ->
     gen_server:cast(GameVM, {define, SourceCode}).
 
-%% @doc Execute a user command on the specified VM. This function is
+%% @doc Execute a player command on the specified VM. This function is
 %% asynchronous, and returns ok.
-%% @spec user_command(GameVM, User, Command, Args) -> ok
+%% @spec player_command(GameVM, User, Command, Args) -> ok
 %%      GameVM  = process IS of VM
 %%      Player  = the player running the command
 %%      Command = a game command to run
 %%      Args    = arguments for the Command parameter
-user_command(GameVM, Player, Command, Args) ->
-    gen_server:cast(GameVM, {user_command, Player, Command, Args}).
+player_command(GameVM, Player, Command, Args) ->
+    gen_server:cast(GameVM, {player_command, Player, Command, Args}).
 
 %% @private
 % only for tests
@@ -57,6 +57,8 @@ init([Table]) ->
     process_flag(trap_exit, true),
     {ok, Port} = js_driver:new(),
     %% @TODO: add here default JS API instead
+	{ok, JSAPISourceCode} = file:read_file("ggs_api.js"),
+	ok = js:define(Port, JSAPISourceCode),
     {ok, #state { port = Port, table = Table }}.
 
 %% private
@@ -69,10 +71,10 @@ handle_call({eval, SourceCode}, _From, #state { port = Port } = State) ->
 handle_cast({define, SourceCode}, #state { port = Port } = State) ->
     ok = js:define(Port, list_to_binary(SourceCode)),
     {noreply, State};
-handle_cast({user_command, Player, Command, Args}, #state { port = Port } = State) ->
+handle_cast({player_command, Player, Command, Args}, #state { port = Port } = State) ->
     Arguments = string:concat("'", string:concat(
 		string:join([js_escape(Player), js_escape(Command), js_escape(Args)], "','"), "'")),
-    Js = list_to_binary(string:concat(string:concat("userCommand(", Arguments), ");")),
+    Js = list_to_binary(string:concat(string:concat("playerCommand(", Arguments), ");")),
     js_driver:define_js(Port, Js),
     {noreply, State};
 handle_cast(stop, State) ->

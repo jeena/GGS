@@ -13,8 +13,6 @@
 %% API
 -export([start_link/1, define/2, player_command/4, stop/1, call_js/2]).
 
--include_lib("eunit/include/eunit.hrl").
-
 
 %% ----------------------------------------------------------------------
 % API implementation
@@ -56,8 +54,8 @@ stop(GameVM) ->
 init([Table]) ->
     process_flag(trap_exit, true),
     {ok, Port} = js_driver:new(),
-    %% @TODO: add here default JS API instead
-	{ok, JSAPISourceCode} = file:read_file("ggs_api.js"),
+%    %% @TODO: add here default JS API instead
+	{ok, JSAPISourceCode} = file:read_file("src/ggs_api.js"),
 	ok = js:define(Port, JSAPISourceCode),
     {ok, #state { port = Port, table = Table }}.
 

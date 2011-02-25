@@ -10,22 +10,23 @@
 -record(state, { players, game_vm } ).
 
 %% API
--export([start/0,
+-export([start/1,
 	add_player/2,
 	remove_player/2,
 	stop/1,
 	notify/3,
 	notify_all_players/2,
 	notify_game/3,
-	get_player_list/1]).
+	get_player_list/1,
+    notify_player/4]).
 
 
 %% ----------------------------------------------------------------------
 % API implementation
 
 % @doc returns a new table
-start() ->
-    {ok, Pid} = gen_server:start(?MODULE, [], []),
+start(Token) ->
+    {ok, Pid} = gen_server:start(?MODULE, [Token], []),
 	Pid.
 
 %% @private
@@ -41,22 +42,32 @@ remove_player(Table, Player) ->
 	call(Table, {remove_player, Player}).
 
 %% @doc Get a list of all player processes attached to this table
-get_player_list(Table) ->
-    gen_server:call(Table, get_player_list).
+get_player_list(TableToken) ->
+    TablePid = ggs_coordinator:table_token_to_pid(TableToken),
+    gen_server:call(TablePid, get_player_list).
 
 % @doc stops the table process
 stop(Table) ->
     gen_server:cast(Table, stop).
 
 % @doc notifies the table with a message from a player
-notify(Table, Player, Message) ->
-    gen_server:cast(Table, {notify, Player, Message}).
+notify(TablePid, Player, Message) ->
+    %TablePid = ggs_coordinator:table_token_to_pid(TableToken),
+    gen_server:cast(TablePid, {notify, Player, Message}).
 
-notify_all_players(Table, Message) ->
-    gen_server:cast(Table, {notify_all_players, Message}).
+notify_all_players(TableToken, Message) ->
+    TablePid = ggs_coordinator:table_token_to_pid(TableToken),
+    gen_server:cast(TablePid, {notify_all_players, Message}).
 
-notify_game(Table, From, Message) ->
-    gen_server:cast(Table, {notify_game, Message, From}).
+notify_game(TablePid, From, Message) ->
+    TableToken = ggs_coordinator:table_pid_to_token(TablePid),
+    gen_server:cast(TableToken, {notify_game, Message, From}).
+
+%% @doc Notify a player sitting at this table with the message supplied.
+%% Player, Table and From are in token form.
+notify_player(TableToken, Player, From, Message) ->
+    TablePid = ggs_coordinator:table_token_to_pid(TableToken),
+    gen_server:cast(TablePid, {notify_player, Player, From, Message}).
 
 send_command(TableToken, PlayerToken, Command, Args) ->
 	gen_logger:not_implemented().
@@ -68,9 +79,9 @@ send_command_to_all(TableToken, Command, Args) ->
 %% ----------------------------------------------------------------------
 
 %% @private
-init([]) ->
+init([TableToken]) ->
     process_flag(trap_exit, true),
-    GameVM = ggs_gamevm:start_link(self()),
+    GameVM = ggs_gamevm_e:start_link(TableToken),
     {ok, #state { 
 		  game_vm = GameVM,
 		  players = [] }}.
@@ -93,14 +104,14 @@ handle_call(Msg, _From, State) ->
 handle_cast({notify, Player, Message}, #state { game_vm = GameVM } = State) ->
     case Message of
         {server, define, Args} ->
-            ggs_gamevm:define(GameVM, Args);
+            ggs_gamevm_e:define(GameVM, Args);
         {game, Command, Args} ->
-            ggs_gamevm:player_command(GameVM, Player, Command, Args)
+            ggs_gamevm_e:player_command(GameVM, Player, Command, Args)
     end,
     {noreply, State};
 
 handle_cast({notify_game, Message, From}, #state { game_vm = GameVM } = State) ->
-    ggs_gamevm:player_command(GameVM, From, Message, ""),
+    ggs_gamevm_e:player_command(GameVM, From, Message, ""),
     {noreply, State};
 
 handle_cast({notify_all_players, Message}, #state{players = Players} = State) ->
@@ -108,6 +119,10 @@ handle_cast({notify_all_players, Message}, #state{players = Players} = State) ->
         fun(P) -> ggs_player:notify(P, "Server", Message) end,
         Players
     ),
+    {noreply, State};
+
+handle_cast({notify_player, Player, From, Message}, State) ->
+    ggs_player:notify(Player, From, Message),
     {noreply, State};
 
 handle_cast(stop, State) ->

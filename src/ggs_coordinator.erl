@@ -1,8 +1,17 @@
 -module(ggs_coordinator).
 
 %% API Exports
--export([start_link/0, stop/1, join_table/1, create_table/1, join_lobby/0,
-         respawn_player/2, respawn_table/1, remove_player/2, get_all_players/0]).
+-export([   start_link/0, 
+            stop/1, 
+            join_table/1, 
+            create_table/1, 
+            join_lobby/0,
+            respawn_player/2, 
+            respawn_table/1, 
+            remove_player/2, 
+            get_all_players/0,
+            table_token_to_pid/1,
+            table_pid_to_token/1]).
 
 %% gen_server callback exports
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, 
@@ -56,6 +65,15 @@ remove_player(_From, _Player) ->
 get_all_players() ->
     gen_server:call(?SERVER, get_all_players).
 
+
+%% Conversion tools
+
+table_token_to_pid(Token) ->
+    gen_server:call(?SERVER, {table_token_to_pid, Token}).
+
+table_pid_to_token(Pid) ->
+    gen_server:call(?SERVER, {table_pid_to_token, Pid}).
+
 %% Just to shorten the name
 back_up(State) ->
     ggs_coordinator_backup:back_up(State),
@@ -91,19 +109,30 @@ handle_call({join_table, Table}, From, State) ->
             {reply, {error, no_such_table}, State}
     end;
 
-handle_call({create_table, {force, TableID}}, From, State) ->
+handle_call({create_table, {force, TableToken}}, From, State) ->
     TableIDMap          = State#co_state.player_table_map,
     Tables              = State#co_state.tables,
-    NewTableProc        = ggs_table:start(), % With start_link, the table dies with the coordinator
+    NewTableProc        = ggs_table:start(TableToken), % With start_link, the table dies with the coordinator
     NewState = State#co_state{
-                            player_table_map = [{From, TableID} | TableIDMap],
-                            tables           = [{TableID, NewTableProc} | Tables]
+                            player_table_map = [{From, TableToken} | TableIDMap],
+                            tables           = [{TableToken, NewTableProc} | Tables]
                             },
     back_up(NewState),
-    {reply, {ok, TableID}, NewState};
+    {reply, {ok, TableToken}, NewState};
 
 handle_call(get_all_players, _From, State) ->
     {reply, State#co_state.players, State};
+
+%% Conversion tools
+handle_call({table_token_to_pid, Token}, _From, State) ->
+    Tables = State#co_state.tables,
+    {_, Pid} = lists:keyfind(Token, 1, Tables),
+    {reply, Pid, State};
+
+handle_call({table_pid_to_token, Pid}, _From, State) ->
+    Tables = State#co_state.tables,
+    {Token, _} = lists:keyfind(Pid, 2, Tables),
+    {reply, Token, State};
 
 handle_call(_Message, _From, State) ->
     {noreply, State}.

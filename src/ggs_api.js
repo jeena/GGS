@@ -61,15 +61,15 @@ function _GGS(tableToken) {
 	var tableToken = this.tableToken;
 	this.__defineGetter__("tableToken", function() {
 		return tableToken;
-	})
+	});
 	
 }
-
+/*
 function _GGS.prototype.sendCommandToAll(command, args) {
 	var message = "{" + command + "," + args + "}";
 	callErlang("ggs_table send_command_to_all " + escapeErlang([this.tableToken, message]));
 }
-
+*/
 function _GGS.prototype.serverLog(message) {
 	callErlang("error_logger info_msg " + escapeErlang([message]))
 }

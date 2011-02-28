@@ -1,46 +1,46 @@
+function Storage(type) {
+	if (type == "world" || type == "localStorage" || type == "players") {
+		this.type = type;
+		this.tableToken = tableToken;
+		var self = this;
+
+		return {
+			setItem: function(key, value) {
+				if(this.type != "players")
+					callErlang("ggs_db setItem " + escapeErlang([self.tableToken, self.type, key, value]));
+				else
+					throw "No such method setItem()";
+			},
+			getItem: function(key) {
+				return callErlang("ggs_db getItem " + escapeErlang([self.tableToken, self.type, key]));
+			},
+			key: function(position) {
+				return callErlang("ggs_db key " + escapeErlang([self.tableToken, self.type, position]));
+			},
+			length: {
+				get: function() {
+					return callErlang("ggs_db length " + escapeErlang([self.tableToken, self.type]));
+				}
+			},
+			removeItem: function(key) {
+				if(this.type != "players")
+					callErlang("ggs_db removeItem " + escapeErlang([self.tableToken, self.type, key]));
+				else
+					throw "No such method removeItem()";
+			},
+			clear: function() {
+				if(this.type != "players")
+					callErlang("ggs_db clear " + escapeErlang([self.tableToken, self.type]));
+				else
+					throw "No such method clear()";
+			}
+		}
+	} else throw "GGS: No such storage available " + type;
+}
+
 function _GGS(tableToken) {
 	
 	this.tableToken = tableToken;
-	
-	function Storage(type) {
-		if (type == "world" || type == "localStorage" || type == "players") {
-			this.type = type;
-			this.tableToken = tableToken;
-			var self = this;
-
-			return {
-				setItem: function(key, value) {
-					if(this.type != "players")
-						callErlang("ggs_db setItem " + escapeErlang([self.tableToken, self.type, key, value]));
-					else
-						throw "No such method setItem()";
-				},
-				getItem: function(key) {
-					return callErlang("ggs_db getItem " + escapeErlang([self.tableToken, self.type, key]));
-				},
-				key: function(position) {
-					return callErlang("ggs_db key " + escapeErlang([self.tableToken, self.type, position]));
-				},
-				length: {
-					get: function() {
-						return callErlang("ggs_db length " + escapeErlang([self.tableToken, self.type]));
-					}
-				},
-				removeItem: function(key) {
-					if(this.type != "players")
-						callErlang("ggs_db removeItem " + escapeErlang([self.tableToken, self.type, key]));
-					else
-						throw "No such method removeItem()";
-				},
-				clear: function() {
-					if(this.type != "players")
-						callErlang("ggs_db clear " + escapeErlang([self.tableToken, self.type]));
-					else
-						throw "No such method clear()";
-				}
-			}
-		} else throw "GGS: No such storage available " + type;
-	}
 		
 	var world = new Storage("world");
 	this.__defineGetter__("world", function() {
@@ -64,23 +64,21 @@ function _GGS(tableToken) {
 	});
 	
 }
-/*
-function _GGS.prototype.sendCommandToAll(command, args) {
+
+_GGS.prototype.sendCommandToAll = function(command, args) {
 	var message = "{" + command + "," + args + "}";
 	callErlang("ggs_table send_command_to_all " + escapeErlang([this.tableToken, message]));
 }
-*/
-function _GGS.prototype.serverLog(message) {
+
+_GGS.prototype.serverLog = function(message) {
 	callErlang("error_logger info_msg " + escapeErlang([message]))
 }
 
 function escapeErlang(args) {
 	var str = JSON.stringify(args);
 	str = str.replace("'", "\\\'");
-	return "'" + str "'";
+	return "'" + str + "'";
 }
-
-
 
 function Player(token) {
 	
@@ -98,7 +96,7 @@ function Player(token) {
 
 
 
-
+/*
 // ------------ Player stuff -------------
 // TODO: remove this later on
 
@@ -175,3 +173,4 @@ function listUsers(player) {
 	}
 	player.sendCommand("nicklist", nicks_a.join(","));
 }
+*/

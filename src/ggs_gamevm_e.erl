@@ -41,23 +41,23 @@ loop(Table) ->
             loop(Table)
     end.
 
-do_stuff(Command, Args, Player, Table) ->
+do_stuff(Command, Args, PlayerToken, Table) ->
     case Command of
         "greet" ->
-            ggs_table:notify_player(Table, Player, server, "Hello there!\n");
+            ggs_table:notify_player(Table, PlayerToken, server, "Hello there!\n");
         "chat" ->
-            Nick = ggs_db:getItem(Table, nicks, Player),
+            Nick = ggs_db:getItem(Table, nicks, PlayerToken),
             ggs_table:notify_all_players(Table, "<"++Nick++"> "++ Args ++ "\n");
         "uname" ->
             Uname = os:cmd("uname -a"),
-            ggs_table:notify_player(Table, Player, server, Uname);
+            ggs_table:notify_player(Table, PlayerToken, server, Uname);
         "lusers" ->
            {ok, Players} = ggs_table:get_player_list(Table),
            Nicks = lists:map(fun (P) -> ggs_db:getItem(Table, nicks, P) end, Players),
-           ggs_table:notify_player(Table, Player, server,io_lib:format("LUSERS ~p\n",[Nicks]));
+           ggs_table:notify_player(Table, PlayerToken, server,io_lib:format("LUSERS ~p\n",[Nicks]));
         "nick" ->
-            ggs_db:setItem(Table,nicks,Player,Args),
-            io:format("Changing nickname of ~p to ~p.", [Player, Args]);
+            ggs_db:setItem(Table,nicks,PlayerToken,Args),
+            io:format("Changing nickname of ~p to ~p.", [PlayerToken, Args]);
         _Other ->
-            ggs_table:notify_player(Table, Player, server, "I don't know that command..\n")
+            ggs_table:notify_player(Table, PlayerToken, server, "I don't know that command..\n")
     end.

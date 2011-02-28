@@ -44,6 +44,7 @@ remove_player(Table, Player) ->
 %% @doc Get a list of all player processes attached to this table
 get_player_list(TableToken) ->
     TablePid = ggs_coordinator:table_token_to_pid(TableToken),
+    erlang:display(TablePid),
     gen_server:call(TablePid, get_player_list).
 
 % @doc stops the table process
@@ -65,9 +66,10 @@ notify_game(TablePid, From, Message) ->
 
 %% @doc Notify a player sitting at this table with the message supplied.
 %% Player, Table and From are in token form.
-notify_player(TableToken, Player, From, Message) ->
+notify_player(TableToken, PlayerToken, From, Message) ->
     TablePid = ggs_coordinator:table_token_to_pid(TableToken),
-    gen_server:cast(TablePid, {notify_player, Player, From, Message}).
+    %PlayerPid = ggs_coordinator:player_token_to_pid(PlayerToken),
+    gen_server:cast(TablePid, {notify_player, PlayerToken, From, Message}).
 
 send_command(TableToken, PlayerToken, Command, Args) ->
 	gen_logger:not_implemented().
@@ -94,7 +96,10 @@ handle_call({remove_player, Player}, _From, #state { players = Players } = State
     {reply, ok, State#state { players = Players -- [Player] }};
 
 handle_call(get_player_list, _From, #state { players = Players } = State) ->
-	{reply, {ok, Players}, State};
+    io:format("Players: ~p~n", [Players]),
+    TokenPlayers = lists:map(
+            fun (Pid) -> ggs_coordinator:player_pid_to_token(Pid) end, Players),
+	{reply, {ok, TokenPlayers}, State};
 
 handle_call(Msg, _From, State) ->
     error_logger:error_report([unknown_msg, Msg]),
@@ -102,11 +107,12 @@ handle_call(Msg, _From, State) ->
 
 %% @private
 handle_cast({notify, Player, Message}, #state { game_vm = GameVM } = State) ->
+    PlayerToken = ggs_coordinator:player_pid_to_token(Player),
     case Message of
         {server, define, Args} ->
             ggs_gamevm_e:define(GameVM, Args);
         {game, Command, Args} ->
-            ggs_gamevm_e:player_command(GameVM, Player, Command, Args)
+            ggs_gamevm_e:player_command(GameVM, PlayerToken, Command, Args)
     end,
     {noreply, State};
 
@@ -121,8 +127,9 @@ handle_cast({notify_all_players, Message}, #state{players = Players} = State) ->
     ),
     {noreply, State};
 
-handle_cast({notify_player, Player, From, Message}, State) ->
-    ggs_player:notify(Player, From, Message),
+handle_cast({notify_player, PlayerToken, From, Message}, State) ->
+    PlayerPid = ggs_coordinator:player_token_to_pid(PlayerToken),
+    ggs_player:notify(PlayerPid, From, Message),
     {noreply, State};
 
 handle_cast(stop, State) ->

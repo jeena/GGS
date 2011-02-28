@@ -11,7 +11,9 @@
             remove_player/2, 
             get_all_players/0,
             table_token_to_pid/1,
-            table_pid_to_token/1]).
+            table_pid_to_token/1,
+            player_pid_to_token/1,
+            player_token_to_pid/1]).
 
 %% gen_server callback exports
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, 
@@ -74,6 +76,12 @@ table_token_to_pid(Token) ->
 table_pid_to_token(Pid) ->
     gen_server:call(?SERVER, {table_pid_to_token, Pid}).
 
+player_pid_to_token(Pid) ->
+    gen_server:call(?SERVER, {player_pid_to_token, Pid}).
+
+player_token_to_pid(Token) ->
+    gen_server:call(?SERVER, {player_token_to_pid, Token}).
+
 %% Just to shorten the name
 back_up(State) ->
     ggs_coordinator_backup:back_up(State),
@@ -91,10 +99,14 @@ init([]) ->
             {ok, State}
     end.
 
-handle_call(join_lobby, _From, State) ->
+handle_call(join_lobby, From, State) ->
     Token = helpers:get_new_token(),
-    back_up(State),
-    {reply, {ok, Token}, State};
+    Players = State#co_state.players,
+    io:format("join_lobby from: ~p~n", [From]),
+    {Pid, Sock} = From,
+    NewState = State#co_state{players = [{Pid, Token} | Players]},
+    back_up(NewState),
+    {reply, {ok, Token}, NewState};
 
 handle_call({join_table, Table}, From, State) ->
     {FromPlayer, _Ref}  = From,
@@ -133,6 +145,16 @@ handle_call({table_pid_to_token, Pid}, _From, State) ->
     Tables = State#co_state.tables,
     {Token, _} = lists:keyfind(Pid, 2, Tables),
     {reply, Token, State};
+
+handle_call({player_pid_to_token, Pid}, _From, State) ->
+    Players = State#co_state.players,
+    {Pid, Token} = lists:keyfind(Pid, 1, Players),
+    {reply, Token, State};
+
+handle_call({player_token_to_pid, Token}, _From, State) ->
+    Players = State#co_state.players,
+    {Pid, Token} = lists:keyfind(Token, 2, Players),
+    {reply, Pid, State};
 
 handle_call(_Message, _From, State) ->
     {noreply, State}.

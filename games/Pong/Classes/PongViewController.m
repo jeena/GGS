@@ -41,21 +41,21 @@
 #pragma mark -
 #pragma mark GGSNetwork Delegate
 
-- (void)GGSNetwork:(GGSNetwork *)ggsNetwork ready:(BOOL)ready {
-	[ggsNetwork sendCommand:@"nick" withArgs:@"jeena"];
-	[ggsNetwork sendCommand:@"chat" withArgs:@"Hi everybody I'm pong."];
+- (void)GGSNetwork:(GGSNetwork *)_ggsNetwork ready:(BOOL)ready {
+	[ggsNetwork define:@"function playerCommand(user, command, args) { user.sendCommand(command, args); }"];
 }
 
-- (void)GGSNetwork:(GGSNetwork *)ggsNetwork defined:(BOOL)defined {
+- (void)GGSNetwork:(GGSNetwork *)_ggsNetwork defined:(BOOL)defined {
 	if (defined) {
-		NSLog(@"Defined");
+		[ggsNetwork sendCommand:@"nick" withArgs:@"jeena"];
+		[ggsNetwork sendCommand:@"chat" withArgs:@"Hi everybody I'm pong."];
 	} else {
 		NSLog(@"Not defined");
 	}
 
 }
 
-- (void)GGSNetwork:(GGSNetwork *)ggsNetwork gotCommand:(NSString *)command withArgs:(NSString *)args {
+- (void)GGSNetwork:(GGSNetwork *)ggsNetwork receivedCommand:(NSString *)command withArgs:(NSString *)args {
 	NSLog(@"Command: %@; Args: %@", command, args);
 }
 

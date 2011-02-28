@@ -14,7 +14,8 @@
 @protocol GGSDelegate
 
 - (void)GGSNetwork:(GGSNetwork *)ggsNetwork ready:(BOOL)ready;
-- (void)GGSNetwork:(GGSNetwork *)ggsNetwork gotCommand:(NSString *)command withArgs:(NSString *)args;
+- (void)GGSNetwork:(GGSNetwork *)ggsNetwork defined:(BOOL)defined;
+- (void)GGSNetwork:(GGSNetwork *)ggsNetwork receivedCommand:(NSString *)command withArgs:(NSString *)args;
 - (void)GGSNetwork:(GGSNetwork *)ggsNetwork defined:(BOOL)defined;
 
 @end

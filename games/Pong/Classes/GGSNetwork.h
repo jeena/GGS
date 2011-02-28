@@ -16,15 +16,18 @@
 	AsyncSocket *asyncSocket;
 	id<GGSDelegate> delegate;
 	NSString *gameToken;
-	NSString *currentCommand;
+	NSDictionary *currentHeaders;
 }
 
 @property (nonatomic, retain) AsyncSocket *asyncSocket;
 @property (nonatomic, retain) id<GGSDelegate> delegate;
+@property (nonatomic, retain) NSDictionary *currentHeaders;
 @property (nonatomic, retain) NSString *gameToken;
-@property (nonatomic, retain) NSString *currentCommand;
 
 - (id)initWithDelegate:(id)delegate;
+- (NSData *)makeMessageWithCommand:(NSString *)command andArgs:(NSString *)args;
+- (void)parseHeader:(NSData *)headerData;
+
 - (void)define:(NSString *)sourceCode;
 - (void)sendCommand:(NSString *)command withArgs:(NSString *)args;
 

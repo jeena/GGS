@@ -11,53 +11,51 @@
 
 @implementation GGSNetwork
 
-#define GGS_HOST @"jeena.net";
+#define GGS_HOST @"localhost"
 #define GGS_PORT 9000
 #define NO_TIMEOUT -1
 
-#define CONNECT_RESPONSE_TAG 9
-#define HELLO_REQUEST_TAG 10
-#define HELLO_RESPONSE_TAG 11
-#define DEFINE_REQUEST_TAG 12
-#define DEFINE_RESPONSE_TAG 13
-#define COMMAND_REQUEST_TAG 14
-#define COMMAND_RESPONSE_TAG 15
-#define ARGS_RESPONSE_TAG 16
+#define HEADER_DELIMITER [@"\n\n" dataUsingEncoding:NSUTF8StringEncoding]
 
-@synthesize asyncSocket, delegate, gameToken, currentCommand;
+#define CONNECT_HEAD 8
+#define CONNECT_BODY 9
+#define HELLO_HEAD 10
+#define HELLO_BODY 11
+#define DEFINE_HEAD 12
+#define DEFINE_BODY 13
+#define COMMAND_HEAD 14
+#define COMMAND_BODY 15
+
+@synthesize asyncSocket, delegate, gameToken, currentHeaders;
 
 - (id)initWithDelegate:(id<GGSDelegate>)_delegate {
 	if (self = [super init]) {
 		delegate = _delegate;
 		asyncSocket = [[AsyncSocket alloc] initWithDelegate:self];
 		
-		[asyncSocket connectToHost:@"jeena.net" onPort:9000 error:nil];
-		[asyncSocket readDataToLength:36 withTimeout:NO_TIMEOUT tag:CONNECT_RESPONSE_TAG];
+		[asyncSocket connectToHost:GGS_HOST onPort:GGS_PORT error:nil];
+		[asyncSocket readDataToData:HEADER_DELIMITER withTimeout:NO_TIMEOUT tag:CONNECT_HEAD];
 	}
 	
 	return self;
 }
 
+- (NSData *)makeMessageWithCommand:(NSString *)command andArgs:(NSString *)args {
+	return [[NSString stringWithFormat:@"Token: %@\nServer-Command: %@\nContent-Length: %i\n\n%@",
+			self.gameToken,
+			command,
+			[args length],
+			args] dataUsingEncoding:NSUTF8StringEncoding];
+}
+
 - (void)define:(NSString *)sourceCode {
-	NSString *body = [NSString stringWithFormat:@"Token: %@\nServer-Command: define\nContent-Length: %i\n\n%@",
-						  self.gameToken,
-						  [sourceCode length],
-						  sourceCode];
-	
-	[asyncSocket writeData:[body dataUsingEncoding:NSUTF8StringEncoding] withTimeout:NO_TIMEOUT tag:DEFINE_REQUEST_TAG];
-	[asyncSocket readDataToData:[@"\n\n" dataUsingEncoding:NSUTF8StringEncoding] withTimeout:NO_TIMEOUT tag:DEFINE_RESPONSE_TAG];
+	[asyncSocket writeData:[self makeMessageWithCommand:@"define" andArgs:sourceCode] withTimeout:NO_TIMEOUT tag:DEFINE_HEAD];
+	[asyncSocket readDataToData:HEADER_DELIMITER withTimeout:NO_TIMEOUT tag:DEFINE_BODY];
 }
 
 - (void)sendCommand:(NSString *)command withArgs:(NSString *)args {
-	NSString *body = [NSString stringWithFormat:@"Token: %@\nGame-Command: %@\nContent-Length: %i\n\n%@",
-					  self.gameToken,
-					  command,
-					  [args length]+1,
-					  args];
-
-	[asyncSocket writeData:[body dataUsingEncoding:NSUTF8StringEncoding] withTimeout:NO_TIMEOUT tag:COMMAND_REQUEST_TAG];	
-	// [asyncSocket readDataToData:[@"\n\n" dataUsingEncoding:NSUTF8StringEncoding] withTimeout:NO_TIMEOUT tag:COMMAND_RESPONSE_TAG];
-	[asyncSocket readDataToData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding] withTimeout:NO_TIMEOUT tag:ARGS_RESPONSE_TAG]; // FIXME change to \n\n abd COMMAND_RESPONSE_TAG
+	[asyncSocket writeData:[self makeMessageWithCommand:command andArgs:args] withTimeout:NO_TIMEOUT tag:COMMAND_HEAD];	
+	[asyncSocket readDataToData:HEADER_DELIMITER withTimeout:NO_TIMEOUT tag:COMMAND_BODY];
 }
 
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
@@ -66,50 +64,75 @@
 
 - (void)onSocket:(AsyncSocket *)sender didReadData:(NSData *)data withTag:(long)tag {
 	
-	if (tag == CONNECT_RESPONSE_TAG) {
+	if (tag == CONNECT_HEAD) {
 		
+		[self parseHeader:data];
+		
+		if ([self.currentHeaders objectForKey:@"Size"] != nil) {
+			[asyncSocket readDataToLength:[[self.currentHeaders objectForKey:@"Size"] intValue] withTimeout:NO_TIMEOUT tag:CONNECT_BODY];			
+		}
+		
+		
+	} else if (tag == CONNECT_BODY) {
+
 		NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 		self.gameToken = response;
 		[response release];
-		
 		[delegate GGSNetwork:self ready:YES];
 		
-	} else if (tag == DEFINE_RESPONSE_TAG) {
+	} else if (tag == DEFINE_HEAD) {
 		
 		[self.delegate GGSNetwork:self defined:YES];
 		
-	} else if (tag == COMMAND_RESPONSE_TAG) {
+	} else if (tag == DEFINE_BODY) {
 		
-		NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-		NSArray *headers = [response componentsSeparatedByString:@"\n"];
-		[response release];
-
-		for (NSInteger i = 0; i < [headers count]; i++) {
-			NSString *header = [headers objectAtIndex:i];
-			
-			if ([header rangeOfString:@"Client-Command: "].location == 0) {
-				self.currentCommand = [header substringFromIndex:16];
-			} else if ([header rangeOfString:@"Size: "].location == 0) {
-				[asyncSocket readDataToLength:[[header substringFromIndex:6] intValue] withTimeout:NO_TIMEOUT tag:ARGS_RESPONSE_TAG];
-			}
+		// nothing to do
+		
+	} else if (tag == COMMAND_HEAD) {
+		
+		[self parseHeader:data];
+		
+		if ([self.currentHeaders objectForKey:@"Size"] != nil) {
+			[asyncSocket readDataToLength:[[self.currentHeaders objectForKey:@"Size"] intValue] withTimeout:NO_TIMEOUT tag:COMMAND_BODY];
 		}
 		
-	} else if (tag == ARGS_RESPONSE_TAG) {
+	} else if (tag == COMMAND_BODY) {
 		
 		NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-		[delegate GGSNetwork:self gotCommand:self.currentCommand withArgs:response];
+		if ([self.currentHeaders objectForKey:@"Client-Command"] != nil) {
+			[delegate GGSNetwork:self receivedCommand:[self.currentHeaders objectForKey:@"Client-Command"] withArgs:response];
+			[asyncSocket readDataToData:HEADER_DELIMITER withTimeout:NO_TIMEOUT tag:COMMAND_BODY];
+		}
 		[response release];
-		//self.currentCommand = nil;
-		
-		[asyncSocket readDataToData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding] withTimeout:NO_TIMEOUT tag:ARGS_RESPONSE_TAG];
-		
 	}
 }
 
+- (void)parseHeader:(NSData *)headerData {
+	NSString *headerString = [[NSString alloc] initWithData:headerData encoding:NSUTF8StringEncoding];
+	NSArray *headers = [headerString componentsSeparatedByString:@"\n"];
+	
+	NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:[headers count]];
+	
+	for (NSInteger i=0; i<[headers count]; i++) {
+		NSString *header = [headers objectAtIndex:i];
+		
+		if ([header rangeOfString:@"Client-Command: "].location == 0) {
+			[dict setValue:[header substringFromIndex:16] forKey:@"Client-Command"];
+		} else if ([header rangeOfString:@"Size: "].location == 0) {
+			[dict setValue:[header substringFromIndex:6] forKey:@"Size"];
+		}
+	}
+	
+	self.currentHeaders = dict;
+	[headerString release];
+	[dict release];
+} 
+
 - (void)dealloc {
 	[asyncSocket release];
+	
 	[gameToken release];
-	[currentCommand release];
+	[currentHeaders release];
 	
 	[super dealloc];
 }

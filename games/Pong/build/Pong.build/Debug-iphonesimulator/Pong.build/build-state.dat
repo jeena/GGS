@@ -1,707 +1,0 @@
-TPong
-v7
-r0
-t320615357.916161
-cCheck dependencies
-cProcessInfoPlistFile /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Info.plist Pong-Info.plist
-cCompileXIB /Users/jeena/Student/GGS/games/Pong/MainWindow.xib
-cCompileXIB /Users/jeena/Student/GGS/games/Pong/PongViewController.xib
-cProcessPCH /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-fangwlweeorbgtajcyzrjmkbpbgz/Pong_Prefix.pch.gch Pong_Prefix.pch normal i386 objective-c com.apple.compilers.gcc.4_2
-cCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/main.o /Users/jeena/Student/GGS/games/Pong/main.m normal i386 objective-c com.apple.compilers.gcc.4_2
-cCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongAppDelegate.o /Users/jeena/Student/GGS/games/Pong/Classes/PongAppDelegate.m normal i386 objective-c com.apple.compilers.gcc.4_2
-cCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongViewController.o /Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m normal i386 objective-c com.apple.compilers.gcc.4_2
-cCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/AsyncSocket.o /Users/jeena/Student/GGS/games/Pong/Classes/AsyncSocket.m normal i386 objective-c com.apple.compilers.gcc.4_2
-cCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/GGSNetwork.o /Users/jeena/Student/GGS/games/Pong/Classes/GGSNetwork.m normal i386 objective-c com.apple.compilers.gcc.4_2
-cLd /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Pong normal i386
-cGenerateDSYMFile /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app.dSYM /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Pong
-cTouch /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app
-
-N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk
-c000000004CC128950000000000000110
-t1287727253
-s272
-
-N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/CFNetwork.framework/CFNetwork
-c000000004CC1224400000000001C3D40
-t1287725636
-s1850688
-
-N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/CFNetwork.framework/Headers/CFNetwork.h
-c000000004CC1221800000000000004CF
-t1287725592
-s1231
-
-N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
-c000000004CC12246000000000029B310
-t1287725638
-s2732816
-
-N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/Foundation.framework/Foundation
-c000000004CC1226D000000000029D5D0
-t1287725677
-s2741712
-
-N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h
-c000000004CC1225F0000000000001466
-t1287725663
-s5222
-
-N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.h
-c000000004CC1281F0000000000000AA1
-t1287727135
-s2721
-
-N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/UIKit.framework/UIKit
-c000000004CC12883000000000074D7B0
-t1287727235
-s7657392
-
-N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/arpa/inet.h
-c000000004CB3E46D0000000000001533
-t1286857837
-s5427
-
-N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/netdb.h
-c000000004A4181220000000000003057
-t1245806882
-s12375
-
-N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/netinet/in.h
-c000000004CBFACA90000000000005462
-t1287629993
-s21602
-
-N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/sys/socket.h
-c000000004CBFACAC0000000000005A69
-t1287629996
-s23145
-
-N/Users/jeena/Projects/Pong/Classes/AsyncSocket.h
-c000000004D69C48E0000000000007535
-t1298777230
-s30005
-i<Foundation/Foundation.h>
-
-N/Users/jeena/Projects/Pong/Classes/AsyncSocket.m
-c000000004D69C48E000000000001E66D
-t1298777230
-s124525
-i"AsyncSocket.h"
-i<sys/socket.h>
-i<netinet/in.h>
-i<arpa/inet.h>
-i<netdb.h>
-i<CFNetwork/CFNetwork.h>
-
-N/Users/jeena/Projects/Pong/Classes/GGSDelegate.h
-c000000004D6AED0D00000000000001CB
-t1298853133
-s459
-i<UIKit/UIKit.h>
-i"GGSNetwork.h"
-
-N/Users/jeena/Projects/Pong/Classes/GGSNetwork.h
-c000000004D6ACD5E00000000000002E7
-t1298845022
-s743
-i<Foundation/Foundation.h>
-i"AsyncSocket.h"
-i"GGSDelegate.h"
-
-N/Users/jeena/Projects/Pong/Classes/GGSNetwork.m
-c000000004D6AF4CF0000000000000DE1
-t1298855119
-s3553
-i"GGSNetwork.h"
-
-N/Users/jeena/Projects/Pong/Classes/Network.h
-c000000004D6ABFF4000000000000017B
-t1298841588
-s379
-i<Foundation/Foundation.h>
-i"AsyncSocket.h"
-
-N/Users/jeena/Projects/Pong/Classes/Network.m
-c000000004D6ABFED00000000000004C3
-t1298841581
-s1219
-i"GGSNetwork.h"
-
-N/Users/jeena/Projects/Pong/Classes/PongAppDelegate.h
-c000000004D407D9300000000000001C7
-t1296072083
-s455
-i<UIKit/UIKit.h>
-
-N/Users/jeena/Projects/Pong/Classes/PongAppDelegate.m
-c000000004D69B93F0000000000000A80
-t1298774335
-s2688
-i"PongAppDelegate.h"
-i"PongViewController.h"
-
-N/Users/jeena/Projects/Pong/Classes/PongView.h
-c000000004D6AD42600000000000000C1
-t1298846758
-s193
-i<UIKit/UIKit.h>
-
-N/Users/jeena/Projects/Pong/Classes/PongView.m
-c000000004D6AD4990000000000000241
-t1298846873
-s577
-i"PongView.h"
-
-N/Users/jeena/Projects/Pong/Classes/PongViewController.h
-c000000004D6AED5C0000000000000478
-t1298853212
-s1144
-i<UIKit/UIKit.h>
-i"GGSDelegate.h"
-i"GGSNetwork.h"
-
-N/Users/jeena/Projects/Pong/Classes/PongViewController.m
-c000000004D6AEF1E00000000000016BC
-t1298853662
-s5820
-i"PongViewController.h"
-i"GGSNetwork.h"
-
-N/Users/jeena/Projects/Pong/MainWindow.xib
-c000000004D407D930000000000004E05
-t1296072083
-s19973
-
-N/Users/jeena/Projects/Pong/PongViewController.xib
-c000000004D6ADA3E0000000000006D7E
-t1298848318
-s28030
-
-N/Users/jeena/Projects/Pong/Pong_Prefix.pch
-c000000004D407D9300000000000000B1
-t1296072083
-s177
-i<Foundation/Foundation.h>
-i<UIKit/UIKit.h>
-
-N/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app
-t1298855122
-s238
-
-N/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app.dSYM
-t1298855122
-s102
-
-N/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Info.plist
-t1298767882
-s730
-
-N/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/MainWindow.nib
-t1298767883
-s1675
-
-N/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/PkgInfo
-t1298767882
-s8
-
-N/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Pong
-t1298855122
-s153016
-
-N/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/PongViewController.nib
-t1298848322
-s3576
-
-N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/AsyncSocket.o
-t1298813363
-s220036
-
-N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/GGSNetwork.o
-t1298855122
-s22364
-
-N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/Network.o
-t1298841554
-s14792
-
-N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/Pong.LinkFileList
-c000000004D6AD4F6000000000000022E
-t1298846966
-s558
-
-N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongAppDelegate.o
-t1298853311
-s52648
-
-N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongView.o
-t1298846057
-s55136
-
-N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongViewController.o
-t1298853665
-s64988
-
-N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/main.o
-t1298767883
-s6280
-
-N/Users/jeena/Projects/Pong/main.m
-c000000004D407D930000000000000160
-t1296072083
-s352
-i<UIKit/UIKit.h>
-
-N/Users/jeena/Student/GGS/games/Pong/Classes/AsyncSocket.h
-c000000004D6BA99E0000000000007535
-t1298901406
-s30005
-i<Foundation/Foundation.h>
-
-N/Users/jeena/Student/GGS/games/Pong/Classes/AsyncSocket.m
-c000000004D6BA99E000000000001E66D
-t1298901406
-s124525
-i"AsyncSocket.h"
-i<sys/socket.h>
-i<netinet/in.h>
-i<arpa/inet.h>
-i<netdb.h>
-i<CFNetwork/CFNetwork.h>
-
-N/Users/jeena/Student/GGS/games/Pong/Classes/GGSDelegate.h
-c000000004D6BF0FD0000000000000213
-t1298919677
-s531
-i<UIKit/UIKit.h>
-i"GGSNetwork.h"
-
-N/Users/jeena/Student/GGS/games/Pong/Classes/GGSNetwork.h
-c000000004D6BF9A0000000000000036B
-t1298921888
-s875
-i<Foundation/Foundation.h>
-i"AsyncSocket.h"
-i"GGSDelegate.h"
-
-N/Users/jeena/Student/GGS/games/Pong/Classes/GGSNetwork.m
-c000000004D6BFA890000000000001022
-t1298922121
-s4130
-i"GGSNetwork.h"
-
-N/Users/jeena/Student/GGS/games/Pong/Classes/PongAppDelegate.h
-c000000004D6BA99E00000000000001C7
-t1298901406
-s455
-i<UIKit/UIKit.h>
-
-N/Users/jeena/Student/GGS/games/Pong/Classes/PongAppDelegate.m
-c000000004D6BA99E0000000000000A80
-t1298901406
-s2688
-i"PongAppDelegate.h"
-i"PongViewController.h"
-
-N/Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.h
-c000000004D6BA99E0000000000000478
-t1298901406
-s1144
-i<UIKit/UIKit.h>
-i"GGSDelegate.h"
-i"GGSNetwork.h"
-
-N/Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m
-c000000004D6BFC3B000000000000171A
-t1298922555
-s5914
-i"PongViewController.h"
-i"GGSNetwork.h"
-
-N/Users/jeena/Student/GGS/games/Pong/MainWindow.xib
-c000000004D6BA99E0000000000004E05
-t1298901406
-s19973
-
-N/Users/jeena/Student/GGS/games/Pong/PongViewController.xib
-c000000004D6BA99E0000000000006D7E
-t1298901406
-s28030
-
-N/Users/jeena/Student/GGS/games/Pong/Pong_Prefix.pch
-c000000004D6BA99E00000000000000B1
-t1298901406
-s177
-i<Foundation/Foundation.h>
-i<UIKit/UIKit.h>
-
-N/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app
-t1298922557
-s238
-
-N/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app.dSYM
-t1298922557
-s102
-
-N/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Info.plist
-t1298901406
-s730
-
-N/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/MainWindow.nib
-t1298901406
-s1675
-
-N/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/PkgInfo
-t1298901406
-s8
-
-N/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Pong
-t1298922557
-s153464
-
-N/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/PongViewController.nib
-t1298901406
-s3576
-
-N/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/AsyncSocket.o
-t1298916185
-s220068
-
-N/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/GGSNetwork.o
-t1298922150
-s25104
-
-N/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/Pong.LinkFileList
-c000000004D6BE356000000000000025B
-t1298916182
-s603
-
-N/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongAppDelegate.o
-t1298921889
-s52664
-
-N/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongViewController.o
-t1298922557
-s65260
-
-N/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/main.o
-t1298916184
-s6296
-
-N/Users/jeena/Student/GGS/games/Pong/main.m
-c000000004D6BA99E0000000000000160
-t1298901406
-s352
-i<UIKit/UIKit.h>
-
-N/var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-cvccpgbzzqrzqeehdffzkkoejude/Pong_Prefix.pch.gch
-t1296319395
-s15453392
-
-N/var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-daqvhjvubgqdzcdaoqocczbyixke/Pong_Prefix.pch.gch
-t1298767883
-s15477968
-
-N/var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-fangwlweeorbgtajcyzrjmkbpbgz/Pong_Prefix.pch.gch
-t1298916184
-s15477968
-
-NPong-Info.plist
-c000000004D6BA99E0000000000000445
-t1298901406
-s1093
-
-CCheck dependencies
-r0
-lSLF07#2@18"Check dependencies320615357#320615357#0(0"0(0#1#0"8623958464#0"0#
-
-CCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/AsyncSocket.o /Users/jeena/Projects/Pong/Classes/AsyncSocket.m normal i386 objective-c com.apple.compilers.gcc.4_2
-s320506163.448783
-e320506163.895998
-r1
-xCompileC
-xbuild/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/AsyncSocket.o
-x/Users/jeena/Projects/Pong/Classes/AsyncSocket.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@56"Compile /Users/jeena/Projects/Pong/Classes/AsyncSocket.m320506163#320506163#0(0"0(0#0#48"/Users/jeena/Projects/Pong/Classes/AsyncSocket.m8701333952#1821"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphonesimulator -I/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-daqvhjvubgqdzcdaoqocczbyixke/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/Classes/AsyncSocket.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/AsyncSocket.o0#
-
-CCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/AsyncSocket.o /Users/jeena/Student/GGS/games/Pong/Classes/AsyncSocket.m normal i386 objective-c com.apple.compilers.gcc.4_2
-s320608984.442900
-e320608985.065137
-r1
-xCompileC
-xbuild/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/AsyncSocket.o
-x/Users/jeena/Student/GGS/games/Pong/Classes/AsyncSocket.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@65"Compile /Users/jeena/Student/GGS/games/Pong/Classes/AsyncSocket.m320608984#320608985#0(0"0(0#0#57"/Users/jeena/Student/GGS/games/Pong/Classes/AsyncSocket.m8617842240#1920"    cd /Users/jeena/Student/GGS/games/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator -I/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-fangwlweeorbgtajcyzrjmkbpbgz/Pong_Prefix.pch -c /Users/jeena/Student/GGS/games/Pong/Classes/AsyncSocket.m -o /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/AsyncSocket.o0#
-
-CCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/GGSNetwork.o /Users/jeena/Projects/Pong/Classes/GGSNetwork.m normal i386 objective-c com.apple.compilers.gcc.4_2
-s320547922.019677
-e320547922.108375
-r1
-xCompileC
-xbuild/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/GGSNetwork.o
-x/Users/jeena/Projects/Pong/Classes/GGSNetwork.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@55"Compile /Users/jeena/Projects/Pong/Classes/GGSNetwork.m320547922#320547922#0(0"0(0#0#47"/Users/jeena/Projects/Pong/Classes/GGSNetwork.m8697032064#1819"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphonesimulator -I/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-daqvhjvubgqdzcdaoqocczbyixke/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/Classes/GGSNetwork.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/GGSNetwork.o0#
-
-CCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/GGSNetwork.o /Users/jeena/Student/GGS/games/Pong/Classes/GGSNetwork.m normal i386 objective-c com.apple.compilers.gcc.4_2
-s320614950.479272
-e320614950.599456
-r1
-xCompileC
-xbuild/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/GGSNetwork.o
-x/Users/jeena/Student/GGS/games/Pong/Classes/GGSNetwork.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@64"Compile /Users/jeena/Student/GGS/games/Pong/Classes/GGSNetwork.m320614950#320614950#0(0"0(0#0#56"/Users/jeena/Student/GGS/games/Pong/Classes/GGSNetwork.m8620833600#1918"    cd /Users/jeena/Student/GGS/games/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator -I/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-fangwlweeorbgtajcyzrjmkbpbgz/Pong_Prefix.pch -c /Users/jeena/Student/GGS/games/Pong/Classes/GGSNetwork.m -o /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/GGSNetwork.o0#
-
-CCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/Network.o /Users/jeena/Projects/Pong/Classes/Network.m normal i386 objective-c com.apple.compilers.gcc.4_2
-s320534354.402493
-e320534354.480753
-r1
-xCompileC
-xbuild/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/Network.o
-x/Users/jeena/Projects/Pong/Classes/Network.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@52"Compile /Users/jeena/Projects/Pong/Classes/Network.m320534354#320534354#0(0"0(0#0#44"/Users/jeena/Projects/Pong/Classes/Network.m8713127104#1813"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphonesimulator -I/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-daqvhjvubgqdzcdaoqocczbyixke/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/Classes/Network.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/Network.o0#
-
-CCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongAppDelegate.o /Users/jeena/Projects/Pong/Classes/PongAppDelegate.m normal i386 objective-c com.apple.compilers.gcc.4_2
-s320546111.577589
-e320546111.695174
-r1
-xCompileC
-xbuild/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongAppDelegate.o
-x/Users/jeena/Projects/Pong/Classes/PongAppDelegate.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@60"Compile /Users/jeena/Projects/Pong/Classes/PongAppDelegate.m320546111#320546111#0(0"0(0#0#52"/Users/jeena/Projects/Pong/Classes/PongAppDelegate.m8615280160#1829"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphonesimulator -I/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-daqvhjvubgqdzcdaoqocczbyixke/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/Classes/PongAppDelegate.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongAppDelegate.o0#
-
-CCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongAppDelegate.o /Users/jeena/Student/GGS/games/Pong/Classes/PongAppDelegate.m normal i386 objective-c com.apple.compilers.gcc.4_2
-s320614689.245826
-e320614689.351764
-r1
-xCompileC
-xbuild/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongAppDelegate.o
-x/Users/jeena/Student/GGS/games/Pong/Classes/PongAppDelegate.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@69"Compile /Users/jeena/Student/GGS/games/Pong/Classes/PongAppDelegate.m320614689#320614689#0(0"0(0#0#61"/Users/jeena/Student/GGS/games/Pong/Classes/PongAppDelegate.m8616796768#1928"    cd /Users/jeena/Student/GGS/games/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator -I/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-fangwlweeorbgtajcyzrjmkbpbgz/Pong_Prefix.pch -c /Users/jeena/Student/GGS/games/Pong/Classes/PongAppDelegate.m -o /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongAppDelegate.o0#
-
-CCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongView.o /Users/jeena/Projects/Pong/Classes/PongView.m normal i386 objective-c com.apple.compilers.gcc.4_2
-s320538857.214200
-e320538857.289112
-r1
-xCompileC
-xbuild/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongView.o
-x/Users/jeena/Projects/Pong/Classes/PongView.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@53"Compile /Users/jeena/Projects/Pong/Classes/PongView.m320538857#320538857#0(0"0(0#0#45"/Users/jeena/Projects/Pong/Classes/PongView.m8702108160#1815"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphonesimulator -I/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-daqvhjvubgqdzcdaoqocczbyixke/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/Classes/PongView.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongView.o0#
-
-CCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongViewController.o /Users/jeena/Projects/Pong/Classes/PongViewController.m normal i386 objective-c com.apple.compilers.gcc.4_2
-s320546465.378969
-e320546465.494968
-r1
-xCompileC
-xbuild/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongViewController.o
-x/Users/jeena/Projects/Pong/Classes/PongViewController.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-o/Users/jeena/Projects/Pong/Classes/PongViewController.m: In function '-[PongViewController GGSNetwork:ready:]':
-o/Users/jeena/Projects/Pong/Classes/PongViewController.m:45: warning: local declaration of 'ggsNetwork' hides instance variable
-o/Users/jeena/Projects/Pong/Classes/PongViewController.m:46: warning: local declaration of 'ggsNetwork' hides instance variable
-o/Users/jeena/Projects/Pong/Classes/PongViewController.m: At top level:
-o/Users/jeena/Projects/Pong/Classes/PongViewController.m:241: warning: property 'ggsNetwork' requires method '-ggsNetwork' to be defined - use @synthesize, @dynamic or provide a method implementation
-o/Users/jeena/Projects/Pong/Classes/PongViewController.m:241: warning: property 'ggsNetwork' requires the method 'setGgsNetwork:' to be defined - use @synthesize, @dynamic or provide a method implementation
-lSLF07#2@63"Compile /Users/jeena/Projects/Pong/Classes/PongViewController.m320546465#320546465#0(842"/Users/jeena/Projects/Pong/Classes/PongViewController.m: In function '-[PongViewController GGSNetwork:ready:]':/Users/jeena/Projects/Pong/Classes/PongViewController.m:45: warning: local declaration of 'ggsNetwork' hides instance variable/Users/jeena/Projects/Pong/Classes/PongViewController.m:46: warning: local declaration of 'ggsNetwork' hides instance variable/Users/jeena/Projects/Pong/Classes/PongViewController.m: At top level:/Users/jeena/Projects/Pong/Classes/PongViewController.m:241: warning: property 'ggsNetwork' requires method '-ggsNetwork' to be defined - use @synthesize, @dynamic or provide a method implementation/Users/jeena/Projects/Pong/Classes/PongViewController.m:241: warning: property 'ggsNetwork' requires the method 'setGgsNetwork:' to be defined - use @synthesize, @dynamic or provide a method implementation5(22@57"Local declaration of 'ggsNetwork' hides instance variable320546465#112#127#0(6@55"/Users/jeena/Projects/Pong/Classes/PongViewController.m320546462#45#0#45#0#0"0(22@57"Local declaration of 'ggsNetwork' hides instance variable320546465#239#127#0(6@55"/Users/jeena/Projects/Pong/Classes/PongViewController.m320546462#46#0#46#0#0"0(23@13"At top level:320546465#366#71#0(6@55"/Users/jeena/Projects/Pong/Classes/PongViewController.m320546462#0#0#0#0#0"0(22@128"Property 'ggsNetwork' requires method '-ggsNetwork' to be defined - use @synthesize, @dynamic or provide a method implementation320546465#437#199#0(6@55"/Users/jeena/Projects/Pong/Classes/PongViewController.m320546462#241#0#241#0#0"0(22@135"Property 'ggsNetwork' requires the method 'setGgsNetwork:' to be defined - use @synthesize, @dynamic or provide a method implementation320546465#636#206#0(6@55"/Users/jeena/Projects/Pong/Classes/PongViewController.m320546462#241#0#241#0#0"0(0#0#55"/Users/jeena/Projects/Pong/Classes/PongViewController.m8702176672#1835"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphonesimulator -I/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-daqvhjvubgqdzcdaoqocczbyixke/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/Classes/PongViewController.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongViewController.o0#
-
-CCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongViewController.o /Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m normal i386 objective-c com.apple.compilers.gcc.4_2
-s320615357.675679
-e320615357.846312
-r1
-xCompileC
-xbuild/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongViewController.o
-x/Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-o/Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m:241: warning: property 'ggsNetwork' requires method '-ggsNetwork' to be defined - use @synthesize, @dynamic or provide a method implementation
-o/Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m:241: warning: property 'ggsNetwork' requires the method 'setGgsNetwork:' to be defined - use @synthesize, @dynamic or provide a method implementation
-lSLF07#2@72"Compile /Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m320615357#320615357#0(423"/Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m:241: warning: property 'ggsNetwork' requires method '-ggsNetwork' to be defined - use @synthesize, @dynamic or provide a method implementation/Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m:241: warning: property 'ggsNetwork' requires the method 'setGgsNetwork:' to be defined - use @synthesize, @dynamic or provide a method implementation2(22@128"Property 'ggsNetwork' requires method '-ggsNetwork' to be defined - use @synthesize, @dynamic or provide a method implementation320615357#0#208#0(6@64"/Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m320615355#241#0#241#0#0"0(22@135"Property 'ggsNetwork' requires the method 'setGgsNetwork:' to be defined - use @synthesize, @dynamic or provide a method implementation320615357#208#215#0(6@64"/Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m320615355#241#0#241#0#0"0(0#0#64"/Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m8621773120#1934"    cd /Users/jeena/Student/GGS/games/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator -I/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-fangwlweeorbgtajcyzrjmkbpbgz/Pong_Prefix.pch -c /Users/jeena/Student/GGS/games/Pong/Classes/PongViewController.m -o /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/PongViewController.o0#
-
-CCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/main.o /Users/jeena/Projects/Pong/main.m normal i386 objective-c com.apple.compilers.gcc.4_2
-s320460683.547115
-e320460683.605167
-r1
-xCompileC
-xbuild/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/main.o
-x/Users/jeena/Projects/Pong/main.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@41"Compile /Users/jeena/Projects/Pong/main.m320460683#320460683#0(0"0(0#0#33"/Users/jeena/Projects/Pong/main.m8627558368#1799"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphonesimulator -I/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-daqvhjvubgqdzcdaoqocczbyixke/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/main.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/main.o0#
-
-CCompileC build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/main.o /Users/jeena/Student/GGS/games/Pong/main.m normal i386 objective-c com.apple.compilers.gcc.4_2
-s320608984.269744
-e320608984.414175
-r1
-xCompileC
-xbuild/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/main.o
-x/Users/jeena/Student/GGS/games/Pong/main.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@50"Compile /Users/jeena/Student/GGS/games/Pong/main.m320608984#320608984#0(0"0(0#0#42"/Users/jeena/Student/GGS/games/Pong/main.m8616794208#1898"    cd /Users/jeena/Student/GGS/games/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator -I/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-fangwlweeorbgtajcyzrjmkbpbgz/Pong_Prefix.pch -c /Users/jeena/Student/GGS/games/Pong/main.m -o /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/main.o0#
-
-CCompileXIB /Users/jeena/Projects/Pong/MainWindow.xib
-s320460682.803946
-e320460683.114061
-r1
-xCompileXIB
-x/Users/jeena/Projects/Pong/MainWindow.xib
-lSLF07#2@25"CompileXIB MainWindow.xib320460682#320460683#0(0"0(0#0#41"/Users/jeena/Projects/Pong/MainWindow.xib8626087712#608"    cd /Users/jeena/Projects/Pong    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.0    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/MainWindow.nib /Users/jeena/Projects/Pong/MainWindow.xib --sdk /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk0#
-
-CCompileXIB /Users/jeena/Projects/Pong/PongViewController.xib
-s320541122.647972
-e320541122.987901
-r1
-xCompileXIB
-x/Users/jeena/Projects/Pong/PongViewController.xib
-lSLF07#2@33"CompileXIB PongViewController.xib320541122#320541122#0(0"0(0#0#49"/Users/jeena/Projects/Pong/PongViewController.xib8638250336#624"    cd /Users/jeena/Projects/Pong    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.0    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/PongViewController.nib /Users/jeena/Projects/Pong/PongViewController.xib --sdk /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk0#
-
-CCompileXIB /Users/jeena/Student/GGS/games/Pong/MainWindow.xib
-r0
-
-CCompileXIB /Users/jeena/Student/GGS/games/Pong/PongViewController.xib
-r0
-
-CGenerateDSYMFile /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app.dSYM /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Pong
-s320547922.133159
-e320547922.147945
-r1
-xGenerateDSYMFile
-x/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app.dSYM
-x/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Pong
-lSLF07#2@100"GenerateDSYMFile build/Debug-iphonesimulator/Pong.app.dSYM build/Debug-iphonesimulator/Pong.app/Pong320547922#320547922#0(0"0(0#0#68"/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Pong8715120192#415"    cd /Users/jeena/Projects/Pong    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/usr/bin/dsymutil /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Pong -o /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app.dSYM0#
-
-CGenerateDSYMFile /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app.dSYM /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Pong
-s320615357.890605
-e320615357.913310
-r1
-xGenerateDSYMFile
-x/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app.dSYM
-x/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Pong
-lSLF07#2@100"GenerateDSYMFile build/Debug-iphonesimulator/Pong.app.dSYM build/Debug-iphonesimulator/Pong.app/Pong320615357#320615357#0(0"0(0#0#77"/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Pong8620325696#442"    cd /Users/jeena/Student/GGS/games/Pong    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/usr/bin/dsymutil /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Pong -o /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app.dSYM0#
-
-CLd /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Pong normal i386
-s320547922.108442
-e320547922.133084
-r1
-xLd
-x/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Pong
-xnormal
-xi386
-lSLF07#2@73"Link /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Pong320547922#320547922#0(0"0(0#0#0"8715172544#923"    cd /Users/jeena/Projects/Pong    setenv MACOSX_DEPLOYMENT_TARGET 10.6    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -arch i386 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -L/Users/jeena/Projects/Pong/build/Debug-iphonesimulator -F/Users/jeena/Projects/Pong/build/Debug-iphonesimulator -filelist /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/Pong.LinkFileList -mmacosx-version-min=10.6 -Xlinker -objc_abi_version -Xlinker 2 -framework Foundation -framework UIKit -framework CoreGraphics -framework CFNetwork -o /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Pong0#
-
-CLd /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Pong normal i386
-s320615357.846401
-e320615357.890498
-r1
-xLd
-x/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Pong
-xnormal
-xi386
-lSLF07#2@82"Link /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Pong320615357#320615357#0(0"0(0#0#0"8623096032#968"    cd /Users/jeena/Student/GGS/games/Pong    setenv MACOSX_DEPLOYMENT_TARGET 10.6    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -arch i386 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -L/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator -F/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator -filelist /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Objects-normal/i386/Pong.LinkFileList -mmacosx-version-min=10.6 -Xlinker -objc_abi_version -Xlinker 2 -framework Foundation -framework UIKit -framework CoreGraphics -framework CFNetwork -o /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Pong0#
-
-CProcessInfoPlistFile /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Info.plist Pong-Info.plist
-s320460682.801056
-e320460682.803887
-r1
-xProcessInfoPlistFile
-x/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Info.plist
-xPong-Info.plist
-lSLF07#2@23"Process Pong-Info.plist320460682#320460682#0(0"0(0#0#42"/Users/jeena/Projects/Pong/Pong-Info.plist8626925824#511"    cd /Users/jeena/Projects/Pong    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    builtin-infoPlistUtility Pong-Info.plist -genpkginfo /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -o /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app/Info.plist0#
-
-CProcessInfoPlistFile /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app/Info.plist Pong-Info.plist
-r0
-
-CProcessPCH /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-cvccpgbzzqrzqeehdffzkkoejude/Pong_Prefix.pch.gch Pong_Prefix.pch normal i386 objective-c com.apple.compilers.gcc.4_2
-s318012194.697806
-e318012195.224785
-r1
-xProcessPCH
-x/var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-cvccpgbzzqrzqeehdffzkkoejude/Pong_Prefix.pch.gch
-xPong_Prefix.pch
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@26"Precompile Pong_Prefix.pch318012194#318012195#0(0"0(0#0#42"/Users/jeena/Projects/Pong/Pong_Prefix.pch8609309824#1706"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c-header -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=40200 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphonesimulator -I/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -c /Users/jeena/Projects/Pong/Pong_Prefix.pch -o /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-cvccpgbzzqrzqeehdffzkkoejude/Pong_Prefix.pch.gch0#
-
-CProcessPCH /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-daqvhjvubgqdzcdaoqocczbyixke/Pong_Prefix.pch.gch Pong_Prefix.pch normal i386 objective-c com.apple.compilers.gcc.4_2
-s320460683.117455
-e320460683.547046
-r1
-xProcessPCH
-x/var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-daqvhjvubgqdzcdaoqocczbyixke/Pong_Prefix.pch.gch
-xPong_Prefix.pch
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@26"Precompile Pong_Prefix.pch320460683#320460683#0(0"0(0#0#42"/Users/jeena/Projects/Pong/Pong_Prefix.pch8630404672#1706"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c-header -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphonesimulator -I/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -c /Users/jeena/Projects/Pong/Pong_Prefix.pch -o /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-daqvhjvubgqdzcdaoqocczbyixke/Pong_Prefix.pch.gch0#
-
-CProcessPCH /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-fangwlweeorbgtajcyzrjmkbpbgz/Pong_Prefix.pch.gch Pong_Prefix.pch normal i386 objective-c com.apple.compilers.gcc.4_2
-s320608982.629915
-e320608984.269549
-r1
-xProcessPCH
-x/var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-fangwlweeorbgtajcyzrjmkbpbgz/Pong_Prefix.pch.gch
-xPong_Prefix.pch
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@26"Precompile Pong_Prefix.pch320608982#320608984#0(0"0(0#0#51"/Users/jeena/Student/GGS/games/Pong/Pong_Prefix.pch7594869363256027136#1796"    cd /Users/jeena/Student/GGS/games/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c-header -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -fvisibility=hidden -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator -I/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/include -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources/i386 -I/Users/jeena/Student/GGS/games/Pong/build/Pong.build/Debug-iphonesimulator/Pong.build/DerivedSources -c /Users/jeena/Student/GGS/games/Pong/Pong_Prefix.pch -o /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-fangwlweeorbgtajcyzrjmkbpbgz/Pong_Prefix.pch.gch0#
-
-CTouch /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app
-s320547922.148144
-e320547922.149847
-r1
-xTouch
-x/Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app
-lSLF07#2@69"Touch /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app320547922#320547922#0(0"0(0#0#0"8715020768#328"    cd /Users/jeena/Projects/Pong    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /usr/bin/touch -c /Users/jeena/Projects/Pong/build/Debug-iphonesimulator/Pong.app0#
-
-CTouch /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app
-s320615357.913404
-e320615357.916122
-r1
-xTouch
-x/Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app
-lSLF07#2@78"Touch /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app320615357#320615357#0(0"0(0#0#0"8622820288#346"    cd /Users/jeena/Student/GGS/games/Pong    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /usr/bin/touch -c /Users/jeena/Student/GGS/games/Pong/build/Debug-iphonesimulator/Pong.app0#
-

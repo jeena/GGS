@@ -3,3 +3,4 @@
 *.beam
 Mnesia.*
 *.swo
+games/Pong/build/**/*

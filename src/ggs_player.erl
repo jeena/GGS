@@ -26,12 +26,12 @@ start_link(Socket) ->
     TableStatus = ggs_coordinator:join_table(1337),
     case TableStatus of
         {ok, Table} ->
-            notify(self(), self(), Token),
+            notify(self(), self(), {"hello", Token}),
             loop(#pl_state{socket = Socket, token = Token, table = Table});
         {error, no_such_table} ->
             ggs_coordinator:create_table({force, 1337}),
             {ok, Table} = ggs_coordinator:join_table(1337),
-            notify(self(), self(), Token),
+            notify(self(), self(), {"hello", Token}),
             loop(#pl_state{socket = Socket, token = Token, table = Table})
     end.
 
@@ -40,7 +40,10 @@ start_link(Socket) ->
 %% @spec notify(Player::Pid(), From::Pid(), 
 %%              {Command::String(), Message::string()}) -> ok
 notify(Player, From, Message) ->
-    Player ! {notify, From, Message}.
+    erlang:display(Message),
+    {Cmd, Data} = Message,
+    Parsed = ggs_protocol:create_message(Cmd, "text","text", Data), 
+    Player ! {notify, From, Parsed}.
 
 %% @doc Get the player token uniquely representing the player.
 %% @spec get_token() -> string()
@@ -60,7 +63,9 @@ loop(#pl_state{token = _Token, socket = Socket, table = Table} = State) ->
     receive 
         {tcp, Socket, Data} -> % Just echo for now..
             io:format("Parsing via protocol module..~n"),
+            erlang:display(Data),
             Parsed = ggs_protocol:parse(Data),
+            erlang:display(Parsed),
             self() ! Parsed,
             loop(State);
         {notify, _From, Message} ->

@@ -38,7 +38,7 @@ class GGSChat:
         self.wTree.get_widget("window1").show()
         self.wTree.get_widget("entry").grab_focus()
         nicksList = self.wTree.get_widget("nicksList")
-        self.changeNick()
+        #self.changeNick()
         nicksList.set_model(self.nicksListStore)
 #        self.nicksListStore.append(["Test!"])
        
@@ -91,25 +91,50 @@ class GGSChat:
         PORT = port # The same port as used by the server
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.connect((HOST, PORT))
-        self.token = self.s.recv(1024)
         self.setStatus("Connected!")
 
+
+    def protocolHandler(self, msg):
+        if msg["Client-Command"] == "hello":
+            self.token = msg["DATA"]
+        elif msg["Client-Command"] == "chat":
+            gobject.idle_add(self.updateChatText, msg["DATA"])
+        elif msg["Client-Command"] == "lusers":
+            print msg
+            gobject.idle_add(self.updateUsers, msg["DATA"])
+
+
     def listenChat(self):
+        msg = {}
         print "listening"
         fs      = self.s.makefile()
         while True:
             line    = fs.readline()
-            print "Received: ", line
-            if line.split(" ")[0] == "LUSERS":
-                gobject.idle_add(self.updateUsers, line)
+            print "Received: '%s'" % line
+            if line != "\n":
+                key = line.split(":")[0]
+                value = line.split(":")[1]
+                msg[key] = value.strip()
             else:
-                gobject.idle_add(self.updateChatText, line)
+                msg["DATA"] = fs.read(int("%s" % msg["Content-Size"]))
+                print "Got data:", msg
+                self.protocolHandler(msg)
+                #gobject.idle_add(self.updateChatText, msg["DATA"])
+
+#            if line.split(" ")[0] == "LUSERS":
+#                gobject.idle_add(self.updateUsers, line)
+#            else:
+#                print msg
 
     def updateChatText(self, text):
         self.wTree.get_widget("chatBox").get_buffer().insert_at_cursor(text)
 
     def luserCheck(self):
         while True:
+            if self.token == None:
+                print "Not sending lusers cmd.."
+                continue
+            print "Sending lusers cmd.."
             self.s.send("Game-Command: lusers\n" +
                 "Token: %s\n" % self.token +
                 "Content-Type: text\n" +
@@ -118,8 +143,7 @@ class GGSChat:
             time.sleep(2)
 
     def updateUsers(self, text):
-        nicks = ' '.join(text.split(" ")[1:])
-        evalNicks = eval(nicks)
+        evalNicks = eval(text)
         self.nicksListStore.clear()
         for nick in evalNicks:
             self.nicksListStore.append([nick])

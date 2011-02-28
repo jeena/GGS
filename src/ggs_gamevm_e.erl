@@ -44,17 +44,23 @@ loop(Table) ->
 do_stuff(Command, Args, PlayerToken, Table) ->
     case Command of
         "greet" ->
-            ggs_table:notify_player(Table, PlayerToken, server, "Hello there!\n");
+            ggs_table:notify_player(Table, PlayerToken, server, {"chat", "Hello there!\n"});
         "chat" ->
-            Nick = ggs_db:getItem(Table, nicks, PlayerToken),
-            ggs_table:notify_all_players(Table, "<"++Nick++"> "++ Args ++ "\n");
+            case ggs_db:getItem(Table, nicks, PlayerToken) of
+                {error} -> 
+                    Nick = "Noname";
+                Other ->
+                    Nick = Other
+            end,
+            ggs_table:notify_all_players(Table, {"chat", "<"++Nick++"> "++ Args ++ "\n"});
         "uname" ->
             Uname = os:cmd("uname -a"),
-            ggs_table:notify_player(Table, PlayerToken, server, Uname);
+            ggs_table:notify_player(Table, PlayerToken, server, {"chat", Uname});
         "lusers" ->
            {ok, Players} = ggs_table:get_player_list(Table),
            Nicks = lists:map(fun (P) -> ggs_db:getItem(Table, nicks, P) end, Players),
-           ggs_table:notify_player(Table, PlayerToken, server,io_lib:format("LUSERS ~p\n",[Nicks]));
+           ggs_table:notify_player(Table, PlayerToken, server,
+                {"lusers", io_lib:format("~p\n",[Nicks])});
         "nick" ->
             ggs_db:setItem(Table,nicks,PlayerToken,Args),
             io:format("Changing nickname of ~p to ~p.", [PlayerToken, Args]);

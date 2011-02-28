@@ -1,5 +1,5 @@
 -module(ggs_protocol).
--export([parse/1, getToken/1]).
+-export([parse/1, getToken/1, create_message/4]).
 
 %% API Functions
 parse(Data) ->
@@ -13,6 +13,18 @@ getToken(Parsed) ->
         false ->
             false
     end.
+
+create_message(Cmd, Enc, Acc, Data) ->
+    Length = integer_to_list(string:len(Data)),
+    Msg =   "Client-Command: " ++ Cmd ++ "\n" ++
+            "Client-Encoding: " ++ Enc ++ "\n" ++
+            "Content-Size: " ++ Length ++ "\n" ++
+            "GGS-Version: 1.0\n" ++
+            "Accept: " ++ Acc ++ "\n" ++
+            "\n" ++
+            Data,
+    Msg.
+
 
 %% Internal helpers
 do_parse(Data, ParsedMessage) ->

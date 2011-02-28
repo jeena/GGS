@@ -1,0 +1,502 @@
+TPong
+v7
+r0
+t320469393.017794
+cCheck dependencies
+cCpResource build/Debug-iphoneos/Pong.app/ResourceRules.plist /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/ResourceRules.plist
+cProcessInfoPlistFile /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Info.plist Pong-Info.plist
+cCompileXIB /Users/jeena/Projects/Pong/MainWindow.xib
+cCompileXIB /Users/jeena/Projects/Pong/PongViewController.xib
+cProcessPCH /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gukmsobkwrnrzghivaszxouymjcr/Pong_Prefix.pch.gch Pong_Prefix.pch normal armv6 objective-c com.apple.compilers.gcc.4_2
+cProcessPCH /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gosloautgrgfmxgzxskqjoinrwsy/Pong_Prefix.pch.gch Pong_Prefix.pch normal armv7 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/main.o /Users/jeena/Projects/Pong/main.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongAppDelegate.o /Users/jeena/Projects/Pong/Classes/PongAppDelegate.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongViewController.o /Users/jeena/Projects/Pong/Classes/PongViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongView.o /Users/jeena/Projects/Pong/Classes/PongView.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/main.o /Users/jeena/Projects/Pong/main.m normal armv7 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongAppDelegate.o /Users/jeena/Projects/Pong/Classes/PongAppDelegate.m normal armv7 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongViewController.o /Users/jeena/Projects/Pong/Classes/PongViewController.m normal armv7 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongView.o /Users/jeena/Projects/Pong/Classes/PongView.m normal armv7 objective-c com.apple.compilers.gcc.4_2
+cLd /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/Pong normal armv7
+cLd /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/Pong normal armv6
+cCreateUniversalBinary /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Pong normal "armv6 armv7"
+cGenerateDSYMFile /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app.dSYM /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Pong
+cProcessProductPackaging "/Users/jeena/Library/MobileDevice/Provisioning Profiles/6A9A419F-E593-49FC-98DE-2B027A0982C3.mobileprovision" /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/embedded.mobileprovision
+cTouch /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app
+cProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/Entitlements.plist /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong.xcent
+cCodeSign /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk
+c000000004CC7DC9E0000000000000110
+t1288166558
+s272
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/Entitlements.plist
+c000000004CB3DFCF00000000000001A7
+t1286856655
+s423
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/ResourceRules.plist
+c000000004CB3DFCF00000000000001E5
+t1286856655
+s485
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
+c000000004CC10EF500000000003532B0
+t1287720693
+s3486384
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/System/Library/Frameworks/Foundation.framework/Foundation
+c000000004CC10F4700000000003E1F20
+t1287720775
+s4071200
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h
+c000000004CC10F1C0000000000001466
+t1287720732
+s5222
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.h
+c000000004CC11AE60000000000000AA1
+t1287723750
+s2721
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/System/Library/Frameworks/UIKit.framework/UIKit
+c000000004CC11B750000000000C769F0
+t1287723893
+s13068784
+
+N/Users/jeena/Library/MobileDevice/Provisioning Profiles/6A9A419F-E593-49FC-98DE-2B027A0982C3.mobileprovision
+c000000004D699FBB0000000000001E64
+t1298767803
+s7780
+
+N/Users/jeena/Projects/Pong/Classes/PongAppDelegate.h
+c000000004D407D9300000000000001C7
+t1296072083
+s455
+i<UIKit/UIKit.h>
+
+N/Users/jeena/Projects/Pong/Classes/PongAppDelegate.m
+c000000004D69B93F0000000000000A80
+t1298774335
+s2688
+i"PongAppDelegate.h"
+i"PongViewController.h"
+
+N/Users/jeena/Projects/Pong/Classes/PongView.h
+c000000004D69BEBA0000000000000300
+t1298775738
+s768
+i<UIKit/UIKit.h>
+
+N/Users/jeena/Projects/Pong/Classes/PongView.m
+c000000004D69C20E0000000000000E05
+t1298776590
+s3589
+i"PongView.h"
+
+N/Users/jeena/Projects/Pong/Classes/PongViewController.h
+c000000004D69BEB400000000000000E0
+t1298775732
+s224
+i<UIKit/UIKit.h>
+
+N/Users/jeena/Projects/Pong/Classes/PongViewController.m
+c000000004D69C1F60000000000000603
+t1298776566
+s1539
+i"PongViewController.h"
+i"PongView.h"
+
+N/Users/jeena/Projects/Pong/MainWindow.xib
+c000000004D407D930000000000004E05
+t1296072083
+s19973
+
+N/Users/jeena/Projects/Pong/PongViewController.xib
+c000000004D69BF230000000000006F2D
+t1298775843
+s28461
+
+N/Users/jeena/Projects/Pong/Pong_Prefix.pch
+c000000004D407D9300000000000000B1
+t1296072083
+s177
+i<Foundation/Foundation.h>
+i<UIKit/UIKit.h>
+
+N/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app
+t1298776593
+s374
+
+N/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app.dSYM
+t1298776592
+s102
+
+N/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Info.plist
+t1298767847
+s926
+
+N/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/MainWindow.nib
+t1298767847
+s1675
+
+N/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/PkgInfo
+t1298767847
+s8
+
+N/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Pong
+t1298776592
+s52796
+
+N/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/PongViewController.nib
+t1298775897
+s3735
+
+N/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/ResourceRules.plist
+t1298767847
+s485
+
+N/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/embedded.mobileprovision
+t1298767848
+s7780
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/Pong
+t1298776592
+s24384
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/Pong.LinkFileList
+c000000004D699FE700000000000001A5
+t1298767847
+s421
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongAppDelegate.o
+t1298775813
+s50340
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongView.o
+t1298776592
+s52200
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongViewController.o
+t1298776592
+s37916
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/main.o
+t1298767848
+s6424
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/Pong
+t1298776592
+s24124
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/Pong.LinkFileList
+c000000004D699FE700000000000001A5
+t1298767847
+s421
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongAppDelegate.o
+t1298775813
+s50260
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongView.o
+t1298776592
+s51000
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongViewController.o
+t1298776592
+s37888
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/main.o
+t1298767848
+s6408
+
+N/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong.xcent
+t1298767848
+s412
+
+N/Users/jeena/Projects/Pong/main.m
+c000000004D407D930000000000000160
+t1296072083
+s352
+i<UIKit/UIKit.h>
+
+N/var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gosloautgrgfmxgzxskqjoinrwsy/Pong_Prefix.pch.gch
+t1298767847
+s10467032
+
+N/var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gukmsobkwrnrzghivaszxouymjcr/Pong_Prefix.pch.gch
+t1298767847
+s10000088
+
+NPong-Info.plist
+c000000004D699B7F0000000000000445
+t1298766719
+s1093
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies320469392#320469392#0(0"0(0#1#0"8700022464#0"0#
+
+CCodeSign /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app
+s320469392.857553
+e320469393.017707
+r1
+xCodeSign
+x/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app
+lSLF07#2@38"CodeSign build/Debug-iphoneos/Pong.app320469392#320469393#0(0"0(0#0#56"/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app8697824480#664"    cd /Users/jeena/Projects/Pong    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    setenv _CODESIGN_ALLOCATE_ /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate    /usr/bin/codesign -f -s "iPhone Developer: Richard Pannek (G62Q88N36M)" --resource-rules=/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/ResourceRules.plist --entitlements /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong.xcent /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app0#
+
+CCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongAppDelegate.o /Users/jeena/Projects/Pong/Classes/PongAppDelegate.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s320468613.562330
+e320468613.612767
+r1
+xCompileC
+xbuild/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongAppDelegate.o
+x/Users/jeena/Projects/Pong/Classes/PongAppDelegate.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@60"Compile /Users/jeena/Projects/Pong/Classes/PongAppDelegate.m320468613#320468613#0(0"0(0#0#52"/Users/jeena/Projects/Pong/Classes/PongAppDelegate.m8687287424#1639"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphoneos -I/Users/jeena/Projects/Pong/build/Debug-iphoneos/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources/armv6 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gukmsobkwrnrzghivaszxouymjcr/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/Classes/PongAppDelegate.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongAppDelegate.o0#
+
+CCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongView.o /Users/jeena/Projects/Pong/Classes/PongView.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s320469392.687280
+e320469392.816000
+r1
+xCompileC
+xbuild/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongView.o
+x/Users/jeena/Projects/Pong/Classes/PongView.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+o/Users/jeena/Projects/Pong/Classes/PongView.m: In function '-[PongView initWithCoder:]':
+o/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: 'PongView' may not respond to '-startPositions'
+o/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: (Messages without a matching method signature
+o/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: will be assumed to return 'id' and accept
+o/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: '...' as arguments.)
+o/Users/jeena/Projects/Pong/Classes/PongView.m: In function '-[PongView moveBall]':
+o/Users/jeena/Projects/Pong/Classes/PongView.m:71: warning: 'PongView' may not respond to '-startPositions'
+o/Users/jeena/Projects/Pong/Classes/PongView.m: At top level:
+o/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP1' requires method '-pointsP1' to be defined - use @synthesize, @dynamic or provide a method implementation
+o/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP1' requires the method 'setPointsP1:' to be defined - use @synthesize, @dynamic or provide a method implementation
+o/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP2' requires method '-pointsP2' to be defined - use @synthesize, @dynamic or provide a method implementation
+o/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP2' requires the method 'setPointsP2:' to be defined - use @synthesize, @dynamic or provide a method implementation
+lSLF07#2@53"Compile /Users/jeena/Projects/Pong/Classes/PongView.m320469392#320469392#0(1487"/Users/jeena/Projects/Pong/Classes/PongView.m: In function '-[PongView initWithCoder:]':/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: 'PongView' may not respond to '-startPositions'/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: (Messages without a matching method signature/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: will be assumed to return 'id' and accept/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: '...' as arguments.)/Users/jeena/Projects/Pong/Classes/PongView.m: In function '-[PongView moveBall]':/Users/jeena/Projects/Pong/Classes/PongView.m:71: warning: 'PongView' may not respond to '-startPositions'/Users/jeena/Projects/Pong/Classes/PongView.m: At top level:/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP1' requires method '-pointsP1' to be defined - use @synthesize, @dynamic or provide a method implementation/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP1' requires the method 'setPointsP1:' to be defined - use @synthesize, @dynamic or provide a method implementation/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP2' requires method '-pointsP2' to be defined - use @synthesize, @dynamic or provide a method implementation/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP2' requires the method 'setPointsP2:' to be defined - use @synthesize, @dynamic or provide a method implementation8(22@47"'PongView' may not respond to '-startPositions'320469392#89#107#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#28#0#28#0#26"'*' may not respond to '*'0(13@108"(Messages without a matching method signature will be assumed to return 'id' and accept '...' as arguments.)320469392#196#105#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#28#0#28#0#0"0(22@47"'PongView' may not respond to '-startPositions'320469392#565#107#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#71#0#71#0#26"'*' may not respond to '*'0(23@13"At top level:320469392#672#61#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#0#0#0#0#0"0(22@124"Property 'pointsP1' requires method '-pointsP1' to be defined - use @synthesize, @dynamic or provide a method implementation320469392#733#185#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#153#0#153#0#0"0(22@131"Property 'pointsP1' requires the method 'setPointsP1:' to be defined - use @synthesize, @dynamic or provide a method implementation320469392#918#192#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#153#0#153#0#0"0(22@124"Property 'pointsP2' requires method '-pointsP2' to be defined - use @synthesize, @dynamic or provide a method implementation320469392#1110#185#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#153#0#153#0#0"0(22@131"Property 'pointsP2' requires the method 'setPointsP2:' to be defined - use @synthesize, @dynamic or provide a method implementation320469392#1295#192#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#153#0#153#0#0"0(0#0#45"/Users/jeena/Projects/Pong/Classes/PongView.m8700203072#1625"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphoneos -I/Users/jeena/Projects/Pong/build/Debug-iphoneos/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources/armv6 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gukmsobkwrnrzghivaszxouymjcr/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/Classes/PongView.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongView.o0#
+
+CCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongViewController.o /Users/jeena/Projects/Pong/Classes/PongViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s320469392.651677
+e320469392.740891
+r1
+xCompileC
+xbuild/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongViewController.o
+x/Users/jeena/Projects/Pong/Classes/PongViewController.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@63"Compile /Users/jeena/Projects/Pong/Classes/PongViewController.m320469392#320469392#0(0"0(0#0#55"/Users/jeena/Projects/Pong/Classes/PongViewController.m8699045408#1645"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphoneos -I/Users/jeena/Projects/Pong/build/Debug-iphoneos/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources/armv6 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gukmsobkwrnrzghivaszxouymjcr/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/Classes/PongViewController.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/PongViewController.o0#
+
+CCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/main.o /Users/jeena/Projects/Pong/main.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s320460647.962908
+e320460648.107719
+r1
+xCompileC
+xbuild/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/main.o
+x/Users/jeena/Projects/Pong/main.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@41"Compile /Users/jeena/Projects/Pong/main.m320460647#320460648#0(0"0(0#0#33"/Users/jeena/Projects/Pong/main.m8626145920#1609"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphoneos -I/Users/jeena/Projects/Pong/build/Debug-iphoneos/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources/armv6 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gukmsobkwrnrzghivaszxouymjcr/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/main.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/main.o0#
+
+CCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongAppDelegate.o /Users/jeena/Projects/Pong/Classes/PongAppDelegate.m normal armv7 objective-c com.apple.compilers.gcc.4_2
+s320468613.603601
+e320468613.663325
+r1
+xCompileC
+xbuild/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongAppDelegate.o
+x/Users/jeena/Projects/Pong/Classes/PongAppDelegate.m
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@60"Compile /Users/jeena/Projects/Pong/Classes/PongAppDelegate.m320468613#320468613#0(0"0(0#0#52"/Users/jeena/Projects/Pong/Classes/PongAppDelegate.m8689049920#1639"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv7 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphoneos -I/Users/jeena/Projects/Pong/build/Debug-iphoneos/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources/armv7 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gosloautgrgfmxgzxskqjoinrwsy/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/Classes/PongAppDelegate.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongAppDelegate.o0#
+
+CCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongView.o /Users/jeena/Projects/Pong/Classes/PongView.m normal armv7 objective-c com.apple.compilers.gcc.4_2
+s320469392.739737
+e320469392.807440
+r1
+xCompileC
+xbuild/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongView.o
+x/Users/jeena/Projects/Pong/Classes/PongView.m
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+o/Users/jeena/Projects/Pong/Classes/PongView.m: In function '-[PongView initWithCoder:]':
+o/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: 'PongView' may not respond to '-startPositions'
+o/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: (Messages without a matching method signature
+o/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: will be assumed to return 'id' and accept
+o/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: '...' as arguments.)
+o/Users/jeena/Projects/Pong/Classes/PongView.m: In function '-[PongView moveBall]':
+o/Users/jeena/Projects/Pong/Classes/PongView.m:71: warning: 'PongView' may not respond to '-startPositions'
+o/Users/jeena/Projects/Pong/Classes/PongView.m: At top level:
+o/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP1' requires method '-pointsP1' to be defined - use @synthesize, @dynamic or provide a method implementation
+o/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP1' requires the method 'setPointsP1:' to be defined - use @synthesize, @dynamic or provide a method implementation
+o/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP2' requires method '-pointsP2' to be defined - use @synthesize, @dynamic or provide a method implementation
+o/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP2' requires the method 'setPointsP2:' to be defined - use @synthesize, @dynamic or provide a method implementation
+lSLF07#2@53"Compile /Users/jeena/Projects/Pong/Classes/PongView.m320469392#320469392#0(1487"/Users/jeena/Projects/Pong/Classes/PongView.m: In function '-[PongView initWithCoder:]':/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: 'PongView' may not respond to '-startPositions'/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: (Messages without a matching method signature/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: will be assumed to return 'id' and accept/Users/jeena/Projects/Pong/Classes/PongView.m:28: warning: '...' as arguments.)/Users/jeena/Projects/Pong/Classes/PongView.m: In function '-[PongView moveBall]':/Users/jeena/Projects/Pong/Classes/PongView.m:71: warning: 'PongView' may not respond to '-startPositions'/Users/jeena/Projects/Pong/Classes/PongView.m: At top level:/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP1' requires method '-pointsP1' to be defined - use @synthesize, @dynamic or provide a method implementation/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP1' requires the method 'setPointsP1:' to be defined - use @synthesize, @dynamic or provide a method implementation/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP2' requires method '-pointsP2' to be defined - use @synthesize, @dynamic or provide a method implementation/Users/jeena/Projects/Pong/Classes/PongView.m:153: warning: property 'pointsP2' requires the method 'setPointsP2:' to be defined - use @synthesize, @dynamic or provide a method implementation8(22@47"'PongView' may not respond to '-startPositions'320469392#89#107#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#28#0#28#0#26"'*' may not respond to '*'0(13@108"(Messages without a matching method signature will be assumed to return 'id' and accept '...' as arguments.)320469392#196#105#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#28#0#28#0#0"0(22@47"'PongView' may not respond to '-startPositions'320469392#565#107#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#71#0#71#0#26"'*' may not respond to '*'0(23@13"At top level:320469392#672#61#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#0#0#0#0#0"0(22@124"Property 'pointsP1' requires method '-pointsP1' to be defined - use @synthesize, @dynamic or provide a method implementation320469392#733#185#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#153#0#153#0#0"0(22@131"Property 'pointsP1' requires the method 'setPointsP1:' to be defined - use @synthesize, @dynamic or provide a method implementation320469392#918#192#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#153#0#153#0#0"0(22@124"Property 'pointsP2' requires method '-pointsP2' to be defined - use @synthesize, @dynamic or provide a method implementation320469392#1110#185#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#153#0#153#0#0"0(22@131"Property 'pointsP2' requires the method 'setPointsP2:' to be defined - use @synthesize, @dynamic or provide a method implementation320469392#1295#192#0(6@45"/Users/jeena/Projects/Pong/Classes/PongView.m320469390#153#0#153#0#0"0(0#0#45"/Users/jeena/Projects/Pong/Classes/PongView.m8700118784#1625"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv7 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphoneos -I/Users/jeena/Projects/Pong/build/Debug-iphoneos/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources/armv7 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gosloautgrgfmxgzxskqjoinrwsy/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/Classes/PongView.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongView.o0#
+
+CCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongViewController.o /Users/jeena/Projects/Pong/Classes/PongViewController.m normal armv7 objective-c com.apple.compilers.gcc.4_2
+s320469392.738647
+e320469392.788396
+r1
+xCompileC
+xbuild/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongViewController.o
+x/Users/jeena/Projects/Pong/Classes/PongViewController.m
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@63"Compile /Users/jeena/Projects/Pong/Classes/PongViewController.m320469392#320469392#0(0"0(0#0#55"/Users/jeena/Projects/Pong/Classes/PongViewController.m8699403520#1645"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv7 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphoneos -I/Users/jeena/Projects/Pong/build/Debug-iphoneos/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources/armv7 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gosloautgrgfmxgzxskqjoinrwsy/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/Classes/PongViewController.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/PongViewController.o0#
+
+CCompileC build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/main.o /Users/jeena/Projects/Pong/main.m normal armv7 objective-c com.apple.compilers.gcc.4_2
+s320460647.965463
+e320460648.108976
+r1
+xCompileC
+xbuild/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/main.o
+x/Users/jeena/Projects/Pong/main.m
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@41"Compile /Users/jeena/Projects/Pong/main.m320460647#320460648#0(0"0(0#0#33"/Users/jeena/Projects/Pong/main.m8615296512#1609"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv7 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphoneos -I/Users/jeena/Projects/Pong/build/Debug-iphoneos/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources/armv7 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources -include /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gosloautgrgfmxgzxskqjoinrwsy/Pong_Prefix.pch -c /Users/jeena/Projects/Pong/main.m -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/main.o0#
+
+CCompileXIB /Users/jeena/Projects/Pong/MainWindow.xib
+s320460647.108356
+e320460647.417594
+r1
+xCompileXIB
+x/Users/jeena/Projects/Pong/MainWindow.xib
+lSLF07#2@25"CompileXIB MainWindow.xib320460647#320460647#0(0"0(0#0#41"/Users/jeena/Projects/Pong/MainWindow.xib8630338784#580"    cd /Users/jeena/Projects/Pong    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.0    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/MainWindow.nib /Users/jeena/Projects/Pong/MainWindow.xib --sdk /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk0#
+
+CCompileXIB /Users/jeena/Projects/Pong/PongViewController.xib
+s320468697.485707
+e320468697.823419
+r1
+xCompileXIB
+x/Users/jeena/Projects/Pong/PongViewController.xib
+lSLF07#2@33"CompileXIB PongViewController.xib320468697#320468697#0(0"0(0#0#49"/Users/jeena/Projects/Pong/PongViewController.xib8687603392#596"    cd /Users/jeena/Projects/Pong    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.0    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/PongViewController.nib /Users/jeena/Projects/Pong/PongViewController.xib --sdk /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk0#
+
+CCpResource build/Debug-iphoneos/Pong.app/ResourceRules.plist /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/ResourceRules.plist
+s320460647.084951
+e320460647.108263
+r1
+xCpResource
+xbuild/Debug-iphoneos/Pong.app/ResourceRules.plist
+x/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/ResourceRules.plist
+lSLF07#2@94"Copy /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/ResourceRules.plist320460647#320460647#0(0"0(0#0#89"/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/ResourceRules.plist8027754748485782528#544"    cd /Users/jeena/Projects/Pong    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -resolve-src-symlinks /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/ResourceRules.plist /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app0#
+
+CCreateUniversalBinary /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Pong normal "armv6 armv7"
+s320469392.834881
+e320469392.837074
+r1
+xCreateUniversalBinary
+x/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Pong
+xnormal
+xarmv6 armv7
+lSLF07#2@77"CreateUniversalBinary build/Debug-iphoneos/Pong.app/Pong normal "armv6 armv7"320469392#320469392#0(0"0(0#0#38"/Users/jeena/Projects/Pong/armv6 armv78699147296#523"    cd /Users/jeena/Projects/Pong    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /usr/bin/lipo -create /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/Pong /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/Pong -output /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Pong0#
+
+CGenerateDSYMFile /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app.dSYM /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Pong
+s320469392.837125
+e320469392.855507
+r1
+xGenerateDSYMFile
+x/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app.dSYM
+x/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Pong
+lSLF07#2@86"GenerateDSYMFile build/Debug-iphoneos/Pong.app.dSYM build/Debug-iphoneos/Pong.app/Pong320469392#320469392#0(0"0(0#0#61"/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Pong8699904896#394"    cd /Users/jeena/Projects/Pong    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/usr/bin/dsymutil /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Pong -o /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app.dSYM0#
+
+CLd /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/Pong normal armv6
+s320469392.816061
+e320469392.834819
+r1
+xLd
+x/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/Pong
+xnormal
+xarmv6
+lSLF07#2@100"Link /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/Pong320469392#320469392#0(0"0(0#0#0"8698714656#858"    cd /Users/jeena/Projects/Pong    setenv IPHONEOS_DEPLOYMENT_TARGET 3.0    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -arch armv6 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -L/Users/jeena/Projects/Pong/build/Debug-iphoneos -F/Users/jeena/Projects/Pong/build/Debug-iphoneos -filelist /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/Pong.LinkFileList -dead_strip -miphoneos-version-min=3.0 -framework Foundation -framework UIKit -framework CoreGraphics -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv6/Pong0#
+
+CLd /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/Pong normal armv7
+s320469392.807515
+e320469392.827241
+r1
+xLd
+x/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/Pong
+xnormal
+xarmv7
+lSLF07#2@100"Link /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/Pong320469392#320469392#0(0"0(0#0#0"8699873280#858"    cd /Users/jeena/Projects/Pong    setenv IPHONEOS_DEPLOYMENT_TARGET 3.0    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -arch armv7 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -L/Users/jeena/Projects/Pong/build/Debug-iphoneos -F/Users/jeena/Projects/Pong/build/Debug-iphoneos -filelist /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/Pong.LinkFileList -dead_strip -miphoneos-version-min=3.0 -framework Foundation -framework UIKit -framework CoreGraphics -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Objects-normal/armv7/Pong0#
+
+CProcessInfoPlistFile /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Info.plist Pong-Info.plist
+s320460647.085574
+e320460647.098968
+r1
+xProcessInfoPlistFile
+x/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Info.plist
+xPong-Info.plist
+lSLF07#2@23"Process Pong-Info.plist320460647#320460647#0(0"0(0#0#42"/Users/jeena/Projects/Pong/Pong-Info.plist8624183552#579"    cd /Users/jeena/Projects/Pong    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    builtin-infoPlistUtility Pong-Info.plist -genpkginfo /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/PkgInfo -expandbuildsettings -format binary -platform iphoneos -resourcerulesfile /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/ResourceRules.plist -o /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/Info.plist0#
+
+CProcessPCH /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gosloautgrgfmxgzxskqjoinrwsy/Pong_Prefix.pch.gch Pong_Prefix.pch normal armv7 objective-c com.apple.compilers.gcc.4_2
+s320460647.421477
+e320460647.962835
+r1
+xProcessPCH
+x/var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gosloautgrgfmxgzxskqjoinrwsy/Pong_Prefix.pch.gch
+xPong_Prefix.pch
+xnormal
+xarmv7
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@26"Precompile Pong_Prefix.pch320460647#320460647#0(0"0(0#0#42"/Users/jeena/Projects/Pong/Pong_Prefix.pch8622066880#1522"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c-header -arch armv7 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphoneos -I/Users/jeena/Projects/Pong/build/Debug-iphoneos/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources/armv7 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources -c /Users/jeena/Projects/Pong/Pong_Prefix.pch -o /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gosloautgrgfmxgzxskqjoinrwsy/Pong_Prefix.pch.gch0#
+
+CProcessPCH /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gukmsobkwrnrzghivaszxouymjcr/Pong_Prefix.pch.gch Pong_Prefix.pch normal armv6 objective-c com.apple.compilers.gcc.4_2
+s320460647.420828
+e320460647.936346
+r1
+xProcessPCH
+x/var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gukmsobkwrnrzghivaszxouymjcr/Pong_Prefix.pch.gch
+xPong_Prefix.pch
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@26"Precompile Pong_Prefix.pch320460647#320460647#0(0"0(0#0#42"/Users/jeena/Projects/Pong/Pong_Prefix.pch8623672672#1522"    cd /Users/jeena/Projects/Pong    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c-header -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-generated-files.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-own-target-headers.hmap -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-all-target-headers.hmap -iquote /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong-project-headers.hmap -F/Users/jeena/Projects/Pong/build/Debug-iphoneos -I/Users/jeena/Projects/Pong/build/Debug-iphoneos/include -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources/armv6 -I/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/DerivedSources -c /Users/jeena/Projects/Pong/Pong_Prefix.pch -o /var/folders/zD/zDRcSKAkH4qw4uzdwEpSCE+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Pong_Prefix-gukmsobkwrnrzghivaszxouymjcr/Pong_Prefix.pch.gch0#
+
+CProcessProductPackaging "/Users/jeena/Library/MobileDevice/Provisioning Profiles/6A9A419F-E593-49FC-98DE-2B027A0982C3.mobileprovision" /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/embedded.mobileprovision
+s320460648.664649
+e320460648.665784
+r1
+xProcessProductPackaging
+x/Users/jeena/Library/MobileDevice/Provisioning Profiles/6A9A419F-E593-49FC-98DE-2B027A0982C3.mobileprovision
+x/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/embedded.mobileprovision
+lSLF07#2@189"ProcessProductPackaging "/Users/jeena/Library/MobileDevice/Provisioning Profiles/6A9A419F-E593-49FC-98DE-2B027A0982C3.mobileprovision" build/Debug-iphoneos/Pong.app/embedded.mobileprovision320460648#320460648#0(0"0(0#0#81"/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/embedded.mobileprovision8617274624#473"    cd /Users/jeena/Projects/Pong    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    <com.apple.tools.product-pkg-utility> "/Users/jeena/Library/MobileDevice/Provisioning Profiles/6A9A419F-E593-49FC-98DE-2B027A0982C3.mobileprovision" -o /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app/embedded.mobileprovision0#
+
+CProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/Entitlements.plist /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong.xcent
+s320460648.667702
+e320460648.765541
+r1
+xProcessProductPackaging
+x/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/Entitlements.plist
+x/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong.xcent
+lSLF07#2@166"ProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/Entitlements.plist build/Pong.build/Debug-iphoneos/Pong.build/Pong.xcent320460648#320460648#0(0"0(0#0#80"/Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong.xcent8613426272#476"    cd /Users/jeena/Projects/Pong    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    <com.apple.tools.product-pkg-utility> /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/Entitlements.plist -entitlements -format xml -o /Users/jeena/Projects/Pong/build/Pong.build/Debug-iphoneos/Pong.build/Pong.xcent0#
+
+CTouch /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app
+s320469392.855635
+e320469392.857447
+r1
+xTouch
+x/Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app
+lSLF07#2@62"Touch /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app320469392#320469392#0(0"0(0#0#0"8700259808#314"    cd /Users/jeena/Projects/Pong    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin"    /usr/bin/touch -c /Users/jeena/Projects/Pong/build/Debug-iphoneos/Pong.app0#
+

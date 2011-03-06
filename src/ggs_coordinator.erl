@@ -103,7 +103,7 @@ handle_call(join_lobby, From, State) ->
     Token = helpers:get_new_token(),
     Players = State#co_state.players,
     io:format("join_lobby from: ~p~n", [From]),
-    {Pid, Sock} = From,
+    {Pid, _Sock} = From,
     NewState = State#co_state{players = [{Pid, Token} | Players]},
     back_up(NewState),
     {reply, {ok, Token}, NewState};

@@ -45,9 +45,9 @@ create_table_test() ->
     timer:sleep(100),
     % Forcibly create a table. This functionality should be disabled
     % in the production system, but is pretty nice for testing.
-    Response = ggs_coordinator:create_table({force, 1337}),
-    ?assert(Response == {ok, 1337}).
+    Response = ggs_coordinator:create_table({force, "1337"}),
+    ?assert(Response == {ok, "1337"}).
 
 join_good_table_test() ->
-    Response = ggs_coordinator:join_table(1337),
-    ?assert(Response == {ok, 1337}).
+    Response = ggs_coordinator:join_table("1337"),
+    ?assert(Response == {ok, "1337"}).

@@ -54,9 +54,10 @@ stop(GameVM) ->
 init([Table]) ->
     process_flag(trap_exit, true),
     {ok, Port} = js_driver:new(),
-%    %% @TODO: add here default JS API instead
 	{ok, JSAPISourceCode} = file:read_file("src/ggs_api.js"),
 	ok = js:define(Port, JSAPISourceCode),
+	InitGGSJSString = "var GGS = new _GGS(" ++ Table ++ ");",
+	ok = js:define(Port, list_to_binary(InitGGSJSString)),
     {ok, #state { port = Port, table = Table }}.
 
 %% private
@@ -66,14 +67,20 @@ handle_call({eval, SourceCode}, _From, #state { port = Port } = State) ->
     {reply, Ret, State}.
 
 %% @private    
-handle_cast({define, SourceCode}, #state { port = Port } = State) ->
-    ok = js:define(Port, list_to_binary(SourceCode)),
-    {noreply, State};
+handle_cast({define, SourceCode}, #state { port = Port, table = Table } = State) ->
+    Ret = js:define(Port, list_to_binary(SourceCode)),
+	case Ret of
+		ok ->
+			ggs_table:notify_all_players(Table, {"defined", "ok"}),
+			{noreply, State};
+		Other ->
+			ggs_table:notify_all_players(Table, {"defined", "error " ++ Other}),
+			{noreply, State}
+	end;
 handle_cast({player_command, Player, Command, Args}, #state { port = Port } = State) ->
-    Arguments = string:concat("'", string:concat(
-		string:join([js_escape(Player), js_escape(Command), js_escape(Args)], "','"), "'")),
-    Js = list_to_binary(string:concat(string:concat("playerCommand(", Arguments), ");")),
+    Js = list_to_binary("playerCommand(new Player('" ++ Player  ++ "'), '" ++ js_escape(Command) ++ "', '" ++ js_escape(Args) ++ "');"),
     js_driver:define_js(Port, Js),
+	erlang:display(binary_to_list(Js)),
     {noreply, State};
 handle_cast(stop, State) ->
     {stop, normal, State};

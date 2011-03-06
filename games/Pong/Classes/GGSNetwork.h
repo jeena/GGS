@@ -25,8 +25,8 @@
 @property (nonatomic, retain) NSString *gameToken;
 
 - (id)initWithDelegate:(id)delegate;
-- (NSData *)makeMessageWithCommand:(NSString *)command andArgs:(NSString *)args;
-- (void)parseHeader:(NSData *)headerData;
+- (NSData *)makeMessageFor:(NSString *)serverOrGame withCommand:(NSString *)command andArgs:(NSString *)args;
+- (void)parseAndSetHeader:(NSData *)headerData;
 
 - (void)define:(NSString *)sourceCode;
 - (void)sendCommand:(NSString *)command withArgs:(NSString *)args;

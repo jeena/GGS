@@ -18,7 +18,7 @@
 	notify_all_players/2,
 	notify_game/3,
 	get_player_list/1,
-    notify_player/4]).
+	send_command/3]).
 
 
 %% ----------------------------------------------------------------------
@@ -66,24 +66,16 @@ notify_game(TablePid, From, Message) ->
 
 %% @doc Notify a player sitting at this table with the message supplied.
 %% Player, Table and From are in token form.
-notify_player(TableToken, PlayerToken, From, Message) ->
+send_command(TableToken, PlayerToken, Message) ->
     TablePid = ggs_coordinator:table_token_to_pid(TableToken),
-    %PlayerPid = ggs_coordinator:player_token_to_pid(PlayerToken),
-    gen_server:cast(TablePid, {notify_player, PlayerToken, From, Message}).
-
-send_command(TableToken, PlayerToken, Command, Args) ->
-	gen_logger:not_implemented().
-
-send_command_to_all(TableToken, Command, Args) ->
-	gen_logger:not_implemented().
-
+    gen_server:cast(TablePid, {notify_player, PlayerToken, self(), Message}).
 
 %% ----------------------------------------------------------------------
 
 %% @private
 init([TableToken]) ->
     process_flag(trap_exit, true),
-    GameVM = ggs_gamevm:start_link(TableToken),
+    GameVM = ggs_gamevm_p:start_link(TableToken),
     {ok, #state { 
 		  game_vm = GameVM,
 		  players = [] }}.
@@ -110,14 +102,14 @@ handle_cast({notify, Player, Message}, #state { game_vm = GameVM } = State) ->
     PlayerToken = ggs_coordinator:player_pid_to_token(Player),
     case Message of
         {server, define, Args} ->
-            ggs_gamevm:define(GameVM, Args);
+            ggs_gamevm_p:define(GameVM, Args);
         {game, Command, Args} ->
-            ggs_gamevm:player_command(GameVM, PlayerToken, Command, Args)
+            ggs_gamevm_p:player_command(GameVM, PlayerToken, Command, Args)
     end,
     {noreply, State};
 
 handle_cast({notify_game, Message, From}, #state { game_vm = GameVM } = State) ->
-    ggs_gamevm:player_command(GameVM, From, Message, ""),
+    ggs_gamevm_p:player_command(GameVM, From, Message, ""),
     {noreply, State};
 
 handle_cast({notify_all_players, Message}, #state{players = Players} = State) ->

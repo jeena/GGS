@@ -18,7 +18,10 @@
 #define WIDTH 480
 #define HEIGHT 320
 
-@synthesize ballView, player1View, player2View, tapToBegin, pointsP1, pointsP2;
+#define TOX(x) ( WIDTH / 100 * (x))
+#define TOY(y) ( HEIGHT / 100 * (y))
+
+@synthesize ballView, player1View, player2View, tapToBegin, pointsP1, pointsP2, ggsNetwork;
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -38,6 +41,10 @@
 }
 */
 
+-(BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
 #pragma mark -
 #pragma mark GGSNetwork Delegate
 
@@ -47,16 +54,28 @@
 
 - (void)GGSNetwork:(GGSNetwork *)_ggsNetwork defined:(BOOL)defined {
 	if (defined) {
-		[ggsNetwork sendCommand:@"nick" withArgs:@"jeena"];
-		[ggsNetwork sendCommand:@"chat" withArgs:@"Hi everybody I'm pong."];
+		[ggsNetwork sendCommand:@"ready" withArgs:@""];
 	} else {
 		NSLog(@"Not defined");
 	}
 
 }
 
-- (void)GGSNetwork:(GGSNetwork *)ggsNetwork receivedCommand:(NSString *)command withArgs:(NSString *)args {
+- (void)GGSNetwork:(GGSNetwork *)_ggsNetwork receivedCommand:(NSString *)command withArgs:(NSString *)args {
 	NSLog(@"Command: %@; Args: %@", command, args);
+	
+	if ([command isEqualToString:@"ball"]) {
+		NSArray *ball = [args componentsSeparatedByString:@","];
+		ballView.center = CGPointMake([[ball objectAtIndex:0] intValue], [[ball objectAtIndex:1] intValue]);
+	} else if ([command isEqualToString:@"player1_y"]) {
+		player1View.center = CGPointMake(20, TOY([args intValue]));
+	} else if ([command isEqualToString:@"player2_y"]) {
+		player2View.center = CGPointMake(WIDTH - 40, TOY([args intValue]));
+	} else if ([command isEqualToString:@"player1_points"]) {
+		pointsP1.text = args;
+	} else if ([command isEqualToString:@"player2_points"]) {
+		pointsP2.text = args;
+	}
 }
 
 
@@ -70,8 +89,8 @@
 	ggsNetwork = [[GGSNetwork alloc] initWithDelegate:self];
 	
 	gamePaused = YES;
-	[self startPositions];
-	[NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(moveBall) userInfo:nil repeats:YES];
+	//[self startPositions];
+	//[NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(moveBall) userInfo:nil repeats:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -104,7 +123,7 @@
 	// e.g. self.myOutlet = nil;
 }
 
-
+/*
 # pragma mark -
 # pragma mark Ball
 
@@ -222,7 +241,7 @@
 	pointsP1.text = @"0";
 	pointsP2.text = @"0";
 }
-
+*/
 # pragma mark -
 # pragma mark Dealloc
 

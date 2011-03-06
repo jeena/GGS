@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "GGSDelegate.h"
 #import "GGSNetwork.h"
+#import <AVFoundation/AVAudioPlayer.h>
 
 enum GameType {
 	kGameTypeSinglePlayer = 0,
@@ -28,6 +29,11 @@ enum GameType {
 	IBOutlet UILabel *pointsP2;
 	
 	GGSNetwork *ggsNetwork;
+
+	AVAudioPlayer *pingSound;
+	AVAudioPlayer *pongSound;
+	AVAudioPlayer *lostSound;
+
 }
 
 @property (nonatomic, retain) IBOutlet UIView *ballView;
@@ -39,6 +45,8 @@ enum GameType {
 @property (nonatomic, retain) IBOutlet UILabel *pointsP2;
 
 @property (nonatomic, retain) GGSNetwork *ggsNetwork;
+
+- (void)restart;
 
 - (void)startPositions;
 - (void)zeroPoints;

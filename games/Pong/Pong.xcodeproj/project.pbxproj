@@ -11,6 +11,10 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		1F369FF813233C1E004E7A99 /* lost.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1F369FF513233C1E004E7A99 /* lost.wav */; };
+		1F369FF913233C1E004E7A99 /* ping.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1F369FF613233C1E004E7A99 /* ping.wav */; };
+		1F369FFA13233C1E004E7A99 /* pong.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1F369FF713233C1E004E7A99 /* pong.wav */; };
+		1F36A00713233CCC004E7A99 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F36A00613233CCC004E7A99 /* AVFoundation.framework */; };
 		1FBEBF481319FC56006D5497 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FBEBF471319FC56006D5497 /* CFNetwork.framework */; };
 		1FBEBF4D1319FCDE006D5497 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBEBF4C1319FCDE006D5497 /* AsyncSocket.m */; };
 		1FBEBFEF131A97F8006D5497 /* GGSNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBEBFEE131A97F8006D5497 /* GGSNetwork.m */; };
@@ -26,6 +30,10 @@
 		1D3623250D0F684500981E51 /* PongAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PongAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1F369FF513233C1E004E7A99 /* lost.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lost.wav; sourceTree = "<group>"; };
+		1F369FF613233C1E004E7A99 /* ping.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ping.wav; sourceTree = "<group>"; };
+		1F369FF713233C1E004E7A99 /* pong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pong.wav; sourceTree = "<group>"; };
+		1F36A00613233CCC004E7A99 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		1FBEBF471319FC56006D5497 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		1FBEBF4B1319FCDE006D5497 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
 		1FBEBF4C1319FCDE006D5497 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
@@ -51,6 +59,7 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				1FBEBF481319FC56006D5497 /* CFNetwork.framework in Frameworks */,
+				1F36A00713233CCC004E7A99 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +124,9 @@
 			children = (
 				2899E5210DE3E06400AC0155 /* PongViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				1F369FF513233C1E004E7A99 /* lost.wav */,
+				1F369FF613233C1E004E7A99 /* ping.wav */,
+				1F369FF713233C1E004E7A99 /* pong.wav */,
 				8D1107310486CEB800E47090 /* Pong-Info.plist */,
 			);
 			name = Resources;
@@ -127,6 +139,7 @@
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
 				1FBEBF471319FC56006D5497 /* CFNetwork.framework */,
+				1F36A00613233CCC004E7A99 /* AVFoundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -182,6 +195,9 @@
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* PongViewController.xib in Resources */,
+				1F369FF813233C1E004E7A99 /* lost.wav in Resources */,
+				1F369FF913233C1E004E7A99 /* ping.wav in Resources */,
+				1F369FFA13233C1E004E7A99 /* pong.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

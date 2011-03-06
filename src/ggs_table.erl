@@ -44,7 +44,6 @@ remove_player(Table, Player) ->
 %% @doc Get a list of all player processes attached to this table
 get_player_list(TableToken) ->
     TablePid = ggs_coordinator:table_token_to_pid(TableToken),
-    erlang:display(TablePid),
     gen_server:call(TablePid, get_player_list).
 
 % @doc stops the table process
@@ -88,7 +87,6 @@ handle_call({remove_player, Player}, _From, #state { players = Players } = State
     {reply, ok, State#state { players = Players -- [Player] }};
 
 handle_call(get_player_list, _From, #state { players = Players } = State) ->
-    io:format("Players: ~p~n", [Players]),
     TokenPlayers = lists:map(
             fun (Pid) -> ggs_coordinator:player_pid_to_token(Pid) end, Players),
 	{reply, {ok, TokenPlayers}, State};

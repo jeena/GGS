@@ -7,7 +7,6 @@
 //
 
 #import "PongViewController.h"
-#import "GGSNetwork.h"
 
 @implementation PongViewController
 
@@ -18,8 +17,8 @@
 #define WIDTH 480
 #define HEIGHT 320
 
-#define TOX(x) ( WIDTH / 100 * (x))
-#define TOY(y) ( HEIGHT / 100 * (y))
+#define TOX(x) ( 4.8 * x )
+#define TOY(y) ( 3.2 * y )
 
 @synthesize ballView, player1View, player2View, tapToBegin, pointsP1, pointsP2, ggsNetwork;
 
@@ -49,32 +48,90 @@
 #pragma mark GGSNetwork Delegate
 
 - (void)GGSNetwork:(GGSNetwork *)_ggsNetwork ready:(BOOL)ready {
-	[ggsNetwork define:@"function playerCommand(user, command, args) { user.sendCommand(command, args); }"];
+	[ggsNetwork sendCommand:@"ready" withArgs:@""];
 }
 
 - (void)GGSNetwork:(GGSNetwork *)_ggsNetwork defined:(BOOL)defined {
-	if (defined) {
-		[ggsNetwork sendCommand:@"ready" withArgs:@""];
-	} else {
-		NSLog(@"Not defined");
-	}
-
+	// do nothing.
 }
 
 - (void)GGSNetwork:(GGSNetwork *)_ggsNetwork receivedCommand:(NSString *)command withArgs:(NSString *)args {
-	NSLog(@"Command: %@; Args: %@", command, args);
 	
 	if ([command isEqualToString:@"ball"]) {
 		NSArray *ball = [args componentsSeparatedByString:@","];
-		ballView.center = CGPointMake([[ball objectAtIndex:0] intValue], [[ball objectAtIndex:1] intValue]);
+		[UIView beginAnimations:NULL context:NULL];
+		CGFloat x = [[ball objectAtIndex:0] floatValue];
+		CGFloat y = [[ball objectAtIndex:1] floatValue];
+		ballView.center = CGPointMake(TOX(x), TOY(y));
+		[UIView commitAnimations];
+		
 	} else if ([command isEqualToString:@"player1_y"]) {
-		player1View.center = CGPointMake(20, TOY([args intValue]));
+
+		[UIView beginAnimations:NULL context:NULL];
+		player1View.center = CGPointMake(25, TOY([args floatValue]));
+		[UIView commitAnimations];
+		
 	} else if ([command isEqualToString:@"player2_y"]) {
-		player2View.center = CGPointMake(WIDTH - 40, TOY([args intValue]));
+
+		[UIView beginAnimations:NULL context:NULL];
+		player2View.center = CGPointMake(WIDTH - 35, TOY([args floatValue]));
+		[UIView commitAnimations];
+		
 	} else if ([command isEqualToString:@"player1_points"]) {
+
 		pointsP1.text = args;
+		gamePaused = YES;
+		[lostSound play];
+		
 	} else if ([command isEqualToString:@"player2_points"]) {
+		
 		pointsP2.text = args;
+		gamePaused = YES;
+		[lostSound play];
+		
+	} else if ([command isEqualToString:@"game"]) {
+		
+		if ([args isEqualToString:@"wait"]) {
+			
+			NSLog(@"Other ready");
+			
+		} else if ([args isEqualToString:@"start"]) {
+			
+			gamePaused = NO;
+			
+		}
+	} else if ([command isEqualToString:@"welcome"]) {
+		if ([args isEqualToString:@"1"]) {
+			player1View.backgroundColor = [UIColor redColor];
+		} else {
+			player2View.backgroundColor = [UIColor redColor];			
+		}
+
+	} else if ([command isEqualToString:@"sound"]) {
+		if ([args isEqualToString:@"ping"]) {
+			[pingSound play];
+		} else {
+			[pongSound play];
+		}
+
+	}
+}
+
+#pragma mark -
+#pragma mark Input
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	if (gamePaused) {
+		[ggsNetwork sendCommand:@"start" withArgs:@""];
+		tapToBegin.hidden = YES;
+	} else {
+		CGPoint point = [[[touches allObjects] objectAtIndex:0] locationInView:self.view];
+		if (point.y > (HEIGHT / 2)) {
+			[ggsNetwork sendCommand:@"down" withArgs:@""];
+		} else {
+			[ggsNetwork sendCommand:@"up" withArgs:@""];
+		}
+
 	}
 }
 
@@ -82,12 +139,35 @@
 #pragma mark -
 #pragma mark View
 
+- (void)restart {
+	player1View.backgroundColor = [UIColor whiteColor];
+	player2View.backgroundColor = [UIColor whiteColor];
+	pointsP1.text = @"0";
+	pointsP2.text = @"0";
+	self.ggsNetwork = [[GGSNetwork alloc] initWithDelegate:self];
+	gamePaused = YES;
+	tapToBegin.hidden = NO;
+}
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	ggsNetwork = [[GGSNetwork alloc] initWithDelegate:self];
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"ping" ofType:@"wav"];  
+    pingSound = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:NULL];
+	[pingSound play];
 	
+	path = [[NSBundle mainBundle] pathForResource:@"pong" ofType:@"wav"];  
+    pongSound = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:NULL];
+	[pongSound play];
+	
+	path = [[NSBundle mainBundle] pathForResource:@"lost" ofType:@"wav"];  
+    lostSound = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:NULL];
+	[lostSound play];
+
+	
+	//ggsNetwork = [[GGSNetwork alloc] initWithDelegate:self];
+
 	gamePaused = YES;
 	//[self startPositions];
 	//[NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(moveBall) userInfo:nil repeats:YES];
@@ -253,6 +333,10 @@
 	[pointsP1 release];
 	[pointsP2 release];
 	[ggsNetwork release];
+	
+	[pingSound release];
+	[pongSound release];
+	[lostSound release];
 	
     [super dealloc];
 }

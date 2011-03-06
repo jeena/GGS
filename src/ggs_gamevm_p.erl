@@ -191,8 +191,9 @@ intern_start(Table, Player) ->
 				true ->
 					ggs_table:notify_all_players(Table, {"game", "start"}),
 					ggs_db:setItem(Table, local_storage, ball, {50,50,1,1}),
-					spawn(fun() -> game_loop([Table]) end);
-				false ->
+					Pid = spawn(fun() -> game_loop([Table]) end),
+					Pid ! tick;
+				_Other ->
 					ggs_table:send_command(Table, Player, {"game", "wait"})
 			end;
 		player2 ->
@@ -202,8 +203,9 @@ intern_start(Table, Player) ->
 				true ->
 					ggs_table:notify_all_players(Table, {"game", "start"}),
 					ggs_db:setItem(Table, local_storage, ball, {50,50,-1,-1}),
-					spawn(fun() -> game_loop([Table]) end);
-				false ->
+					GameLoop = spawn(fun() -> game_loop([Table]) end),
+					GameLoop ! tick;
+				_Other ->
 					ggs_table:send_command(Table, Player, {"game", "wait"})
 			end
 	end.
@@ -215,18 +217,19 @@ game_loop([Table]) ->
 			Ball = {BX, BY, SX, SY},
 			ggs_db:setItem(Table, local_storage, ball, Ball),
 			ggs_table:notify_all_players(Table, {"ball", int2str(BX) ++ "," ++ int2str(BY)}),
-			check_ball(Table, Ball);
+			check_ball(Table, Ball),
+			timer:send_after(50, tick),
+			game_loop([Table]);
 		'EXIT' ->
 			exit(normal)
-	after 5000 ->
-		self() ! tick
 	end.
 
 int2str(Int) ->
 	lists:flatten(io_lib:format("~p", [Int])).
 	
 step_ball({BX, BY, SX, SY}) ->
-	{BX + SX, BY + SY, SX, BY}.
+	Ball = {BX + SX, BY + SY, SX, SY},
+	Ball.
 	
 check_ball(Table, {BX, BY, SX, SY}) ->
 	% check up and down bounds
@@ -237,43 +240,52 @@ check_ball(Table, {BX, BY, SX, SY}) ->
 			NewSY = SY
 	end,
 	
-	% check intersection with player1
+	% check intersection with a player
 	P1Y = ggs_db:getItem(Table, local_storage, player1_y),
-	case check_intersect({0, P1Y, 10, 30}, {BX, BY, 10, 10}) of
-		true ->
-			SX1 = -SX;
-		false ->
-			SX1 = SX
-	end,
-	
-	% check intersection with player2
 	P2Y = ggs_db:getItem(Table, local_storage, player2_y),
-	case check_intersect({90, P2Y, 10, 30}, {BX, BY, 10, 10}) of
+	case (check_intersect({0, P1Y, 10, 30}, {BX, BY, 10, 10}) or check_intersect({99, P2Y, 10, 30}, {BX, BY, 10, 10})) of
 		true ->
-			SX2 = - SX1;
+			NewSX = -SX,
+			case NewSX of
+				-1 ->
+					ggs_table:notify_all_players(Table, {"sound", "ping"});
+				1 ->
+					ggs_table:notify_all_players(Table, {"sound", "pong"})
+			end;
 		false ->
-			SX2 = SX1
+			NewSX = SX
 	end,
-	ggs_db:setItem(Table, local_storage, ball, {BX, BY , SX2, NewSY}),
+	ggs_db:setItem(Table, local_storage, ball, {BX, BY , NewSX, NewSY}),
+
 
 	% check for point player1
-	if BX > 90 ->
-		Player1Points = ggs_db:getItem(Table, local_storage, player1_points),
-		NewPlayer1Points = Player1Points + 1,
-		ggs_db:setItem(Table, local_storage, player1_points, NewPlayer1Points),
-		ggs_table:notify_all_players(Table, {"player1_points", int2str(NewPlayer1Points)}),
-		exit(normal)
+	case BX > 100 of
+		true ->
+			Player1Points = ggs_db:getItem(Table, local_storage, player1_points),
+			NewPlayer1Points = Player1Points + 1,
+			ggs_db:setItem(Table, local_storage, player1_points, NewPlayer1Points),
+			ggs_table:notify_all_players(Table, {"player1_points", int2str(NewPlayer1Points)}),
+			exit(normal);
+		false ->
+			ok
 	end,
 
 	% check for point player2
-	if BX < 0 ->
-		Player2Points = ggs_db:getItem(Table, local_storage, player2_points),
-		NewPlayer2Points = Player2Points + 1,
-		ggs_db:setItem(Table, local_storage, player2_points, NewPlayer2Points),
-		ggs_table:notify_all_players(Table, {"player2_points", int2str(NewPlayer2Points)}),
-		exit(normal)
+	case BX < 0 of
+		true ->
+			Player2Points = ggs_db:getItem(Table, local_storage, player2_points),
+			NewPlayer2Points = Player2Points + 1,
+			ggs_db:setItem(Table, local_storage, player2_points, NewPlayer2Points),
+			ggs_table:notify_all_players(Table, {"player2_points", int2str(NewPlayer2Points)}),
+			exit(normal);
+		false -> 
+			ok
 	end.
-			
-			
-check_intersect({AX, AY, AW, AH}, {BX, BY, BW, BH}) ->
-	not (BX > (AX + AW)) or ((BX + BW) < AX) or (BY > (AY + AH)) or ((BY + BH) < AY).
+
+
+check_intersect({AX1, AY1, AW, AH}, {BX1, BY1, BW, BH}) ->
+	AX2 = AX1 + AW,
+	AY2 = AY1 + AH,
+	BX2 = BX1 + BW,
+	BY2 = BY1 + BH,
+	(AX1 < BX2) and (AX2 > BX1) and (AY1 < BY2) and (AY2 > BY1).

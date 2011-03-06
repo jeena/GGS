@@ -11,7 +11,7 @@
 
 @implementation GGSNetwork
 
-#define GGS_HOST @"localhost"
+#define GGS_HOST @"home.jeena.net"
 #define GGS_PORT 9000
 #define NO_TIMEOUT -1
 
@@ -37,6 +37,7 @@
 		asyncSocket = [[AsyncSocket alloc] initWithDelegate:self];
 		
 		[asyncSocket connectToHost:GGS_HOST onPort:GGS_PORT error:nil];
+		
 		[asyncSocket readDataToData:HEADER_DELIMITER withTimeout:NO_TIMEOUT tag:HEAD];
 	}
 	
@@ -61,11 +62,10 @@
 }
 
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
-	
+
 }
 
 - (void)onSocket:(AsyncSocket *)sender didReadData:(NSData *)data withTag:(long)tag {
-	
 	
 	if (tag == HEAD) {
 		[self parseAndSetHeader:data];

@@ -11,7 +11,7 @@
 
 @implementation GGSNetwork
 
-#define GGS_HOST @"home.jeena.net"
+#define GGS_HOST @"jeena.net"
 #define GGS_PORT 9000
 #define NO_TIMEOUT -1
 

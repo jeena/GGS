@@ -271,13 +271,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>8</integer>
+									<integer>11</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {186, 1238}}</string>
+							<string>{{0, 0}, {186, 1086}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -289,14 +289,14 @@
 					<key>GeometryConfiguration</key>
 					<dict>
 						<key>Frame</key>
-						<string>{{0, 0}, {203, 1256}}</string>
+						<string>{{0, 0}, {203, 1104}}</string>
 						<key>GroupTreeTableConfiguration</key>
 						<array>
 							<string>MainColumn</string>
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>1164 121 1267 1297 0 0 2560 1418 </string>
+						<string>112 246 1267 1145 0 0 2560 1418 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -314,7 +314,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>PongViewController.m</string>
+								<string>GGSNetwork.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -322,11 +322,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>PongViewController.m</string>
+										<string>GGSNetwork.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>1F36A0221323417E004E7A99</string>
+										<string>1F36A02B1323454A004E7A99</string>
 										<key>history</key>
 										<array>
 											<string>1FBEBF151319F5C1006D5497</string>
@@ -334,11 +334,11 @@
 											<string>1FBEC002131AA71C006D5497</string>
 											<string>1FBEC05C131B085D006D5497</string>
 											<string>1F369ED81323101D004E7A99</string>
-											<string>1F369F33132317A8004E7A99</string>
-											<string>1F369F6C13232750004E7A99</string>
 											<string>1F369FE61323395B004E7A99</string>
 											<string>1F36A0201323417E004E7A99</string>
-											<string>1F36A0211323417E004E7A99</string>
+											<string>1F36A0291323454A004E7A99</string>
+											<string>1F36A02A1323454A004E7A99</string>
+											<string>1F369F6C13232750004E7A99</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -350,14 +350,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1059, 1251}}</string>
+								<string>{{0, 0}, {1059, 1099}}</string>
 								<key>RubberWindowFrame</key>
-								<string>1164 121 1267 1297 0 0 2560 1418 </string>
+								<string>112 246 1267 1145 0 0 2560 1418 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>1251pt</string>
+							<string>1099pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -370,9 +370,9 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 1256}, {1059, 0}}</string>
+								<string>{{0, 1104}, {1059, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>1164 121 1267 1297 0 0 2560 1418 </string>
+								<string>112 246 1267 1145 0 0 2560 1418 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -544,7 +544,7 @@
 		<string>/Users/jeena/Student/GGS/games/Pong/Pong.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>1164 121 1267 1297 0 0 2560 1418 </string>
+	<string>112 246 1267 1145 0 0 2560 1418 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

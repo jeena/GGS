@@ -41,7 +41,18 @@
 \footskip 0.75in
 
 \usepackage[compact]{titlesec}
-\titleformat{\chapter}[display]{\bfseries\vskip-8em}{}{8ex}{\huge\thechapter. }[\titlerule]
+
+
+\titleformat{\chapter}[display]
+{\vskip-8em\normalfont\bfseries}
+{\LARGE\raggedright\thechapter}
+{14ex}
+{\vspace{-20ex}%
+\LARGE\raggedleft}
+[\vspace{1ex}%
+{\titlerule[1pt]}]
+
+\usepackage[absolute]{textpos}
 \end_preamble
 \use_default_options true
 \language english
@@ -87,6 +98,92 @@
 \end_header
 
 \begin_body
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{textblock*}{297mm}(0mm,10mm)    
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=
+\backslash
+paperwidth-10mm]{ChaGUblasvarteng.eps} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{textblock*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{textblock*}{297mm}(73mm,10mm)    
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=
+\backslash
+paperwidth/3]{LO_CHGU_cen2rCMYK.eps} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{textblock*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Title
 Generic Game Server
@@ -569,12 +666,77 @@ In GGS, we have separated the system in to two large supervised parts.
  we restart the nearest supervisor of this child.
  This ensures separation of the subsystems so that a crash is as isolated
  as possible.
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+We should really do this graphic in EPS instead of PNG
 \end_layout
 
-\begin_layout Standard
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{centering}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Graphics
 	filename supervisors.png
 	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{centering}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+The supervisor structure of GGS
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -741,12 +903,64 @@ With the information kept in the tables and the Coordinator combined, we
  This can be thought of the chess club catching fire, and the Coordinator
  rounding up all the tables, running to a new location and building the
  club up in the exact state it was prior to the fire.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{centering}
 \end_layout
 
-\begin_layout Standard
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Graphics
 	filename system_structure.png
 	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{centering}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+The layout of GGS
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 

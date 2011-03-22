@@ -32,12 +32,16 @@
 \renewcommand{\cftchappagefont}{\bfseries}
 \renewcommand{\cftchappresnum}{Chapter }
 \renewcommand{\cftchapnumwidth}{6em}
+
 \oddsidemargin 0.5in 
 \textwidth 6in
 \topmargin 0.0in
 \textheight 8.0in
 \setlength\topskip{24pt}
 \footskip 0.75in
+
+\usepackage[compact]{titlesec}
+\titleformat{\chapter}[display]{\bfseries\vskip-8em}{}{8ex}{\huge\thechapter. }[\titlerule]
 \end_preamble
 \use_default_options true
 \language english
@@ -53,10 +57,10 @@
 
 \graphics default
 \paperfontsize default
-\spacing double
+\spacing onehalf
 \use_hyperref false
-\papersize default
-\use_geometry true
+\papersize a4paper
+\use_geometry false
 \use_amsmath 1
 \use_esint 1
 \cite_engine natbib_authoryear
@@ -65,17 +69,17 @@
 \paperwidth 11in
 \paperheight 8.5in
 \leftmargin 1.25in
-\topmargin 1in
+\topmargin 0in
 \rightmargin 1in
 \bottommargin 1.7in
-\secnumdepth 3
-\tocdepth 3
+\secnumdepth 2
+\tocdepth 2
 \paragraph_separation indent
-\defskip medskip
+\defskip smallskip
 \quotes_language english
 \papercolumns 1
 \papersides 1
-\paperpagestyle default
+\paperpagestyle empty
 \tracking_changes false
 \output_changes false
 \author "" 
@@ -102,6 +106,10 @@ Richard Pannek
 \end_inset
 
 Matias Petterson
+\end_layout
+
+\begin_layout Abstract
+This is the abstract!
 \end_layout
 
 \begin_layout Standard
@@ -173,122 +181,6 @@ cftchapdotsep{6.6}
 
 \begin_inset CommandInset toc
 LatexCommand tableofcontents
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage newpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-addcontentsline{toc}{chapter}{List of Tables} 
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-renewcommand{
-\backslash
-cftlottitlefont}{
-\backslash
-hfill
-\backslash
-Large}
-\backslash
-renewcommand{
-\backslash
-cftafterlottitle}{
-\backslash
-hfill} 
-\backslash
-renewcommand{
-\backslash
-cfttabpresnum}{Table~} 
-\backslash
-setlength
-\backslash
-cfttabnumwidth{60pt} 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset FloatList table
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage newpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-addcontentsline{toc}{chapter}{List of Figures} 
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-renewcommand{
-\backslash
-cftloftitlefont}{
-\backslash
-hfill
-\backslash
-Large}
-\backslash
-renewcommand{
-\backslash
-cftafterloftitle}{
-\backslash
-hfill} 
-\backslash
-renewcommand{
-\backslash
-cftfigpresnum}{Figure~} 
-\backslash
-setlength
-\backslash
-cftfignumwidth{60pt} 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset FloatList figure
 
 \end_inset
 
@@ -680,7 +572,43 @@ In GGS, we have separated the system in to two large supervised parts.
 \end_layout
 
 \begin_layout Standard
+\begin_inset Graphics
+	filename supervisors.png
+	scale 40
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The graphic above shows our two subsystems, the coordinator subsystem and
+ the dispatcher subsystem.
+ Since these two systems perform very different tasks they have been separated.
+ Each subsystem has one worker process, the coordinator or the dispatcher.
+ The worker process keeps a state which should not be lost upon a crash.
+\end_layout
+
+\begin_layout Standard
+We have chosen to let faulty processes crash very easily when they receive
+ bad data, or something unexpected happens.
+ The alternative to crashing would have been to try and fix this faulty
+ data, or to foresee the unexpected events.
+ We chose not to do this because it is so simple to monitor and restart
+ processes, and so difficult to try and mend broken states.
+ This approach is something widely deployed in the Erlang world, and developers
+ are often encouraged to “Let it crash”.
+\end_layout
+
+\begin_layout Standard
+To prevent any data loss, the good state of the worker processes is stored
+ in their respective backup processes.
+ When a worker process (re)starts, it asks the backup process for any previous
+ state, if there is any that state is loaded in to the worker and it proceeds
+ where it left off.
+ If on the other hand no state is available, a special message is delivered
+ instead, making the worker create a new state, this is what happens when
+ the workers are first created.
 \end_layout
 
 \begin_layout Subsubsection
@@ -703,12 +631,126 @@ Problems
 Erlang JS 
 \end_layout
 
+\begin_layout Standard
+To be able to run JavaScript on our server we needed to embed a JavaScript
+ engine within the server.
+ After a thorough investigation erlang_js became our choice.
+ erlang_js provides direct communication with a JavaScript VM (Virtual Machine).
+ This was exactly what we wanted, but we also needed the possibility to
+ communicate from erlang_js to Erlang.
+ This functionality was not yet implemented in erlang_js, due to lack of
+ time.
+\end_layout
+
+\begin_layout Standard
+There were two possible solutions to the problem.
+ We could rewrite some part of erlang_js, or we could switch erlang_js for
+ some other JavaScript engine.
+ Searching for other engines we found erlv8 and beam.js which provided the
+ functionality that we wanted.
+ As we tested beam.js it occurred random crashes of the whole Erlang environment.
+ These crashes were related to the use of erlv8 in beam.js and we decided
+ that the use of erlv8 was not an alternative due to the stability issues.
+\end_layout
+
+\begin_layout Standard
+To get the functionality needed we decided to implement this in erlang_js.
+\end_layout
+
 \begin_layout Subsubsection
 UUID 
 \end_layout
 
+\begin_layout Standard
+Erlang identifies processes uniquely throughout the entire Erlang network
+ using process IDs (PID).
+ When we wish to refer to erlang processes from outside our erlang system,
+ for example in a virtual machine for a different language, possibly on
+ a different machine, these PIDs are no longer useful.
+ 
+\end_layout
+
+\begin_layout Standard
+This problem is not new, and a common solution is to use a Universally Unique
+ Identifier, a UUID.
+ These identifiers are generated both using randomization and using time.
+ A reasonably large number of UUIDs can be generated before a collision
+ should occur.
+ There are standard tools in many UNIX systems to generate UUIDs, we chose
+ to use the uuidgen command, which employs an equidistributed combined Tausworth
+e generator.
+\end_layout
+
 \begin_layout Section
 Design choices 
+\end_layout
+
+\begin_layout Standard
+When designing concurrent applications, it is useful to picture them as
+ real world scenarios, and to model each actor# as a real world process.
+ A real world process is a process which performs some action in the real
+ world, such as a mailbox receiving a letter, a door being opened, a person
+ translating a text, a soccer player kicking the ball, just to name a few
+ examples.
+ Since we focus on games in this project, it is suitable to model our system
+ as a place where games take place.
+ We imagined a chess club.
+ 
+\end_layout
+
+\begin_layout Standard
+The clients pictured as green circles can be thought of as the physical
+ chess players.
+\end_layout
+
+\begin_layout Standard
+When a player wants to enter the our particular chess club, he must first
+ be let in by the doorman, called the Dispatcher in GGS.
+\end_layout
+
+\begin_layout Standard
+He then gets a name badge, and thus becomes a Player process in the system.
+ He is also guided in to the lobby by the Coordinator, which has the role
+ of the host of the chess club.
+\end_layout
+
+\begin_layout Standard
+When players wish to play against each other, they talk to the Coordinator
+ who pairs them up, and places them at a table.
+ Once they have sat down at the table, they no longer need the assistance
+ of the Coordinator, all further communication takes place via the table.
+ This can be thought of as the actual chess game commencing.
+ 
+\end_layout
+
+\begin_layout Standard
+All the moves made in the game are recorded by the table, such that the
+ table can restore the game in case something would happen, such as the
+ table tipping over, which would represent the table process crashing.
+\end_layout
+
+\begin_layout Standard
+Once a player wishes to leave a game, or the entire facility, he should
+ contact the Coordinator, who revokes his name badge and the Dispatcher
+ will let the player out.
+\end_layout
+
+\begin_layout Standard
+With the information kept in the tables and the Coordinator combined, we
+ can rebuild the entire state of the server at a different location.
+ This can be thought of the chess club catching fire, and the Coordinator
+ rounding up all the tables, running to a new location and building the
+ club up in the exact state it was prior to the fire.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename system_structure.png
+	scale 40
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -732,54 +774,90 @@ Statistics
 \end_layout
 
 \begin_layout Chapter
-Conclusion 
+Conclusion
 \end_layout
 
-\begin_layout Chapter
-References 
-\end_layout
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
 
-\begin_layout Chapter
-Appendix
-\end_layout
-
-\begin_layout Standard
-Text goes here...
-\end_layout
-
-\begin_layout Section
-Objectives
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage newpage
 \end_inset
 
-
+Savor, T.; Seviora, R.E.; , "Hierarchical supervisors for automatic detection
+ of software failures," PROCEEDINGS The Eighth International Symposium On
+ Software Reliability Engineering , vol., no., pp.48-59, 2-5 Nov1997 doi: 10.1109/IS
+SRE.1997.630847 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=630847&i
+snumber=13710
 \end_layout
 
-\begin_layout Standard
-Figures go here...
-\end_layout
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-6"
 
-\begin_layout Chapter
-Methodology
-\end_layout
-
-\begin_layout Section
-Overview
-\end_layout
-
-\begin_layout Standard
-Text goes here...
-\begin_inset Newpage newpage
 \end_inset
 
-
+Vinoski, S.; , "Reliability with Erlang," Internet Computing, IEEE , vol.11,
+ no.6, pp.79-81, Nov.-Dec.
+ 2007 doi: 10.1109/MIC.2007.132 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&ar
+number=4376232&isnumber=4376216
 \end_layout
 
-\begin_layout Standard
-Figures go here...
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-5"
+
+\end_inset
+
+CESARINI, F., & THOMPSON, S.
+ (2009).
+ Erlang programming.
+ Beijing, O'Reilly.
+ pp.139
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-4"
+
+\end_inset
+
+"Erlang/OTP Product Information: Technical Description of Erlang." Home of
+ Erlang/OTP.
+ Web.
+ 01 Mar.
+ 2011.
+ <http://www.erlang.se/productinfo/erlang_tech.shtml>.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-3"
+
+\end_inset
+
+Joe Armstrong – Armstrong, J.
+ [2011].
+ If Erlang is the answer, then what is the question?.
+ [1].
+ IT University.
+ Computer Science and Engineering, 15/2/2011
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-2"
+
+\end_inset
+
+Gul Abdulnabi Agha (1985).
+ ACTORS: A MODEL OF CONCURRENT COMPUTATION IN DISTRIBUTED SYSTEMS.
+ Ph.D thesis, Artificial Intelligence Laboratory, MIT.
 \end_layout
 
 \end_body

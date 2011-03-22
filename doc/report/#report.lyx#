@@ -50,7 +50,9 @@
 {\vspace{-20ex}%
 \LARGE\raggedleft}
 [\vspace{1ex}%
-{\titlerule[3pt]}]
+{\titlerule[1pt]}]
+
+\usepackage[absolute]{textpos}
 \end_preamble
 \use_default_options true
 \language english
@@ -96,6 +98,92 @@
 \end_header
 
 \begin_body
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{textblock*}{297mm}(0mm,10mm)    
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=
+\backslash
+paperwidth-10mm]{ChaGUblasvarteng.eps} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{textblock*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{textblock*}{297mm}(73mm,10mm)    
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=
+\backslash
+paperwidth/3]{LO_CHGU_cen2rCMYK.eps} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{textblock*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Title
 Generic Game Server
@@ -578,12 +666,77 @@ In GGS, we have separated the system in to two large supervised parts.
  we restart the nearest supervisor of this child.
  This ensures separation of the subsystems so that a crash is as isolated
  as possible.
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+We should really do this graphic in EPS instead of PNG
 \end_layout
 
-\begin_layout Standard
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{centering}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Graphics
 	filename supervisors.png
 	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{centering}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+The supervisor structure of GGS
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -750,12 +903,77 @@ With the information kept in the tables and the Coordinator combined, we
  This can be thought of the chess club catching fire, and the Coordinator
  rounding up all the tables, running to a new location and building the
  club up in the exact state it was prior to the fire.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Convert this graphics to EPS
 \end_layout
 
-\begin_layout Standard
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{centering}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Graphics
 	filename system_structure.png
 	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{centering}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+The layout of GGS
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -786,87 +1004,15 @@ Statistics
 Conclusion
 \end_layout
 
-\begin_layout Bibliography
-\begin_inset CommandInset bibitem
-LatexCommand bibitem
-key "key-1"
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "journals"
+options "plainnat"
 
 \end_inset
 
-Savor, T.; Seviora, R.E.; , "Hierarchical supervisors for automatic detection
- of software failures," PROCEEDINGS The Eighth International Symposium On
- Software Reliability Engineering , vol., no., pp.48-59, 2-5 Nov1997 doi: 10.1109/IS
-SRE.1997.630847 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=630847&i
-snumber=13710
-\end_layout
 
-\begin_layout Bibliography
-\begin_inset CommandInset bibitem
-LatexCommand bibitem
-key "key-6"
-
-\end_inset
-
-Vinoski, S.; , "Reliability with Erlang," Internet Computing, IEEE , vol.11,
- no.6, pp.79-81, Nov.-Dec.
- 2007 doi: 10.1109/MIC.2007.132 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&ar
-number=4376232&isnumber=4376216
-\end_layout
-
-\begin_layout Bibliography
-\begin_inset CommandInset bibitem
-LatexCommand bibitem
-key "key-5"
-
-\end_inset
-
-CESARINI, F., & THOMPSON, S.
- (2009).
- Erlang programming.
- Beijing, O'Reilly.
- pp.139
-\end_layout
-
-\begin_layout Bibliography
-\begin_inset CommandInset bibitem
-LatexCommand bibitem
-key "key-4"
-
-\end_inset
-
-"Erlang/OTP Product Information: Technical Description of Erlang." Home of
- Erlang/OTP.
- Web.
- 01 Mar.
- 2011.
- <http://www.erlang.se/productinfo/erlang_tech.shtml>.
-\end_layout
-
-\begin_layout Bibliography
-\begin_inset CommandInset bibitem
-LatexCommand bibitem
-key "key-3"
-
-\end_inset
-
-Joe Armstrong – Armstrong, J.
- [2011].
- If Erlang is the answer, then what is the question?.
- [1].
- IT University.
- Computer Science and Engineering, 15/2/2011
-\end_layout
-
-\begin_layout Bibliography
-\begin_inset CommandInset bibitem
-LatexCommand bibitem
-key "key-2"
-
-\end_inset
-
-Gul Abdulnabi Agha (1985).
- ACTORS: A MODEL OF CONCURRENT COMPUTATION IN DISTRIBUTED SYSTEMS.
- Ph.D thesis, Artificial Intelligence Laboratory, MIT.
 \end_layout
 
 \end_body

@@ -1,0 +1,786 @@
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass report
+\begin_preamble
+\usepackage{indentfirst}
+\usepackage{tocloft}
+\usepackage{calc}
+\date{}
+\usepackage[section] {placeins}
+\def\myClearpage{%
+  \ifvmode
+    \ifnum \@dbltopnum =\m@ne
+      \ifdim \pagetotal <\topskip 
+        \hbox{}%
+      \fi
+    \fi
+  \fi
+%  \newpage
+  \write\m@ne{}%
+  \vbox{}%
+  \penalty -\@Mi
+}
+\def\myCleardoublepage{\myClearpage\if@twoside \ifodd\c@page\else
+    \hbox{}\if@twocolumn\hbox{}\fi\fi\fi}
+\usepackage{morefloats}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{tocloft} 
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftchappagefont}{\bfseries}
+\renewcommand{\cftchappresnum}{Chapter }
+\renewcommand{\cftchapnumwidth}{6em}
+\oddsidemargin 0.5in 
+\textwidth 6in
+\topmargin 0.0in
+\textheight 8.0in
+\setlength\topskip{24pt}
+\footskip 0.75in
+\end_preamble
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman lmodern
+\font_sans default
+\font_typewriter default
+\font_default_family rmdefault
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing double
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\paperwidth 11in
+\paperheight 8.5in
+\leftmargin 1.25in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1.7in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Generic Game Server
+\end_layout
+
+\begin_layout Author
+Jonatan Pålsson
+\begin_inset Newline newline
+\end_inset
+
+Niklas Landin
+\begin_inset Newline newline
+\end_inset
+
+Richard Pannek
+\begin_inset Newline newline
+\end_inset
+
+Matias Petterson
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{roman}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{page}{5} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand
+\backslash
+contentsname{Table of Contents} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+cfttoctitlefont}{
+\backslash
+hfill
+\backslash
+Large}
+\backslash
+renewcommand{
+\backslash
+cftaftertoctitle}{
+\backslash
+hfill}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand
+\backslash
+cftpartdotsep{6.6} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand
+\backslash
+cftchapdotsep{6.6} 
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{chapter}{List of Tables} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+cftlottitlefont}{
+\backslash
+hfill
+\backslash
+Large}
+\backslash
+renewcommand{
+\backslash
+cftafterlottitle}{
+\backslash
+hfill} 
+\backslash
+renewcommand{
+\backslash
+cfttabpresnum}{Table~} 
+\backslash
+setlength
+\backslash
+cfttabnumwidth{60pt} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList table
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{chapter}{List of Figures} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+cftloftitlefont}{
+\backslash
+hfill
+\backslash
+Large}
+\backslash
+renewcommand{
+\backslash
+cftafterloftitle}{
+\backslash
+hfill} 
+\backslash
+renewcommand{
+\backslash
+cftfigpresnum}{Figure~} 
+\backslash
+setlength
+\backslash
+cftfignumwidth{60pt} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{arabic} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{page}{1} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Introduction
+\end_layout
+
+\begin_layout Section
+Background 
+\end_layout
+
+\begin_layout Section
+Purpose 
+\end_layout
+
+\begin_layout Section
+Challenges 
+\end_layout
+
+\begin_layout Standard
+Challenges lies mainly in providing a reliable, high-performing server and
+ at the same time make it easy to use for game developers.
+ 
+\end_layout
+
+\begin_layout Subsection
+Basis 
+\end_layout
+
+\begin_layout Section
+Delimitations 
+\end_layout
+
+\begin_layout Subsection
+Types of games 
+\end_layout
+
+\begin_layout Standard
+In theory no limitations, but in reality it will be limitations.
+ Many factors are involved here.
+ Implementation of protocol, storage possibilities, server capacity, language
+ support.
+ In real time games a low latency is very important not a high bandwidth
+ because the games already send very little data, ~ 80 bytes.
+ Lag of below 250 ms is good, lag up to 500 ms payable and beyond that the
+ lag is noticeable.
+\end_layout
+
+\begin_layout Section
+Method 
+\end_layout
+
+\begin_layout Subsection
+Development process 
+\end_layout
+
+\begin_layout Standard
+May be Extreme Programming(XP), need to check this out further.
+ Maybe adapt so we can say that we use a standardized software development
+ method.
+\end_layout
+
+\begin_layout Subsubsection
+Demand specification 
+\end_layout
+
+\begin_layout Subsection
+Design 
+\end_layout
+
+\begin_layout Subsection
+Testing and evaluation 
+\end_layout
+
+\begin_layout Standard
+Can we use quickcheck?
+\end_layout
+
+\begin_layout Chapter
+Theory 
+\end_layout
+
+\begin_layout Subsection
+Performance 
+\end_layout
+
+\begin_layout Standard
+How many players can we have on a server? Performance differences between
+ games? e.g can one game have thousands players on a server and another only
+ have hundreds? Questions to be discussed here.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Create a game with several thousand players, see how our server scales,
+ how can we improve the performance? Sharding isn’t very nice..
+ alternatives? Improve the speed of sharding?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Choice of network protocol
+\end_layout
+
+\begin_layout Standard
+There are three main ways in which computer communication over the Internet
+ usually takes place; TCP, UDP and HTTP.
+ The first two are transport layer protocols, which are commonly used to
+ transport application layer protocols, such as HTTP.
+ TCP and UDP can not be used on their own, without an application layer
+ protocol on top.
+ Application layer protocols such as HTTP on the other hand needs a transport
+ layer protocol in order to work.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+HTTP
+\end_layout
+
+\begin_layout Standard
+Since HTTP is so widely used on the Internet today in web servers, it is
+ available on most Internet connected devices.
+ This means that if HTTP is used in GGS, firewalls will not pose problems,
+ which is a great benefit.
+ However, due to the intended usage of HTTP in web servers, the protocol
+ was designed to be stateless and client-initiated.
+ In order to maintain a state during a game session using HTTP, some sort
+ of token would have to be passed between client and server at all times,
+ much like how a web server works.
+ These facts combined makes HTTP unsuitable for our purposes, since GGS
+ requires a state to be maintained throughout a session, and also needs
+ to push data from the server to clients without the clients requesting
+ data.
+ It should also be mentioned that HTTP uses the TCP protocol for transport,
+ and what is said about TCP also applies to HTTP.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+UDP
+\end_layout
+
+\begin_layout Standard
+Many online games use UDP as the carrier for their application layer protocol.
+ UDP moves data across a network very quickly, however it does not ensure
+ that the data transferred arrives in consistent manner.
+ Data sent via UDP may be repeated, lost or out of order.
+ To ensure the data transferred is in good shape, some sort of error checking
+ mechanisms must be implemented.
+ UDP is a good choice for applications where it is more important that data
+ arrives in a timely manner than that all data arrives undamaged, it is
+ thus very suitable for media streaming, for example.
+ In GGS reliability of transfer was chosen before the speed of the transfer,
+ ruling out UDP as the transport later protocol.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+TCP
+\end_layout
+
+\begin_layout Standard
+For reliable transfers, TCP is often used on the Internet.
+ Built in to the protocol are the error checking and correction mechanisms
+ missing in UDP.
+ This ensures the consistency of data, but also makes the transfer slower
+ than if UDP had been used.
+ In GGS, data consistency is more important than transfer speeds, and thus
+ TCP is a better alternative than UDP.
+\end_layout
+
+\begin_layout Subsection
+Encryption
+\end_layout
+
+\begin_layout Subsubsection
+Performance penalties
+\end_layout
+
+\begin_layout Subsection
+Availability 
+\end_layout
+
+\begin_layout Standard
+One important factor of a server is the availability, a server that you
+ can not connect to is a bad server.
+ Erlang has several features to increase the availability, for example hot
+ code replacement.
+ It is also critical to have a good design, we want to separate each part
+ of the server and thus avoiding that the whole server will crash.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Players are unsatisfied with the service of WoW Telecoms have the same problem
+ of having to migrate users from one node to another, this is called handover
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Scalability 
+\end_layout
+
+\begin_layout Standard
+Because P2P game architectures are a constant goal for cheaters and because
+ “Cheating is a major concern in network games as it degrades the experience
+ of the majority of players who are honest” and preventing cheating in P2P
+ game architectures is very difficult game developers try to use Client
+ - Server architectures which have a natural problem to scale.
+ In this paper we want to show some strategies to achieve scalability.
+\end_layout
+
+\begin_layout Subsubsection
+UUID 
+\end_layout
+
+\begin_layout Subsection
+Security 
+\end_layout
+
+\begin_layout Standard
+We only support languages running in a sandboxed environment.
+ Each game session is started in its own sandbox.
+ The sandboxing isolates the games in such a way that they can not interfere
+ with each other.
+ If sandboxing was not in place, one game could potentially modify the contents
+ of a different game.
+ A similar approach is taken with the persistent storage we provide.
+ In the storage each game has its own namespace, much like a table in a
+ relational database.
+ A game is not allowed to venture outside this namespace, and can because
+ of this not modify the persistent data of other games.
+\end_layout
+
+\begin_layout Chapter
+Overview 
+\end_layout
+
+\begin_layout Subsection
+Techniques for ensuring reliability 
+\end_layout
+
+\begin_layout Standard
+One of the main goals of the project is to achieve high reliability.
+ A highly reliable application is one crashes very, very rarely 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+CITATION NEEDED
+\end_layout
+
+\end_inset
+
+.
+ There are some tools for creating reliable applications built in to Erlang.
+ 
+\end_layout
+
+\begin_layout Itemize
+Links between processes.
+ When a process spawns a new child process, and the child process later
+ exits, the parent process is notified of the exit.
+ 
+\end_layout
+
+\begin_layout Itemize
+Transparent distribution over a network of processors.
+ When several nodes participate in a network, it does not matter on which
+ of these machines a process is run.
+ Communication between processes does not depend on the node in which each
+ process is run.
+ 
+\end_layout
+
+\begin_layout Itemize
+Hot code replacements.
+ Two versions of the same module can reside in the memory of Erlang at any
+ time.
+ This means that a simple swap between these versions can take place very
+ quickly, and without stopping the machine.
+\end_layout
+
+\begin_layout Standard
+These three features are some of the basic building blocks for more sophisticate
+d reliability systems in Erlang.
+ Many times it is not necessary to use these features directly, but rather
+ through the design patterns described below.
+\end_layout
+
+\begin_layout Subsubsection
+Supervisor structure 
+\end_layout
+
+\begin_layout Standard
+By linking processes together and notifying parents when children exit,
+ we can create supervisors.
+ A supervisor is a common approach in ensuring that an application functions
+ in the way it was intended.
+ When a process misbehaves, the supervisor takes some action to restore
+ the process to a functional state.
+ 
+\end_layout
+
+\begin_layout Standard
+There are several approaches to supervisor design in general (when not just
+ considering how they work in Erlang).
+ One common approach is to have the supervisor look in to the state of the
+ process(es) it supervises, and let the supervisor make decisions based
+ on this state.
+ The supervisor has a specification of how the process it supervises should
+ function, and this is how it makes decisions.
+ 
+\end_layout
+
+\begin_layout Standard
+In Erlang, we have a simple version of supervisors.
+ We do not inspect the state of the processes being supervised.
+ We do have a specification of how the supervised processes should behave,
+ but on a higher level.
+ The specification describes things such as how many times in a given time
+ interval a child process may crash, which processes need restarting when
+ crashes occur, and so forth.
+ 
+\end_layout
+
+\begin_layout Standard
+When the linking of processes in order to monitor exit behaviour is coupled
+ with the transparent distribution of Erlang, a very powerful supervision
+ system is created.
+ For instance, we can restart a failing process on a different, new node,
+ with minimal impact on the system as a whole.
+ 
+\end_layout
+
+\begin_layout Standard
+In GGS, we have separated the system in to two large supervised parts.
+ We try to restart a crashing child separately, if this fails too many times,
+ we restart the nearest supervisor of this child.
+ This ensures separation of the subsystems so that a crash is as isolated
+ as possible.
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Subsubsection
+Hot code replacement 
+\end_layout
+
+\begin_layout Subsection
+Implementation 
+\end_layout
+
+\begin_layout Subsubsection
+User interface 
+\end_layout
+
+\begin_layout Chapter
+Problems 
+\end_layout
+
+\begin_layout Subsection
+Erlang JS 
+\end_layout
+
+\begin_layout Subsubsection
+UUID 
+\end_layout
+
+\begin_layout Section
+Design choices 
+\end_layout
+
+\begin_layout Section
+Understanding OTP 
+\end_layout
+
+\begin_layout Section
+Usability 
+\end_layout
+
+\begin_layout Chapter
+Results and discussion 
+\end_layout
+
+\begin_layout Section
+Software development methodology 
+\end_layout
+
+\begin_layout Section
+Statistics 
+\end_layout
+
+\begin_layout Chapter
+Conclusion 
+\end_layout
+
+\begin_layout Chapter
+References 
+\end_layout
+
+\begin_layout Chapter
+Appendix
+\end_layout
+
+\begin_layout Standard
+Text goes here...
+\end_layout
+
+\begin_layout Section
+Objectives
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figures go here...
+\end_layout
+
+\begin_layout Chapter
+Methodology
+\end_layout
+
+\begin_layout Section
+Overview
+\end_layout
+
+\begin_layout Standard
+Text goes here...
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figures go here...
+\end_layout
+
+\end_body
+\end_document

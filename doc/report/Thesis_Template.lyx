@@ -1,0 +1,352 @@
+#LyX 1.6.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass report
+\begin_preamble
+\usepackage{indentfirst}
+\usepackage{tocloft}
+\usepackage{calc}
+\date{}
+\usepackage[section] {placeins}
+\def\myClearpage{%
+  \ifvmode
+    \ifnum \@dbltopnum =\m@ne
+      \ifdim \pagetotal <\topskip 
+        \hbox{}%
+      \fi
+    \fi
+  \fi
+%  \newpage
+  \write\m@ne{}%
+  \vbox{}%
+  \penalty -\@Mi
+}
+\def\myCleardoublepage{\myClearpage\if@twoside \ifodd\c@page\else
+    \hbox{}\if@twocolumn\hbox{}\fi\fi\fi}
+\usepackage{morefloats}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{tocloft} 
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftchappagefont}{\bfseries}
+\renewcommand{\cftchappresnum}{Chapter }
+\renewcommand{\cftchapnumwidth}{6em}
+\oddsidemargin 0.5in 
+\textwidth 6in
+\topmargin 0.0in
+\textheight 8.0in
+\setlength\topskip{24pt}
+\footskip 0.75in
+\end_preamble
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman lmodern
+\font_sans default
+\font_typewriter default
+\font_default_family rmdefault
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing double
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\paperwidth 11in
+\paperheight 8.5in
+\leftmargin 1.25in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1.7in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{roman}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{page}{5} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand
+\backslash
+contentsname{Table of Contents} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+cfttoctitlefont}{
+\backslash
+hfill
+\backslash
+Large}
+\backslash
+renewcommand{
+\backslash
+cftaftertoctitle}{
+\backslash
+hfill}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand
+\backslash
+cftpartdotsep{6.6} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand
+\backslash
+cftchapdotsep{6.6} 
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{chapter}{List of Tables} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+cftlottitlefont}{
+\backslash
+hfill
+\backslash
+Large}
+\backslash
+renewcommand{
+\backslash
+cftafterlottitle}{
+\backslash
+hfill} 
+\backslash
+renewcommand{
+\backslash
+cfttabpresnum}{Table~} 
+\backslash
+setlength
+\backslash
+cfttabnumwidth{60pt} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList table
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{chapter}{List of Figures} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+cftloftitlefont}{
+\backslash
+hfill
+\backslash
+Large}
+\backslash
+renewcommand{
+\backslash
+cftafterloftitle}{
+\backslash
+hfill} 
+\backslash
+renewcommand{
+\backslash
+cftfigpresnum}{Figure~} 
+\backslash
+setlength
+\backslash
+cftfignumwidth{60pt} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{arabic} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{page}{1} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Introduction
+\end_layout
+
+\begin_layout Standard
+Text goes here...
+\end_layout
+
+\begin_layout Section
+Objectives
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figures go here...
+\end_layout
+
+\begin_layout Chapter
+Methodology
+\end_layout
+
+\begin_layout Section
+Overview
+\end_layout
+
+\begin_layout Standard
+Text goes here...
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figures go here...
+\end_layout
+
+\end_body
+\end_document

@@ -23,7 +23,7 @@ class GGSChat:
         self.setStatus("Not connected")
         self.connect(host, port)
         thread.start_new_thread(self.listenChat, ())
-        thread.start_new_thread(self.luserCheck, ())
+        #thread.start_new_thread(self.luserCheck, ())
         #Create our dictionay and connect it
         dic = {"on_window1_destroy_event"   : gtk.main_quit
             , "on_sendButton_clicked"       : lambda x: self.chat()

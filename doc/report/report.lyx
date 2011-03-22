@@ -41,7 +41,16 @@
 \footskip 0.75in
 
 \usepackage[compact]{titlesec}
-\titleformat{\chapter}[display]{\bfseries\vskip-8em}{}{8ex}{\huge\thechapter. }[\titlerule]
+
+
+\titleformat{\chapter}[display]
+{\vskip-8em\normalfont\bfseries}
+{\LARGE\raggedright\thechapter}
+{14ex}
+{\vspace{-20ex}%
+\LARGE\raggedleft}
+[\vspace{1ex}%
+{\titlerule[1pt]}]
 \end_preamble
 \use_default_options true
 \language english

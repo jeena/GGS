@@ -41,7 +41,7 @@
 \footskip 0.75in
 
 \usepackage[compact]{titlesec}
-\titleformat{\chapter}[display]{\bfseries}{ }{0ex}{\huge}[\titlerule]
+\titleformat{\chapter}[display]{\bfseries\vskip-8em}{}{8ex}{\huge\thechapter. }[\titlerule]
 \end_preamble
 \use_default_options true
 \language english

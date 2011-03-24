@@ -4,3 +4,5 @@
 Mnesia.*
 *.swo
 games/Pong/build/**/*
+*~
+

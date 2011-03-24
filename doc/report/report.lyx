@@ -1,4 +1,4 @@
-#LyX 1.6.9 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -524,7 +524,7 @@ For reliable transfers, TCP is often used on the Internet.
  TCP is a better alternative than UDP.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Encryption
 \end_layout
 
@@ -532,7 +532,7 @@ Encryption
 Performance penalties
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Availability 
 \end_layout
 
@@ -560,7 +560,7 @@ Players are unsatisfied with the service of WoW Telecoms have the same problem
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Scalability 
 \end_layout
 
@@ -577,7 +577,7 @@ Because P2P game architectures are a constant goal for cheaters and because
 UUID 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Security 
 \end_layout
 
@@ -813,7 +813,7 @@ To prevent any data loss, the good state of the worker processes is stored
 Hot code replacement 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Implementation 
 \end_layout
 

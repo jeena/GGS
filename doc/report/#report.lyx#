@@ -342,7 +342,7 @@ structural scalability
 \emph on
 load scalability
 \emph default
-
+ 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Bondi:2000:CSI:350391.350432"
@@ -424,7 +424,7 @@ Can we use quickcheck?
 Theory 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Performance 
 \end_layout
 
@@ -447,7 +447,7 @@ Create a game with several thousand players, see how our server scales,
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Choice of network protocol
 \end_layout
 
@@ -463,7 +463,7 @@ There are three main ways in which computer communication over the Internet
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 HTTP
 \end_layout
 
@@ -486,7 +486,7 @@ Since HTTP is so widely used on the Internet today in web servers, it is
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 UDP
 \end_layout
 
@@ -505,7 +505,7 @@ Many online games use UDP as the carrier for their application layer protocol.
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 TCP
 \end_layout
 

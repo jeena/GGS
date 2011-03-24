@@ -429,7 +429,7 @@ Can we use quickcheck?
 Theory 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Performance 
 \end_layout
 
@@ -452,7 +452,7 @@ Create a game with several thousand players, see how our server scales,
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Choice of network protocol
 \end_layout
 
@@ -468,7 +468,7 @@ There are three main ways in which computer communication over the Internet
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 HTTP
 \end_layout
 
@@ -491,7 +491,7 @@ Since HTTP is so widely used on the Internet today in web servers, it is
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 UDP
 \end_layout
 
@@ -510,7 +510,7 @@ Many online games use UDP as the carrier for their application layer protocol.
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 TCP
 \end_layout
 
@@ -599,7 +599,7 @@ We only support languages running in a sandboxed environment.
 Overview 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Techniques for ensuring reliability 
 \end_layout
 
@@ -651,7 +651,7 @@ d reliability systems in Erlang.
  through the design patterns described below.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Supervisor structure 
 \end_layout
 
@@ -809,7 +809,7 @@ To prevent any data loss, the good state of the worker processes is stored
  the workers are first created.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Hot code replacement 
 \end_layout
 
@@ -825,7 +825,7 @@ User interface
 Problems 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Erlang JS 
 \end_layout
 
@@ -855,7 +855,7 @@ There were two possible solutions to the problem.
 To get the functionality needed we decided to implement this in erlang_js.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 UUID 
 \end_layout
 

@@ -1,4 +1,4 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.9 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -347,9 +347,14 @@ Challenges
 \end_layout
 
 \begin_layout Standard
-Challenges lies mainly in providing a reliable, high-performing server and
- at the same time make it easy to use for game developers.
- 
+The main challenge is to provide a reliable, high-performing and scalable
+ server without making it too difficult for game developers do write their
+ game.
+ It should for example be possible for them to use the language they are
+ familiar with.
+ In our GGS prototype we added a module for a virtual machine which is highly
+ exchangable.
+ For now we have a JavaScript VM (Spidermonkey) and a ActionScript VM.
 \end_layout
 
 \begin_layout Subsection

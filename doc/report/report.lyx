@@ -334,7 +334,22 @@ The purpose of the GGS project is to create a scalable and fault tolerant
 
 \begin_layout Standard
 Scalability in computer science is a large topic and is commonly divided
- into sub-fields, two of which are structural scalability and load scalability.
+ into sub-fields, two of which are 
+\emph on
+structural scalability
+\emph default
+ and 
+\emph on
+load scalability
+\emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Bondi:2000:CSI:350391.350432"
+
+\end_inset
+
+.
  These two issues are addressed in this thesis.
  Structural scalability means expanding an architecture, e.g.
  adding nodes to a system, without requiring modification of the system.

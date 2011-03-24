@@ -1,3 +1,6 @@
 [submodule "erlang_js"]
 	path = erlang_js
 	url = https://github.com/jonte/erlang_js.git
+[submodule "doc/report"]
+	path = doc/report
+	url = git@github.com:jeena/GGS-report.git

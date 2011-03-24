@@ -86,7 +86,7 @@
 \secnumdepth 2
 \tocdepth 2
 \paragraph_separation indent
-\defskip smallskip
+\defskip medskip
 \quotes_language english
 \papercolumns 1
 \papersides 1
@@ -985,7 +985,7 @@ Understanding OTP
 \end_layout
 
 \begin_layout Section
-Usability 
+Usability
 \end_layout
 
 \begin_layout Chapter
@@ -994,24 +994,10 @@ Results and discussion
 
 \begin_layout Section
 Software development methodology 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Knuth:1997:ACP:260999"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
 Statistics 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "armstrong2011"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Chapter

@@ -323,7 +323,23 @@ Background
 \end_layout
 
 \begin_layout Section
-Purpose 
+Purpose
+\end_layout
+
+\begin_layout Standard
+The purpose of the GGS project is to create a scalable and fault tolerant
+ server, while still allowing the server to be as generic as possible.
+ These three italicised terms need some explanation.
+\end_layout
+
+\begin_layout Standard
+Scalability in computer science is a large topic and is commonly divided
+ into sub-fields, two of which are structural scalability and load scalability.
+ These two issues are addressed in this thesis.
+ Structural scalability means expanding an architecture, e.g.
+ adding nodes to a system, without requiring modification of the system.
+ Load scalability means using the available resources in a way which allows
+ handling increasing load, e.g more users, gracefully.
 \end_layout
 
 \begin_layout Section
@@ -997,7 +1013,7 @@ Software development methodology
 \end_layout
 
 \begin_layout Section
-Statistics 
+Statistics
 \end_layout
 
 \begin_layout Chapter

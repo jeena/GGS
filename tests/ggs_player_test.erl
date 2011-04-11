@@ -4,7 +4,7 @@
 %% @doc start_link should always return ok for any valid socket. A valid socket 
 %% should always return {ok, Pid} and {error, Reason} otherwise.
 start_link_test() ->
-	ggs_logger:not_implemented().
+	{ok, Player} = ggs_player:start_link(Sock).
 
 %% @doc Given that start_link returned {ok, Player}. Notify shall always return ok and
 %% deliver a specified message through the socket.

@@ -26,6 +26,7 @@ endif
 
 clean:
 	rm -rf $(BEAMDIR)/*.beam ;
+	rm -rf $(SRCDIR)/*.beam ;
 	rm -rf erl_crush.dump ;
 	echo "==> clean ggs" ;
 	$(MAKE) -C erlang_js/ clean

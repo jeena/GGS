@@ -58,7 +58,8 @@ handle_info({tcp_closed, Socket}, State) ->
 %% and when it does, we accept the connection.
 handle_info(timeout, LSock) ->
     {ok, Sock} = gen_tcp:accept(LSock),
-    spawn(ggs_player, start_link, [Sock]),
+    ggs_player:start(Sock),
+    erlang:display("handle_info"),
     {noreply, LSock, 0}.
 
 terminate(normal, _State) ->

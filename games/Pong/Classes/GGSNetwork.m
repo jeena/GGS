@@ -11,7 +11,7 @@
 
 @implementation GGSNetwork
 
-#define GGS_HOST @"jeena.net"
+#define GGS_HOST @"localhost"
 #define GGS_PORT 9000
 #define NO_TIMEOUT -1
 
@@ -32,7 +32,7 @@
 @synthesize asyncSocket, delegate, gameToken, currentHeaders;
 
 - (id)initWithDelegate:(id<GGSDelegate>)_delegate {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		delegate = _delegate;
 		asyncSocket = [[AsyncSocket alloc] initWithDelegate:self];
 		

@@ -74,7 +74,7 @@ send_command(TableToken, PlayerToken, Message) ->
 %% @private
 init([TableToken]) ->
     process_flag(trap_exit, true),
-    GameVM = ggs_gamevm_p:start_link(TableToken),
+    GameVM = ggs_gamevm_e:start_link(TableToken),
     {ok, #state { 
 		  game_vm = GameVM,
 		  players = [] }}.
@@ -100,14 +100,14 @@ handle_cast({notify, Player, Message}, #state { game_vm = GameVM } = State) ->
     PlayerToken = ggs_coordinator:player_pid_to_token(Player),
     case Message of
         {server, define, Args} ->
-            ggs_gamevm_p:define(GameVM, Args);
+            ggs_gamevm_e:define(GameVM, Args);
         {game, Command, Args} ->
-            ggs_gamevm_p:player_command(GameVM, PlayerToken, Command, Args)
+            ggs_gamevm_e:player_command(GameVM, PlayerToken, Command, Args)
     end,
     {noreply, State};
 
 handle_cast({notify_game, Message, From}, #state { game_vm = GameVM } = State) ->
-    ggs_gamevm_p:player_command(GameVM, From, Message, ""),
+    ggs_gamevm_e:player_command(GameVM, From, Message, ""),
     {noreply, State};
 
 handle_cast({notify_all_players, Message}, #state{players = Players} = State) ->

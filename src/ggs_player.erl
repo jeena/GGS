@@ -21,6 +21,7 @@ start_link(Socket) ->
     % that arrives on it, we do not need to recv() manually. Since the socket
     % was opened in our parent process, we need to change the owner of it to
     % us, otherwise these messages end up in our parent.
+    ggs_protocol:start_link(),
     erlang:port_connect(Socket, self()),
     {ok, Token} = ggs_coordinator:join_lobby(),
     TableStatus = ggs_coordinator:join_table("1337"),
@@ -62,7 +63,6 @@ loop(#pl_state{token = _Token, socket = Socket, table = Table} = State) ->
     receive 
         {tcp, Socket, Data} -> % Just echo for now..
             Parsed = ggs_protocol:parse(Data),
-            self() ! Parsed,
             loop(State);
         {notify, _From, Message} ->
             gen_tcp:send(Socket, Message),

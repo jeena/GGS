@@ -140,7 +140,7 @@ class GGSChat:
                 "Content-Type: text\n" +
                 "Content-Length: 0\n"+
                 "\n")
-            time.sleep(2)
+            #time.sleep(2)
 
     def updateUsers(self, text):
         evalNicks = eval(text)

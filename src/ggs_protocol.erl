@@ -33,8 +33,8 @@ parse(Protocol, Data) ->
 
 
 start_link() ->
-    gen_fsm:start_link({local, ?SERVER}, ?MODULE, [], []).
-
+    gen_fsm:start_link(?MODULE, [], []).
+    
 % Start state: {[""],0}, meaning:
 %   - Start with no strings parsed
 %   - Start with a data-section-lengths of 0

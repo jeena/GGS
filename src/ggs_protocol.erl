@@ -25,7 +25,6 @@ create_message(Cmd, Enc, Acc, Data) ->
             Data,
     Msg.
 
-
 %% Internal helpers
 do_parse(Data, ParsedMessage) ->
     NewLinePos = string:chr(Data, $\n),

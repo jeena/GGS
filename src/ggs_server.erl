@@ -55,7 +55,7 @@ init([Port]) ->
             {ok, State#state{lsock = LSock}, 0}
     end.
 
-handle_call({backup_state, OldState}, _From, State) ->
+handle_call({backup_state, OldState}, _From, _State) ->
     io:format("Received old state from backup~n"),
     {noreply, OldState}.
 
@@ -72,7 +72,7 @@ handle_info(timeout, #state{lsock = LSock} = State) ->
     {ok, _Sock} = gen_tcp:accept(LSock),
     {noreply, State};
 
-handle_info(Other, State) ->
+handle_info(Other, _State) ->
     erlang:display(Other).
 
 terminate(_Reason, _State) ->
@@ -106,13 +106,14 @@ handle_cast({srv_cmd, "call", Headers, Data}, State) ->
 
 % Set the new state to the reference generated, and JSVM associated
 %handle_cast({server, hello, Headers}, State) ->
-handle_cast({srv_cmd, "hello", Headers, Data}, State) ->
-	GameToken = case proplist:get_value(game_token, Headers) of ->
-		undefined -> getNewToken();
-		GT -> GT;
+handle_cast({srv_cmd, "hello", Headers, _Data}, State) ->
+	GameToken = case proplist:get_value(game_token, Headers) of
+	    undefined   -> getNewToken();
+		GT          -> GT
 	end,
 	ClientToken = getNewToken(),
     OldMap = State#state.client_vm_map,
+    GameVM = getJSVM(ClientToken, State), 
     NewState = State#state{client_vm_map = OldMap ++ [{ClientToken, GameVM, GameToken}]},
     gen_server:cast(ggs_backup, {set_backup, NewState}), 
     {noreply, NewState}.

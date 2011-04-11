@@ -32,7 +32,7 @@
 @synthesize asyncSocket, delegate, gameToken, currentHeaders;
 
 - (id)initWithDelegate:(id<GGSDelegate>)_delegate {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		delegate = _delegate;
 		asyncSocket = [[AsyncSocket alloc] initWithDelegate:self];
 		

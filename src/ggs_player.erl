@@ -25,11 +25,10 @@
 %% identifying the player.
 %% @spec start_link(Socket::socket()) -> {ok, Pid} | {error, Reason}
 start(Socket) -> 
-    erlang:display("start_link"),
     gen_server:start(?MODULE, [Socket], []).
 
 init([Socket]) ->
-    {ok, Protocol} = ggs_protocol:start_link(Socket, self()),
+    {ok, Protocol} = ggs_protocol:start_link(),
     {ok, Token} = ggs_coordinator:join_lobby(),
 
     case ggs_coordinator:join_table("1337") of
@@ -75,20 +74,24 @@ stop(Player) ->
     gen_server:cast(Player, stop).
 
 %% Internals
-
-handle_call({notify, Message}, _From, #state { protocol = Protocol } = State) ->
-    ggs_protocol:send_command(Protocol, Message),
-    {noreplay, State};
+handle_call({notify, Message}, _From, #state { protocol = Protocol, socket = Socket } = State) ->
+    gen_tcp:send(Socket, ggs_protocol:create_message(Protocol, Message)),
+    {noreply, State};    
 
 handle_call({game_cmd, Command, _Headers, Data}, _From, #state { table = Table } = State) ->
     ggs_table:notify(Table, self(), {game, Command, Data}),
-    {noreplay, State};
+    {noreply, State};
 
 handle_call({srv_cmd, "define", _Headers, Data}, _From, #state { table = Table } = State) ->
     ggs_table:notify(Table, self(), {server, define, Data}),
-    {noreplay, State};
+    {noreply, State};
+
 
 handle_call(_Request, _From, St) -> {stop, unimplemented, St}.
+
+handle_cast({tcp, _Socket, Data}, #state { protocol = Protocol } = _State) ->
+    ggs_protocol:parse(Protocol, Data);
+
 handle_cast(_Request, St) -> {stop, unimplemented, St}.
 
 handle_info(_Info, St) -> {stop, unimplemented, St}.

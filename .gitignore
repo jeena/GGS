@@ -5,4 +5,5 @@ Mnesia.*
 *.swo
 games/Pong/build/**/*
 *~
-
+games/Pong/Pong.xcodeproj/project.xcworkspace/**/*
+games/Pong/Pong.xcodeproj/xcuserdata/**/*

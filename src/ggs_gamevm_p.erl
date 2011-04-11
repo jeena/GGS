@@ -119,11 +119,13 @@ intern_add_player(Table, Player) ->
 	{ok, PlayerList} = ggs_table:get_player_list(Table),
 	case length(PlayerList) of
 		1 ->
+			erlang:display("P1: joining"),
 			ggs_db:setItem(Table, local_storage, Player, player1),
 			ggs_db:setItem(Table, local_storage, player1_y, 50),
 			ggs_table:send_command(Table, Player, {"welcome", int2str(1)}),
 			ggs_table:notify_all_players(Table, {"player1_y", int2str(50)});
 		2 ->
+			erlang:display("P2: joining"),
 			ggs_db:setItem(Table, local_storage, Player, player2),
 			ggs_db:setItem(Table, local_storage, player2_y, 50),
 			ggs_table:send_command(Table, Player, {"welcome", int2str(2)}),
@@ -137,6 +139,7 @@ intern_add_player(Table, Player) ->
 intern_up(Table, Player) ->
 	case ggs_db:getItem(Table, local_storage, Player) of
 		player1 ->
+			erlang:display("P1: command up"),
 			Y = ggs_db:getItem(Table, local_storage, player1_y),
 			NewY = Y - 10,
 			case NewY >= 0 of
@@ -147,6 +150,7 @@ intern_up(Table, Player) ->
 					ggs_table:send_command(Table, Player, {"notice", "Already on top"})
 			end;
 		player2 ->
+			erlang:display("P2: command up"),
 			Y = ggs_db:getItem(Table, local_storage, player2_y),
 			NewY = Y - 10,
 			case NewY >= 0 of
@@ -161,6 +165,7 @@ intern_up(Table, Player) ->
 intern_down(Table, Player) ->
 	case ggs_db:getItem(Table, local_storage, Player) of
 		player1 ->
+			erlang:display("P1: command down"),
 			Y = ggs_db:getItem(Table, local_storage, player1_y),
 			NewY = Y + 10,
 			case NewY =< 100 of
@@ -171,6 +176,7 @@ intern_down(Table, Player) ->
 					ggs_table:send_command(Table, Player, {"notice", "Already on bottom"})
 			end;
 		player2 ->
+			erlang:display("P2: command down"),
 			Y = ggs_db:getItem(Table, local_storage, player2_y),
 			NewY = Y + 10,
 			case NewY =< 100 of
@@ -189,11 +195,13 @@ intern_start(Table, Player) ->
 			ggs_db:setItem(Table, local_storage, player1_points, 0),
 			case ggs_db:getItem(Table, local_storage, player2_ready) of
 				true ->
+					erlang:display("P1 ready, start game."),
 					ggs_table:notify_all_players(Table, {"game", "start"}),
 					ggs_db:setItem(Table, local_storage, ball, {50,50,1,1}),
 					Pid = spawn(fun() -> game_loop([Table]) end),
 					Pid ! tick;
 				_Other ->
+					erlang:display("P1 ready, waiting."),
 					ggs_table:send_command(Table, Player, {"game", "wait"})
 			end;
 		player2 ->
@@ -201,11 +209,13 @@ intern_start(Table, Player) ->
 			ggs_db:setItem(Table, local_storage, player2_points, 0),
 			case ggs_db:getItem(Table, local_storage, player1_ready) of
 				true ->
+					erlang:display("P2 ready, start game."),
 					ggs_table:notify_all_players(Table, {"game", "start"}),
 					ggs_db:setItem(Table, local_storage, ball, {50,50,-1,-1}),
 					GameLoop = spawn(fun() -> game_loop([Table]) end),
 					GameLoop ! tick;
 				_Other ->
+					erlang:display("P2 ready, waiting."),
 					ggs_table:send_command(Table, Player, {"game", "wait"})
 			end
 	end.

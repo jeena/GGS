@@ -48,6 +48,7 @@
 #pragma mark GGSNetwork Delegate
 
 - (void)GGSNetwork:(GGSNetwork *)_ggsNetwork ready:(BOOL)ready {
+    NSLog(@"ready");
 	[ggsNetwork sendCommand:@"ready" withArgs:@""];
 }
 

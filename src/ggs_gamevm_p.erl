@@ -36,6 +36,7 @@ define(GameVM, SourceCode) ->
 %%      Command = a game command to run
 %%      Args    = arguments for the Command parameter
 player_command(GameVM, Player, Command, Args) ->
+    erlang:display(Command),
     gen_server:cast(GameVM, {player_command, Player, Command, Args}).
 
 %% @private
@@ -117,16 +118,19 @@ intern_player_command(Table, Player, Command, _Args) ->
 	
 intern_add_player(Table, Player) ->
 	{ok, PlayerList} = ggs_table:get_player_list(Table),
+	erlang:display(PlayerList),
 	case length(PlayerList) of
 		1 ->
 			erlang:display("P1: joining"),
 			ggs_db:setItem(Table, local_storage, Player, player1),
+			erlang:display(ggs_db:getItem(Table, local_storage, Player)),
 			ggs_db:setItem(Table, local_storage, player1_y, 50),
 			ggs_table:send_command(Table, Player, {"welcome", int2str(1)}),
 			ggs_table:notify_all_players(Table, {"player1_y", int2str(50)});
 		2 ->
 			erlang:display("P2: joining"),
 			ggs_db:setItem(Table, local_storage, Player, player2),
+			erlang:display(ggs_db:getItem(Table, local_storage, Player)),
 			ggs_db:setItem(Table, local_storage, player2_y, 50),
 			ggs_table:send_command(Table, Player, {"welcome", int2str(2)}),
 			ggs_table:send_command(Table, Player, {"player1_y", int2str(50)}),
@@ -189,6 +193,8 @@ intern_down(Table, Player) ->
 	end.
 	
 intern_start(Table, Player) ->
+    erlang:display(Player),
+    erlang:display(ggs_db:getItem(Table, local_storage, Player)),
 	case ggs_db:getItem(Table, local_storage, Player) of
 		player1 ->
 			ggs_db:setItem(Table, local_storage, player1_ready, true),
@@ -217,7 +223,9 @@ intern_start(Table, Player) ->
 				_Other ->
 					erlang:display("P2 ready, waiting."),
 					ggs_table:send_command(Table, Player, {"game", "wait"})
-			end
+			end;
+		Other ->
+		    erlang:display(Other)
 	end.
 	
 game_loop([Table]) ->

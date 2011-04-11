@@ -61,10 +61,8 @@ getItem(GameToken,Ns,Key) ->
 		mnesia:read(data, {GameToken,Ns,Key})
 	end,
 	case mnesia:transaction(Fun) of
-	{atomic, []} -> 
-		{error};
-	{atomic, [Ret]} ->
-	Ret#data.value
+	    {atomic, []}    -> {error};
+	    {atomic, [Ret]} -> Ret#data.value
 end.	
  
 length(GameToken,Ns) ->

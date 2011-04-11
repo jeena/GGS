@@ -11,7 +11,7 @@
 
 @implementation GGSNetwork
 
-#define GGS_HOST @"jeena.net"
+#define GGS_HOST @"home.jeena.net"
 #define GGS_PORT 9000
 #define NO_TIMEOUT -1
 
@@ -32,13 +32,14 @@
 @synthesize asyncSocket, delegate, gameToken, currentHeaders;
 
 - (id)initWithDelegate:(id<GGSDelegate>)_delegate {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		delegate = _delegate;
 		asyncSocket = [[AsyncSocket alloc] initWithDelegate:self];
 		
 		[asyncSocket connectToHost:GGS_HOST onPort:GGS_PORT error:nil];
 		
 		[asyncSocket readDataToData:HEADER_DELIMITER withTimeout:NO_TIMEOUT tag:HEAD];
+        
 	}
 	
 	return self;
@@ -62,11 +63,11 @@
 }
 
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
-
+    //[asyncSocket writeData:[self makeMessageFor:@"Server" withCommand:@"hello" andArgs:@""] withTimeout:NO_TIMEOUT tag:NO_TAG];
 }
 
 - (void)onSocket:(AsyncSocket *)sender didReadData:(NSData *)data withTag:(long)tag {
-	
+
 	if (tag == HEAD) {
 		[self parseAndSetHeader:data];
 
@@ -96,6 +97,7 @@
 			self.gameToken = response;
 			
 			[delegate GGSNetwork:self ready:YES];
+            NSLog(@"%@", self.gameToken);
 			
 		} else {
 			[delegate GGSNetwork:self receivedCommand:command withArgs:response];

@@ -45,8 +45,8 @@ handle_call(_Message, _From, State) ->
 handle_cast(_Message, State) ->
     {noreply, State}.
 
-handle_info({tcp, _Socket, _RawData}, State) ->
-    io:format("Got connect request!~n"),
+handle_info({tcp, _Socket, _Data}, State) ->
+    io:format("Got connect request! ~n"),
     {noreply, State};
 
 handle_info({tcp_closed, Socket}, State) ->
@@ -57,8 +57,8 @@ handle_info({tcp_closed, Socket}, State) ->
 %% it will immediately time out due to timing settings set in init and here,
 %% and when it does, we accept the connection.
 handle_info(timeout, LSock) ->
-    {ok, Sock} = gen_tcp:accept(LSock),
-    spawn(ggs_player, start_link, [Sock]),
+    {ok, Socket} = gen_tcp:accept(LSock),
+    ggs_player:start(Socket),
     {noreply, LSock, 0}.
 
 terminate(normal, _State) ->

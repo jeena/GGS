@@ -4,41 +4,61 @@
 %% message.
 
 -module(ggs_protocol).
--export([parse/2, getToken/1, create_message/4, create_message/1,
+-export([parse/1, getToken/1, create_message/4, 
         expect_headers/2, expect_data_section/2,
         expect_headers/3, expect_data_section/3]).
 
 %% tests
--export([to_dictionary/2]).
+-export([test/0, to_dictionary/2]).
 
 % gen_fsm callbacks..
 -export([init/1, handle_info/2, terminate/2, code_change/3, start_link/0]).
 
 
+-define(SERVER, ?MODULE).
+
+%% JONTES TESTS
+test() ->
+    start_link(),
+    parse("Token: %s\nServer-Command: define\nContent-Type: text\nContent-Length: 9\n\nHELLOWORLDToken: %s\nServer-Command: define\nContent-Type: text\nContent-Length: 9\n\nHELLOWORLDToken: %s\nServer-Command: define\n"),
+    to_dictionary(["Hello: world", "Hi: there!"], []).
+%% END TESTS
+
+
 %% API Functions
-parse(Protocol, Data) ->
-    lists:foreach(fun(X) -> gen_fsm:sync_send_event(Protocol, {char, X}) end, Data).
+parse(Data) ->
+    lists:foreach(fun(X) ->
+                gen_fsm:sync_send_event(?SERVER, {char, X}) 
+            end, Data).
 
 
 start_link() ->
-    gen_fsm:start_link(?MODULE, [], []).
-    
+    gen_fsm:start_link({local, ?SERVER}, ?MODULE, [], []).
+
 % Start state: {[""],0}, meaning:
 %   - Start with no strings parsed
 %   - Start with a data-section-lengths of 0
 init([]) ->
-    {ok, expect_headers, {[""], 0}}.
+    {ok,expect_headers,{[""], 0}}.
+
+
 
 getToken(Parsed) ->
+
     case lists:keyfind(token, 1, Parsed) of
         {_, Value} ->
             Value;
         false ->
             false
     end.
+<<<<<<< Updated upstream
+=======
+    
 
-create_message({Command, Data}) ->
-    create_message(Command, "text", "text", Data).
+create_message(Protocol, {Command, Data}) {
+    create_message(Command, "text", "text", Data),
+}
+>>>>>>> Stashed changes
 
 %% Assemble a message which can b
 %e used as a reply to a client
@@ -61,44 +81,42 @@ expect_data_section(_Event, State) ->
 
 
 %%% End transitions
-expect_headers({char, $\n}, {Pid,_}, {Strings, Remains}) ->
+expect_headers({char, $\n}, _From, {Strings, Remains}) ->
     [LastMessage|_] = Strings,
     case LastMessage of
         "" -> % We have a data section.. Last line should thus be the content length.
-            [LastMessage, SecondLast | Rest] = Strings,
+            [LastMessage, SecondLast | _] = Strings,
             case re:split(SecondLast, ": ", [{return, list}]) of
                 ["Content-Length", X] ->
                     {Int,_} = string:to_integer(X),
-                    case Int of
-                        0 -> ggs_player:notify_game(Pid, prettify(to_dictionary([SecondLast|Rest], []), [])),
-                             {reply, ok, expect_headers, {[""], 0}};
-                        _ -> {reply, ok, expect_data_section, {[""|Strings], Int}}
-                    end;
-                _Other -> ok
+                    {reply, ok, expect_data_section, {[""|Strings], Int}};
+                Other -> ok
             end;
-        _Other ->
+        Other ->
             {reply,ok,expect_headers, {[""|Strings], Remains}}
     end;
 
 expect_headers({char, Char}, _From, {[Current|Rest], Remains}) ->
     NewCurrent = Current ++ [Char],
-    {reply, ok, expect_headers, {[NewCurrent|Rest], Remains}}.
+    {reply,ok, expect_headers, {[NewCurrent|Rest], Remains}}.
 
 
 expect_data_section({char, Char}, From, {Strings, Remains}) ->
     case Remains of
         0 ->
             [LastMsg,_|Rest] = Strings,
+            NewMsg = LastMsg ++ [Char],
+            Result = [NewMsg|Rest],
             {Pid,_} = From,
-            ggs_player:notify_game(Pid, prettify(to_dictionary(Rest, []), LastMsg)),
-            {reply, ok, expect_headers, {[[Char]], 0}};
-        _Other ->    [LastMsg|Rest] = Strings,
+            erlang:display(From),
+            Pid ! (prettify(to_dictionary(Rest, []), NewMsg)),
+            {reply, ok, expect_headers, {[""], 0}};
+        Other ->    [LastMsg|Rest] = Strings,
                     NewMsg = LastMsg ++ [Char],
                     {reply, ok, expect_data_section, {[NewMsg|Rest], Remains-1}}
     end.
-    
-%handle_call(_Msg, _From, State) ->
-%    {noreply, State}.
+handle_call(_Msg, _From, State) ->
+    {noreply, State}.
 handle_info(_Msg, State) -> 
     {noreply, State}.
 terminate(_Reason, _State) ->

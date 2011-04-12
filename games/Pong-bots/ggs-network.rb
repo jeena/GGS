@@ -25,16 +25,15 @@ class GGSNetwork
   protected
   
   def connect(host, port)
-    gs = TCPSocket.open(host, port)
-    @socket = gs.accept
-    Thread.start(@socket) { |s| read(s) }
+    @socket = TCPSocket.new(host, port)
+    read
   end
   
   def write(message)
     @socket.write(message)
   end
   
-  def read(s)
+  def read
     loop do
       headers = {}
       size = 0
@@ -45,7 +44,7 @@ class GGSNetwork
         headers[key] = value
       end
 
-      if headers.contains?("Content-Size")
+      if headers.has_key?("Content-Size")
         headers["Content-Size"].to_i.times do
           args << @socket.recv
         end
@@ -56,7 +55,7 @@ class GGSNetwork
   end
   
   def receivedCommand(headers, data)
-    if headers.contains? "Client-Command"
+    if headers.has_key? "Client-Command"
       command = headers["Client-Command"]
       case command
       when "hello"
@@ -71,7 +70,7 @@ class GGSNetwork
   
   def makeMessage(serverOrGame, command, args)
     message =<<MESSAGE
-Token: #{@game_t oken}
+Token: #{@game_token}
 #{serverOrGame}-Command: #{command}
 Content-Length: #{args.length}
 

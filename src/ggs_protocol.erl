@@ -65,6 +65,7 @@ expect_headers({char, $\n}, {Pid,_}, {Strings, Remains}) ->
     [LastMessage|_] = Strings,
     case LastMessage of
         "" -> % We have a data section.. Last line should thus be the content length.
+              % FIXME: the Content-Length doesn't have to be the last Header line
             [LastMessage, SecondLast | Rest] = Strings,
             case re:split(SecondLast, ": ", [{return, list}]) of
                 ["Content-Length", X] ->

@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby -wKU
 
+$: << "."
+
 require 'ggs-network.rb'
 require 'ggs-delegate.rb'
 

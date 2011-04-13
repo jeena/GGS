@@ -102,7 +102,7 @@ handle_cast({game_cmd, Command, _Headers, Data}, #state { table = Table } = Stat
     ggs_table:notify(Table, self(), {game, Command, Data}),
     {noreply, State};
 
-handle_cast(_Request, St) ->
+handle_cast(Request, St) ->
     {stop, unimplemented1, St}.
 
 handle_info({tcp, _Socket, Data}, #state { protocol = Protocol } = State) ->

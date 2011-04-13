@@ -3,14 +3,13 @@ require 'socket'
 class GGSNetwork
   
   SERVER = "Server"
-  CLIENT = "Client"
+  CLIENT = "Game"
 
   public
   
   attr_accessor :delegate
 
-  def initialize(delegate, host='localhost', port=9000)
-    connect(host, port)
+  def initialize(delegate)
     @delegate = delegate
   end
   
@@ -22,15 +21,16 @@ class GGSNetwork
     write( makeMessage(CLIENT, command, args) )
   end
   
-  protected
-  
-  def connect(host, port)
+  def connect(host='localhost', port=9000)
     @socket = TCPSocket.new(host, port)
     read
   end
   
+  protected
+  
   def write(message)
     @socket.write(message)
+    puts message
   end
   
   def read
@@ -39,26 +39,31 @@ class GGSNetwork
       size = 0
       args = ""
 
+      select([@socket], nil, nil)
+
       while (line = @socket.gets) != "\n"
+        break if line.nil?
+        
         key, value = line.split(": ")
-        headers[key] = value
+        headers[key] = value.strip
       end
-
+      
       if headers.has_key?("Content-Size")
-        headers["Content-Size"].to_i.times do
-          args << @socket.recv
-        end
+        args = @socket.read(headers["Content-Size"].to_i)
       end
 
-      receivedCommand(headers, args)          
+      receivedCommand(headers, args)
     end
   end
   
   def receivedCommand(headers, data)
+    puts [headers, data].inspect
+    
     if headers.has_key? "Client-Command"
       command = headers["Client-Command"]
       case command
       when "hello"
+        @game_token = data
         @delegate.ggsNetworkReady(self, true)
       when "defined"
         @delegate.ggsNetworkDefined(self, true)
@@ -69,13 +74,12 @@ class GGSNetwork
   end
   
   def makeMessage(serverOrGame, command, args)
-    message =<<MESSAGE
-Token: #{@game_token}
-#{serverOrGame}-Command: #{command}
-Content-Length: #{args.length}
+    message = "Token: #{@game_token}\n" +
+    "#{serverOrGame}-Command: #{command}\n" +
+    "Content-Length: #{args.length}\n\n"
 
-#{args}
-MESSAGE
+    message += args if args.length > 0
+
     message
   end
   

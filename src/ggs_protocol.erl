@@ -116,7 +116,7 @@ prettify(Args, Data) ->
             case lists:keyfind("Game-Command", 1, Args) of
                 {_, Value} ->
                     {game_cmd, Value, Args, Data};
-                _ ->
+                Other ->
                     ok
             end
     end.

@@ -112,14 +112,21 @@ handle_call({join_table, Table}, From, State) ->
     Tables = State#co_state.tables,
     case lists:keyfind(Table, 1, Tables) of
         {_TableID, TablePID} ->
-            TP = TablePID,
-            {ok, Players} = (gen_server:call(TP, get_player_list_raw)), % Hack.. deadlock otherwise?
-            NumPlayers = length(Players),
-            case NumPlayers of
-                PN when (PN < 2) ->     ggs_table:add_player(TablePID, FromPlayer),
-                                        back_up(State),
-                                        {reply, {ok, TablePID}, State};
-                PN when (PN >= 2) ->    {reply, {error, table_full}, State} % TODO: Fix this limit!! 
+%            TP = TablePID,
+%            {ok, Players} = (gen_server:call(TP, get_player_list_raw)), % Hack.. deadlock otherwise?
+%            %Players = [1],
+%            NumPlayers = length(Players),
+%            case NumPlayers of
+%                PN when (PN < 2) ->     ggs_table:add_player(TablePID, FromPlayer),
+%                                        back_up(State),
+%                                        {reply, {ok, TablePID}, State};
+%                PN when (PN >= 2) ->    {reply, {error, table_full}, State} % TODO: Fix this limit!! 
+%            end;
+            {PlayersAtTable,_} = string:to_integer(Table),
+            case ((length(State#co_state.players) / 2) < PlayersAtTable) and (length(State#co_state.players) > 1) of
+                true   -> {reply , {error, table_full}, State};
+                false  -> ggs_table:add_player(TablePID, FromPlayer),
+                          {reply, {ok, TablePID}, State}
             end;
         false ->
             back_up(State),

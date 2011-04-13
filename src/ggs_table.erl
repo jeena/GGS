@@ -35,7 +35,7 @@ call(Pid, Msg) ->
 
 % @doc adds a player to a table
 add_player(Table, Player) ->
-	call(Table, {add_player, Player}).
+	gen_server:cast(Table, {add_player, Player}).
 
 % @doc removes player form a table
 remove_player(Table, Player) ->
@@ -80,8 +80,6 @@ init([TableToken]) ->
 		  players = [] }}.
 
 %% @private
-handle_call({add_player, Player}, _From, #state { players = Players } = State) ->
-    {reply, ok, State#state { players = [Player | Players] }};
 
 handle_call({remove_player, Player}, _From, #state { players = Players } = State) ->
     {reply, ok, State#state { players = Players -- [Player] }};
@@ -108,6 +106,9 @@ handle_cast({notify, Player, Message}, #state { game_vm = GameVM } = State) ->
             ggs_gamevm_p:player_command(GameVM, PlayerToken, Command, Args)
     end,
     {noreply, State};
+
+handle_cast({add_player, Player}, #state { players = Players } = State) ->
+    {noreply, State#state { players = [Player | Players] }};
 
 handle_cast({notify_game, Message, From}, #state { game_vm = GameVM } = State) ->
     ggs_gamevm_p:player_command(GameVM, From, Message, ""),

@@ -33,11 +33,17 @@ join_table(Num) ->
             io:format("Joining existing table: ~p~n", [T]),
             T;
         {error, no_such_table} ->
-            ggs_coordinator:create_table({force, integer_to_list(Num)}),
-            {ok, T} = ggs_coordinator:join_table(integer_to_list(Num)),
-            io:format("Creating new table: ~p~n", [T]),
-            T;
+            case ggs_coordinator:create_table({force, integer_to_list(Num)}) of
+                {ok, TBToken} -> ok
+            end,
+            case ggs_coordinator:join_table(integer_to_list(Num)) of
+                {ok, T} -> io:format("Creating new table: ~p~n", [T]),
+                           T;
+                {error, E} ->   erlang:display(E),
+                                join_table(Num+1)
+            end;
         {error, table_full} ->
+            erlang:display("Table full!"),
             join_table(Num+1)
     end.
 
@@ -47,7 +53,7 @@ init([Socket]) ->
     
     erlang:port_connect(Socket, self()),
 
-    Table = join_table(1337),
+    Table = join_table(1),
     State = #state{
         token = Token,
         socket = Socket,

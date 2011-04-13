@@ -129,7 +129,7 @@ handle_call({join_table, Table}, From, State) ->
                                     0 -> CurrentPlayers / 2;
                                     1 -> (CurrentPlayers / 2)+1
                                 end, 
-            case (TableNum < SmallestTable) of
+            case (TableNum =< SmallestTable) of
                 true   -> {reply , {error, table_full}, State};
                 false  -> ggs_table:add_player(TablePID, FromPlayer),
                           {reply, {ok, TablePID}, State}

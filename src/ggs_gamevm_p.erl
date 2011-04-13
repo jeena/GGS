@@ -121,24 +121,21 @@ intern_add_player(Table, Player) ->
 	    1 ->
 	        erlang:display("A player joined");
 		2 ->
-		    [First|_] = PlayerList,
-        	case First == Player of
-        		true ->
+                    [P1,P2] = PlayerList,
+                    erlang:display(PlayerList),
         			erlang:display("P1: joining"),
-        			ggs_db:setItem(Table, local_storage, Player, player1),
+        			ggs_db:setItem(Table, local_storage, P1, player1),
         			erlang:display(ggs_db:getItem(Table, local_storage, Player)),
         			ggs_db:setItem(Table, local_storage, player1_y, 50),
         			ggs_table:send_command(Table, Player, {"welcome", int2str(1)}),
-        			ggs_table:notify_all_players(Table, {"player1_y", int2str(50)});
-        		false ->
+        			ggs_table:notify_all_players(Table, {"player1_y", int2str(50)}),
         			erlang:display("P2: joining"),
-        			ggs_db:setItem(Table, local_storage, Player, player2),
+        			ggs_db:setItem(Table, local_storage, P2, player2),
         			erlang:display(ggs_db:getItem(Table, local_storage, Player)),
         			ggs_db:setItem(Table, local_storage, player2_y, 50),
         			ggs_table:send_command(Table, Player, {"welcome", int2str(2)}),
         			ggs_table:send_command(Table, Player, {"player1_y", int2str(50)}),
-        			ggs_table:notify_all_players(Table, {"player2_y", int2str(50)})
-        	end;
+        			ggs_table:notify_all_players(Table, {"player2_y", int2str(50)});
 		_Other ->
 			ggs_table:send_command(Table, Player, {"not_welcome", ""})
 	end.

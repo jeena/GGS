@@ -36,7 +36,6 @@ define(GameVM, SourceCode) ->
 %%      Command = a game command to run
 %%      Args    = arguments for the Command parameter
 player_command(GameVM, Player, Command, Args) ->
-    erlang:display(Command),
     gen_server:cast(GameVM, {player_command, Player, Command, Args}).
 
 %% @private
@@ -118,23 +117,28 @@ intern_player_command(Table, Player, Command, _Args) ->
 	
 intern_add_player(Table, Player) ->
 	{ok, PlayerList} = ggs_table:get_player_list(Table),
-	erlang:display(PlayerList),
 	case length(PlayerList) of
-		1 ->
-			erlang:display("P1: joining"),
-			ggs_db:setItem(Table, local_storage, Player, player1),
-			erlang:display(ggs_db:getItem(Table, local_storage, Player)),
-			ggs_db:setItem(Table, local_storage, player1_y, 50),
-			ggs_table:send_command(Table, Player, {"welcome", int2str(1)}),
-			ggs_table:notify_all_players(Table, {"player1_y", int2str(50)});
+	    1 ->
+	        erlang:display("A player joined");
 		2 ->
-			erlang:display("P2: joining"),
-			ggs_db:setItem(Table, local_storage, Player, player2),
-			erlang:display(ggs_db:getItem(Table, local_storage, Player)),
-			ggs_db:setItem(Table, local_storage, player2_y, 50),
-			ggs_table:send_command(Table, Player, {"welcome", int2str(2)}),
-			ggs_table:send_command(Table, Player, {"player1_y", int2str(50)}),
-			ggs_table:notify_all_players(Table, {"player2_y", int2str(50)});
+		    [First|_] = PlayerList,
+        	case First == Player of
+        		true ->
+        			erlang:display("P1: joining"),
+        			ggs_db:setItem(Table, local_storage, Player, player1),
+        			erlang:display(ggs_db:getItem(Table, local_storage, Player)),
+        			ggs_db:setItem(Table, local_storage, player1_y, 50),
+        			ggs_table:send_command(Table, Player, {"welcome", int2str(1)}),
+        			ggs_table:notify_all_players(Table, {"player1_y", int2str(50)});
+        		false ->
+        			erlang:display("P2: joining"),
+        			ggs_db:setItem(Table, local_storage, Player, player2),
+        			erlang:display(ggs_db:getItem(Table, local_storage, Player)),
+        			ggs_db:setItem(Table, local_storage, player2_y, 50),
+        			ggs_table:send_command(Table, Player, {"welcome", int2str(2)}),
+        			ggs_table:send_command(Table, Player, {"player1_y", int2str(50)}),
+        			ggs_table:notify_all_players(Table, {"player2_y", int2str(50)})
+        	end;
 		_Other ->
 			ggs_table:send_command(Table, Player, {"not_welcome", ""})
 	end.

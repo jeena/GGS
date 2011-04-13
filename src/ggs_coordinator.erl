@@ -112,9 +112,15 @@ handle_call({join_table, Table}, From, State) ->
     Tables = State#co_state.tables,
     case lists:keyfind(Table, 1, Tables) of
         {_TableID, TablePID} ->
-            ggs_table:add_player(TablePID, FromPlayer),
-            back_up(State),
-            {reply, {ok, TablePID}, State}; 
+            TP = TablePID,
+            {ok, Players} = (gen_server:call(TP, get_player_list_raw)), % Hack.. deadlock otherwise?
+            NumPlayers = length(Players),
+            case NumPlayers of
+                PN when (PN < 2) ->     ggs_table:add_player(TablePID, FromPlayer),
+                                        back_up(State),
+                                        {reply, {ok, TablePID}, State};
+                PN when (PN >= 2) ->    {reply, {error, table_full}, State} % TODO: Fix this limit!! 
+            end;
         false ->
             back_up(State),
             {reply, {error, no_such_table}, State}
@@ -137,6 +143,7 @@ handle_call(get_all_players, _From, State) ->
 %% Conversion tools
 handle_call({table_token_to_pid, Token}, _From, State) ->
     Tables = State#co_state.tables,
+    erlang:display("Pre-keyfind"),
     {_, Pid} = lists:keyfind(Token, 1, Tables),
     {reply, Pid, State};
 

@@ -91,6 +91,9 @@ handle_call(get_player_list, _From, #state { players = Players } = State) ->
             fun (Pid) -> ggs_coordinator:player_pid_to_token(Pid) end, Players),
 	{reply, {ok, TokenPlayers}, State};
 
+handle_call(get_player_list_raw, _From, #state { players = Players } = State) ->
+	{reply, {ok, Players}, State};
+
 handle_call(Msg, _From, State) ->
     error_logger:error_report([unknown_msg, Msg]),
     {reply, ok, State}.

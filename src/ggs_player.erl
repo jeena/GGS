@@ -27,21 +27,27 @@
 start(Socket) -> 
     gen_server:start(?MODULE, [Socket], []).
 
+join_table(Num) ->
+    case ggs_coordinator:join_table(integer_to_list(Num)) of
+        {ok, T} ->
+            io:format("Joining existing table: ~p~n", [T]),
+            T;
+        {error, no_such_table} ->
+            ggs_coordinator:create_table({force, integer_to_list(Num)}),
+            {ok, T} = ggs_coordinator:join_table(integer_to_list(Num)),
+            io:format("Creating new table: ~p~n", [T]),
+            T;
+        {error, table_full} ->
+            join_table(Num+1)
+    end.
+
 init([Socket]) ->
     {ok, Protocol} = ggs_protocol:start_link(),
     {ok, Token} = ggs_coordinator:join_lobby(),
     
     erlang:port_connect(Socket, self()),
 
-    case ggs_coordinator:join_table("1337") of
-        {ok, T} ->
-            Table = T;
-        {error, no_such_table} ->
-            ggs_coordinator:create_table({force, "1337"}),
-            {ok, T} = ggs_coordinator:join_table("1337"),
-            Table = T
-    end,
-    
+    Table = join_table(1337),
     State = #state{
         token = Token,
         socket = Socket,

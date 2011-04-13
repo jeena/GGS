@@ -17,18 +17,12 @@ class PongBot
     @send_start = false
 
     @ggs_network = GGSNetwork.new(self)
+    #@ggs_network.connect("10.42.43.1")
     @ggs_network.connect()
   end
-  
+
   def ggsNetworkReady(ggs_network, ready)
     @ggs_network.sendCommand("ready")
-    
-    t = Thread.new {
-      loop do
-        gameTick()
-        sleep 0.3
-      end
-    }
   end
   
   def ggsNetworkDefined(ggs_network, defined)
@@ -56,7 +50,6 @@ class PongBot
         @send_start = true
       end
     else
-      puts "#{@ball.y}:#{@me.y}"
       if @ball.y < @me.y - 5
         @ggs_network.sendCommand("up")
       elsif @ball.y > @me.y - 5
@@ -71,6 +64,13 @@ class PongBot
     else
       @me = @player2
     end
+    
+    Thread.new {
+      loop do
+        gameTick()
+        sleep 0.3
+      end
+    }
   end
   
   def ball(pos_s)
@@ -88,7 +88,6 @@ class PongBot
   
   def game(wait_or_start)
     if wait_or_start == "wait"
-      puts "Other ready"
     else
       @game_paused = false
     end

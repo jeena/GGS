@@ -29,8 +29,8 @@ class GGSNetwork
   protected
   
   def write(message)
+    puts message.inspect
     @socket.write(message)
-    puts message
   end
   
   def read
@@ -58,7 +58,6 @@ class GGSNetwork
   
   def receivedCommand(headers, data)
     puts [headers, data].inspect
-    
     if headers.has_key? "Client-Command"
       command = headers["Client-Command"]
       case command

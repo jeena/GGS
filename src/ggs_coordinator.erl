@@ -122,8 +122,14 @@ handle_call({join_table, Table}, From, State) ->
 %                                        {reply, {ok, TablePID}, State};
 %                PN when (PN >= 2) ->    {reply, {error, table_full}, State} % TODO: Fix this limit!! 
 %            end;
-            {PlayersAtTable,_} = string:to_integer(Table),
-            case ((length(State#co_state.players) / 2) < PlayersAtTable) and (length(State#co_state.players) > 1) of
+            {TableNum,_} = string:to_integer(Table),
+            erlang:display(State#co_state.players),
+            CurrentPlayers = length(State#co_state.players),
+            SmallestTable =     case (CurrentPlayers rem 2) of
+                                    0 -> CurrentPlayers / 2;
+                                    1 -> (CurrentPlayers / 2)+1
+                                end, 
+            case (TableNum < SmallestTable) of
                 true   -> {reply , {error, table_full}, State};
                 false  -> ggs_table:add_player(TablePID, FromPlayer),
                           {reply, {ok, TablePID}, State}

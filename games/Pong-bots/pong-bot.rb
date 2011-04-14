@@ -17,8 +17,8 @@ class PongBot
     @send_start = false
 
     @ggs_network = GGSNetwork.new(self)
-    #@ggs_network.connect("10.42.43.1")
-    @ggs_network.connect()
+    @ggs_network.connect("192.168.0.1")
+    #@ggs_network.connect()
   end
 
   def ggsNetworkReady(ggs_network, ready)

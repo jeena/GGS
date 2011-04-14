@@ -123,7 +123,7 @@ handle_call({join_table, Table}, From, State) ->
 %                PN when (PN >= 2) ->    {reply, {error, table_full}, State} % TODO: Fix this limit!! 
 %            end;
             {TableNum,_} = string:to_integer(Table),
-            erlang:display(State#co_state.players),
+            %erlang:display(State#co_state.players),
             CurrentPlayers = length(State#co_state.players),
             SmallestTable =     case (CurrentPlayers rem 2) of
                                     0 -> CurrentPlayers / 2;
@@ -156,7 +156,7 @@ handle_call(get_all_players, _From, State) ->
 %% Conversion tools
 handle_call({table_token_to_pid, Token}, _From, State) ->
     Tables = State#co_state.tables,
-    erlang:display("Pre-keyfind"),
+    %erlang:display("Pre-keyfind"),
     {_, Pid} = lists:keyfind(Token, 1, Tables),
     {reply, Pid, State};
 

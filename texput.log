@@ -1,0 +1,21 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.3.22)  22 MAR 2011 15:09
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**Hej
+
+! Emergency stop.
+<*> Hej
+       
+End of file on the terminal!
+
+ 
+Here is how much of TeX's memory you used:
+ 3 strings out of 495062
+ 104 string characters out of 1182644
+ 45108 words of memory out of 3000000
+ 3282 multiletter control sequences out of 15000+50000
+ 3640 words of font info for 14 fonts, out of 3000000 for 9000
+ 28 hyphenation exceptions out of 8191
+ 0i,0n,0p,6b,6s stack positions out of 5000i,500n,10000p,200000b,50000s
+No pages of output.

@@ -3,27 +3,36 @@
 -export([start_link/0]).
 -export([init/1, handle_call/3, handle_cast/2]).
 -export([ggsNetworkReceivedCommandWithArgs/2,set_game_token/1,get_game_token/0]).
+-export([view/0, peek_socket/0]).
+
 
 start_link() ->
-    gen_server:start_link({global, pong_bot}, pong_bot, [], []).
+    gen_server:start_link({global, pong_bot}, pong_bot, [], []),
+    Socket = peek_socket(),
+    A = gen_tcp:recv(Socket,0),
+    ggs_network:read(A).
 
+peek_socket() ->
+    gen_server:call({global, pong_bot}, socket).
+    
 
 init(_Args) ->
+    io:format("State initialization.~n"),
     Player1 = new_pos(),
     Player2 = new_pos(),
     Ball = new_pos(),
     Paused = true,
     SendStart = false,
-    GGSNetwork = ggs_network:connect(), %Localhost is set internally inside 
-                                        %ggs_network.
+    Socket = ggs_network:connect(), %Localhost is set internally inside ggs_network.
     State1 = dict:new(),
     State2 = dict:store(player1, Player1, State1),
     State3 = dict:store(player2, Player2, State2),
     State4 = dict:store(ball, Ball, State3),
     State5 = dict:store(paused, Paused, State4),
     State6 = dict:store(send_start, SendStart, State5), 
-    State = dict:store(ggs_network, GGSNetwork, State6),
-    State.
+    State = dict:store(socket, Socket, State6),
+    io:format("End State initialization.~n"),
+    {ok, State}.
 
 new_pos() ->
     {0, 0}.
@@ -48,6 +57,7 @@ ggsNetworkReceivedCommandWithArgs(Command, Args) ->
     end.   
 
 welcome(Who_am_I) ->
+    io:format("Welcome begin~n"),
     case Who_am_I of 
         1 ->
             Me = gen_server:call(pong_bot, player1),
@@ -130,6 +140,9 @@ set_game_token(GameToken) ->
 get_game_token() ->
     gen_server:call({global, pong_bot}, game_token).
     
+view() ->
+    gen_server:call({global, pong_bot}, game_token).
+        
 handle_call(player1, _From, State) ->
     Player1 = dict:fetch(player1, State),
     {reply, Player1, State};        
@@ -140,13 +153,26 @@ handle_call(player1_y, _From, State) ->
     
 handle_call(player2_y, _From, State) ->
     {_,Y} = dict:fetch(player2, State),
-    {reply, Y, State};    
-    
-handle_call(game_token, _From, State) ->
-    io:format("Handle call game_token~n"),
-    GameToken = dict:fetch(game_token, State),
-    {reply, GameToken, State}.    
+    {reply, Y, State};        
 
+handle_call(game_token, _From, State) ->
+    GameToken = dict:fetch(game_token, State),
+    {reply, GameToken, State};
+
+handle_call(view, _From, State) ->
+    io:format("View the state.~n"),
+%    StateFromList = lists:nth(1, State)
+    {reply, State, State};
+
+handle_call(socket, _From, State) ->
+    Socket = dict:fetch(socket, State),
+    %Socket = lists:nth(1, SocketInList),
+    {reply, Socket, State}.
+    
+handle_cast({game_token, GameToken}, State) ->
+    NewState = dict:store(game_token, GameToken, State),
+    {noreply, NewState};
+    
 handle_cast({me, Me}, State) ->
     NewState = dict:store(me, Me, State),
     {noreply, NewState};
@@ -174,9 +200,5 @@ handle_cast({paused, Paused}, State) ->
 handle_cast({new_rouned, Paused, SendStart}, State) ->
     State1 = dict:store(paused, Paused, State),
     NewState = dict:store(send_start, SendStart, State1),
-    {noreply, NewState};
-    
-handle_cast({game_token, Token}, State) ->
-    io:format("Handle cast game_token~n"),
-    NewState = dict:store(game_token, Token, State),
     {noreply, NewState}.
+    

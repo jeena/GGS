@@ -1,11 +1,11 @@
 -module(ggs_network).
 -export([connect/0,append_key_value_strings_to_dict/2,key_value_string_to_list/1]).
+-export([read/1]).
 
 connect() ->
     {ok,Socket} = gen_tcp:connect("localhost", 9000,[{active, false}]),
-    A = gen_tcp:recv(Socket,0),
-    read(A),
     Socket.
+    
     
 read(Message) ->
     case Message of
@@ -22,9 +22,10 @@ received_command(Headers, Data) ->
     case Command of
         "hello" ->
             io:format("Received command 'hello'~n"),
+            io:format("Game token: ~s~n", [Data]),
             pong_bot:set_game_token(Data),
             %gen_server:cast({global, pong_bot}, {game_token, Data}),
-            send_command("Ready", "");
+            send_command("'ready'", "");
             %pong_bot:ggsNetworkReady(); Unneccessary
         "defined" -> 
             ok;
@@ -34,10 +35,7 @@ received_command(Headers, Data) ->
     end.
 
 make_message(ServerOrGame, Command, Args) ->
-    io:format("Make message~n"),
     GameToken = pong_bot:get_game_token(),
-%    GameToken = gen_server:call({global, pong_bot}, game_token),
-    io:format("Make message2~n"),
     StrGameToken = string:concat("Token: ", GameToken),
     StrGameTokenln = string:concat(StrGameToken, "\n"),
     StrCommand = string:concat("-Command: ", Command),
@@ -47,13 +45,9 @@ make_message(ServerOrGame, Command, Args) ->
     StrContentLengthln = string:concat(StrContentLength, "\n\n"),
     StrTokenCommand = string:concat(StrGameTokenln, StrFullCommand),
     Message = string:concat(StrTokenCommand, StrContentLengthln),
-
     MessageWithArgs = string:concat(Message, list_concat(Args,[])),
+    io:format("Make message: ~n~n~s",[MessageWithArgs]),
     MessageWithArgs.
-
-%define(SourceCode) ->
-%    write(make_message("Server", "define", SourceCode)).
-
 
 send_command(Command, Args) ->
     write(make_message("Client", Command, Args)).

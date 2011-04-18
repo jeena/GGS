@@ -25,7 +25,7 @@ received_command(Headers, Data) ->
             io:format("Game token: ~s~n", [Data]),
             pong_bot:set_game_token(Data),
             %gen_server:cast({global, pong_bot}, {game_token, Data}),
-            send_command("'ready'", "");
+            send_command("ready", "");
             %pong_bot:ggsNetworkReady(); Unneccessary
         "defined" -> 
             ok;
@@ -50,7 +50,7 @@ make_message(ServerOrGame, Command, Args) ->
     MessageWithArgs.
 
 send_command(Command, Args) ->
-    write(make_message("Client", Command, Args)).
+    write(make_message("Game", Command, Args)).
     
 write(Message) ->
     Socket = gen_server:call({global, pong_bot}, socket),

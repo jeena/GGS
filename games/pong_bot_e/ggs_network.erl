@@ -1,6 +1,6 @@
 -module(ggs_network).
 -export([connect/0,append_key_value_strings_to_dict/2,key_value_string_to_list/1]).
--export([read/1]).
+-export([read/1, send_command/2]).
 
 connect() ->
     {ok,Socket} = gen_tcp:connect("localhost", 9000,[{active, false}]),
@@ -10,9 +10,11 @@ connect() ->
 read(Message) ->
     case Message of
     {ok, M} ->
+        io:format("Message: ~n~n~s~n", [M]),
         HeaderList = string:tokens(M, "\n"),
         Headers = extract_headers(HeaderList),
         Data    = extract_data(HeaderList),
+        io:format("Data: ~s~n", [Data]),
         received_command(Headers, Data)
     end.
 
@@ -21,17 +23,13 @@ received_command(Headers, Data) ->
     Command = lists:nth(1, CommandList), 
     case Command of
         "hello" ->
-            io:format("Received command 'hello'~n"),
-            io:format("Game token: ~s~n", [Data]),
             pong_bot:set_game_token(Data),
-            %gen_server:cast({global, pong_bot}, {game_token, Data}),
             send_command("ready", "");
-            %pong_bot:ggsNetworkReady(); Unneccessary
         "defined" -> 
+            io:format("Defined~n"),
             ok;
-            %pong_bot:ggsNetworkDefined(); Unneccessary
         Command ->
-            gen_server:ggsNetworkReceivedCommandWithArgs(Command,  Data)
+            pong_bot:ggsNetworkReceivedCommandWithArgs(Command,  Data)
     end.
 
 make_message(ServerOrGame, Command, Args) ->
@@ -46,7 +44,6 @@ make_message(ServerOrGame, Command, Args) ->
     StrTokenCommand = string:concat(StrGameTokenln, StrFullCommand),
     Message = string:concat(StrTokenCommand, StrContentLengthln),
     MessageWithArgs = string:concat(Message, list_concat(Args,[])),
-    io:format("Make message: ~n~n~s",[MessageWithArgs]),
     MessageWithArgs.
 
 send_command(Command, Args) ->
@@ -74,6 +71,7 @@ extract_headers(Source) ->
 extract_data([]) ->
     [];
 extract_data([E|ES]) ->
+    io:format("~n~s~n", [E]),
     KeyValueList = key_value_string_to_list(E),
     case length(KeyValueList) of
         2 ->

@@ -9,29 +9,33 @@
 start_link() ->
     gen_server:start_link({global, pong_bot}, pong_bot, [], []),
     Socket = peek_socket(),
-    A = gen_tcp:recv(Socket,0),
-    ggs_network:read(A).
+    spawn(fun() -> communication_loop(Socket) end),
+    spawn(fun() -> game_loop() end ).
+
+communication_loop(Socket) ->
+    A = gen_tcp:recv(Socket, 0),
+    ggs_network:read(A),
+    communication_loop(Socket).
+
 
 peek_socket() ->
     gen_server:call({global, pong_bot}, socket).
     
 
 init(_Args) ->
-    io:format("State initialization.~n"),
     Player1 = new_pos(),
     Player2 = new_pos(),
     Ball = new_pos(),
     Paused = true,
-    SendStart = false,
+    Start = false,
     Socket = ggs_network:connect(), %Localhost is set internally inside ggs_network.
     State1 = dict:new(),
     State2 = dict:store(player1, Player1, State1),
     State3 = dict:store(player2, Player2, State2),
     State4 = dict:store(ball, Ball, State3),
     State5 = dict:store(paused, Paused, State4),
-    State6 = dict:store(send_start, SendStart, State5), 
+    State6 = dict:store(start, Start, State5), 
     State = dict:store(socket, Socket, State6),
-    io:format("End State initialization.~n"),
     {ok, State}.
 
 new_pos() ->
@@ -58,44 +62,47 @@ ggsNetworkReceivedCommandWithArgs(Command, Args) ->
 
 welcome(Who_am_I) ->
     io:format("Welcome begin~n"),
+    io:format("I am player: ~s~n", [Who_am_I]),
     case Who_am_I of 
-        1 ->
-            Me = gen_server:call(pong_bot, player1),
-            gen_server:cast(pong_bot, {me, Me});
-        2 ->
-            Me = gen_server:call(pong_bot, player2),
-            gen_server:cast(pong_bot, {me, Me})
-    end,
+        "1" -> 
+            Me = gen_server:call({global, pong_bot}, player1),
+            gen_server:cast({global, pong_bot}, {me, Me});
+        "2" ->
+            Me = gen_server:call({global, pong_bot}, player2),
+            gen_server:cast({global, pong_bot}, {me, Me})
+    end.
     
-    loop().
+   
     
-loop() ->
+game_loop() ->
     timer:sleep(300),
     gameTick(),
-    loop().
+    game_loop().
     
 gameTick() ->
-    GamePaused = gen_server:call(pong_bot, paused),       
-    SendStart = gen_server:call(pong_bot, send_start),
+    GamePaused = gen_server:call({global, pong_bot}, paused),       
+    SendStart = gen_server:call({global, pong_bot}, start),
     
     case GamePaused of
         true ->
             case SendStart of
                 false ->
-                    ggs_network:send_command("start"),
-                    gen_server:cast(pong_bot, {send_start, true})
+                    ggs_network:send_command("start", ""),
+                    gen_server:cast({global, pong_bot}, {start, true});
+                true ->
+                    ok
             end;
         false ->
-            Ball = gen_server:call(pong_bot, ball),
+            Ball = gen_server:call({global, pong_bot}, ball),
             {_, BallY} = Ball,
-            Me = gen_server:call(pong_bot, me),
+            Me = gen_server:call({global, pong_bot}, me),
             {_, MeY} = Me,
             
             case BallY < (MeY - 5) of
                 true ->
-                    ggs_network:send_command("up");
+                    ggs_network:send_command("up", "");
                 false ->
-                    ggs_network:send_command("down")
+                    ggs_network:send_command("down", "")
             end
     end.
             
@@ -109,29 +116,29 @@ ball(Pos_s) ->
     X = string:to_integer(XStr),
     Y = string:to_integer(YStr),
     Pos = {X, Y},
-    gen_server:cast(pong_bot, {ball, Pos}).
+    gen_server:cast({global, pong_bot}, {ball, Pos}).
 
 player1_y(YStr) ->
     Y = string:to_integer(YStr),
-    gen_server:cast(pong_bot, {player1_y, Y}).
+    gen_server:cast({global, pong_bot}, {player1_y, Y}).
 
 player2_y(YStr) ->
     Y = string:to_integer(YStr),
-    gen_server:cast(pong_bot, {player2_y, Y}).
+    gen_server:cast({global, pong_bot}, {player2_y, Y}).
 
 game(WaitOrStart) ->
     case WaitOrStart of
         "wait" ->
             ok;
         _ ->
-            gen_server:cast(pong_bot, {paused, false})
+            gen_server:cast({global, pong_bot}, {paused, false})
     end.
 
 
 new_round() ->
     Paused = true,
     SendStart = false,    
-    gen_server:cast(pong_bot, {new_round, Paused, SendStart}). 
+    gen_server:cast({global, pong_bot}, {new_round, Paused, SendStart}). 
     
     
 set_game_token(GameToken) ->
@@ -144,8 +151,14 @@ view() ->
     gen_server:call({global, pong_bot}, game_token).
         
 handle_call(player1, _From, State) ->
+    io:format("Player1 before~n"),
     Player1 = dict:fetch(player1, State),
+    io:format("Player1 after~n"),
     {reply, Player1, State};        
+
+handle_call(player2, _From, State) ->
+    Player2 = dict:fetch(player2, State),
+    {reply, Player2, State}; 
 
 handle_call(player1_y, _From, State) ->
     {_,Y} = dict:fetch(player1, State),
@@ -167,7 +180,15 @@ handle_call(view, _From, State) ->
 handle_call(socket, _From, State) ->
     Socket = dict:fetch(socket, State),
     %Socket = lists:nth(1, SocketInList),
-    {reply, Socket, State}.
+    {reply, Socket, State};
+    
+handle_call(paused, _From, State) ->
+    Paused = dict:fetch(paused, State),
+    {reply, Paused, State};
+    
+handle_call(start, _From, State) ->
+    Start = dict:fetch(start, State),
+    {reply, Start, State}.
     
 handle_cast({game_token, GameToken}, State) ->
     NewState = dict:store(game_token, GameToken, State),
@@ -200,5 +221,8 @@ handle_cast({paused, Paused}, State) ->
 handle_cast({new_rouned, Paused, SendStart}, State) ->
     State1 = dict:store(paused, Paused, State),
     NewState = dict:store(send_start, SendStart, State1),
-    {noreply, NewState}.
+    {noreply, NewState};
     
+handle_cast({start, Start}, State) ->
+    NewState = dict:store(start, Start, State),
+    {noreply, NewState}.

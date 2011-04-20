@@ -56,7 +56,8 @@ ggsNetworkReceivedCommandWithArgs(Command, Args) ->
         "player1_points" ->
             new_round();
         "player2_points" ->
-            new_round()
+            new_round();
+        _ -> ok
     end.
 
 welcome(Who_am_I) ->
@@ -103,8 +104,11 @@ gameTick() ->
             case BallY < (MeY - 5) of
                 true ->
                     ggs_network:send_command("up", "");
-                false ->
-                    ggs_network:send_command("down", "")
+                _ -> case BallY > ( MeY - 5) of
+                        true ->
+                            ggs_network:send_command("down", "");
+                        _ -> ok
+                    end
             end
     end.
             
@@ -233,7 +237,7 @@ handle_cast({paused, Paused}, State) ->
     NewState = dict:store(paused, Paused, State),
     {noreply, NewState};
     
-handle_cast({new_rouned, Paused, SendStart}, State) ->
+handle_cast({new_round, Paused, SendStart}, State) ->
     State1 = dict:store(paused, Paused, State),
     NewState = dict:store(send_start, SendStart, State1),
     {noreply, NewState};

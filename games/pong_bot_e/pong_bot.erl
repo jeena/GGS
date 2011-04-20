@@ -15,13 +15,8 @@ start_link() ->
 communication_loop(Socket) ->
     ggs_network:read(Socket),
     communication_loop(Socket).
-    
-    
-  %  A = gen_tcp:recv(Socket, 0),
-   % ggs_network:read(A),
-    %communication_loop(Socket).
-
-
+ 
+ 
 peek_socket() ->
     gen_server:call({global, pong_bot}, socket).
     
@@ -62,16 +57,18 @@ ggsNetworkReceivedCommandWithArgs(Command, Args) ->
             new_round();
         "player2_points" ->
             new_round()
-    end.   
+    end.
 
 welcome(Who_am_I) ->
     io:format("Welcome begin~n"),
     io:format("I am player: ~s~n", [Who_am_I]),
     case Who_am_I of 
         "1" -> 
+            io:format("I made myself into player 1~n"),
             Me = gen_server:call({global, pong_bot}, player1),
             gen_server:cast({global, pong_bot}, {me, Me});
         "2" ->
+            io:format("I made myself into player 2~n"),
             Me = gen_server:call({global, pong_bot}, player2),
             gen_server:cast({global, pong_bot}, {me, Me})
     end.
@@ -91,6 +88,7 @@ gameTick() ->
         true ->
             case SendStart of
                 false ->
+                    io:format("Command start sent~n"),
                     ggs_network:send_command("start", ""),
                     gen_server:cast({global, pong_bot}, {start, true});
                 true ->
@@ -114,20 +112,25 @@ gameTick() ->
             
              
 ball(Pos_s) ->
+    io:format("Ball~n"),
     PosList = string:tokens(Pos_s, ","),
     XStr = lists:nth(1,PosList),
-    YStr = lists:nth(1,PosList),
-    X = string:to_integer(XStr),
-    Y = string:to_integer(YStr),
+    YStr = lists:nth(2,PosList),
+    X = list_to_integer(XStr),
+    Y = list_to_integer(YStr),
+    io:format("X~B~n", [X]),
+    io:format("Y~B~n", [Y]),
     Pos = {X, Y},
     gen_server:cast({global, pong_bot}, {ball, Pos}).
 
 player1_y(YStr) ->
-    Y = string:to_integer(YStr),
+    Y = list_to_integer(YStr),
+    io:format("Y in integer: ~B~n", [Y]),
     gen_server:cast({global, pong_bot}, {player1_y, Y}).
 
 player2_y(YStr) ->
-    Y = string:to_integer(YStr),
+    Y = list_to_integer(YStr),
+    io:format("Y in integer: ~B~n", [Y]),
     gen_server:cast({global, pong_bot}, {player2_y, Y}).
 
 game(WaitOrStart) ->
@@ -170,7 +173,15 @@ handle_call(player1_y, _From, State) ->
     
 handle_call(player2_y, _From, State) ->
     {_,Y} = dict:fetch(player2, State),
-    {reply, Y, State};        
+    {reply, Y, State};
+    
+handle_call(ball, _From, State) ->
+    Ball = dict:fetch(ball, State),
+    {reply, Ball, State};        
+
+handle_call(me, _From, State) ->
+    Me = dict:fetch(me, State),
+    {reply, Me, State}; 
 
 handle_call(game_token, _From, State) ->
     GameToken = dict:fetch(game_token, State),

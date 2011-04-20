@@ -53,9 +53,7 @@ received_command(Headers, Data) ->
     end.
 
 make_message(ServerOrGame, Command, Args) ->
-    io:format("Before fetch gametoken~n"),
     GameToken = pong_bot:get_game_token(),
-    io:format("After fetch gametoken~n"),
     StrGameToken = string:concat("Token: ", GameToken),
     StrGameTokenln = string:concat(StrGameToken, "\n"),
     StrCommand = string:concat("-Command: ", Command),

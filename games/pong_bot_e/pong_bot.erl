@@ -13,9 +13,13 @@ start_link() ->
     spawn(fun() -> game_loop() end ).
 
 communication_loop(Socket) ->
-    A = gen_tcp:recv(Socket, 0),
-    ggs_network:read(A),
+    ggs_network:read(Socket),
     communication_loop(Socket).
+    
+    
+  %  A = gen_tcp:recv(Socket, 0),
+   % ggs_network:read(A),
+    %communication_loop(Socket).
 
 
 peek_socket() ->

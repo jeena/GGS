@@ -1,10 +1,16 @@
 -module(pong_bot).
 -behaviour(gen_server).
--export([start_link/0]).
+-export([start/1, start_link/0]).
 -export([init/1, handle_call/3, handle_cast/2]).
 -export([ggsNetworkReceivedCommandWithArgs/3,set_game_token/2,get_game_token/1]).
 -export([view/1, peek_socket/1]).
 
+start(0) ->
+    ok;
+start(N) ->
+    start_link(),
+    timer:sleep(50),
+    start(N - 1).
 
 start_link() ->
     Ref = make_ref(),

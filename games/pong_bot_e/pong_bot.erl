@@ -148,8 +148,8 @@ game(WaitOrStart) ->
 
 new_round() ->
     Paused = true,
-    SendStart = false,    
-    gen_server:cast({global, pong_bot}, {new_round, Paused, SendStart}). 
+    Start = false,    
+    gen_server:cast({global, pong_bot}, {new_round, Paused, Start}). 
     
     
 set_game_token(GameToken) ->
@@ -237,9 +237,9 @@ handle_cast({paused, Paused}, State) ->
     NewState = dict:store(paused, Paused, State),
     {noreply, NewState};
     
-handle_cast({new_round, Paused, SendStart}, State) ->
+handle_cast({new_round, Paused, Start}, State) ->
     State1 = dict:store(paused, Paused, State),
-    NewState = dict:store(send_start, SendStart, State1),
+    NewState = dict:store(start, Start, State1),
     {noreply, NewState};
     
 handle_cast({start, Start}, State) ->

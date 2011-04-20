@@ -2,23 +2,24 @@
 -behaviour(gen_server).
 -export([start_link/0]).
 -export([init/1, handle_call/3, handle_cast/2]).
--export([ggsNetworkReceivedCommandWithArgs/2,set_game_token/1,get_game_token/0]).
--export([view/0, peek_socket/0]).
+-export([ggsNetworkReceivedCommandWithArgs/3,set_game_token/2,get_game_token/1]).
+-export([view/1, peek_socket/1]).
 
 
 start_link() ->
-    gen_server:start_link({global, pong_bot}, pong_bot, [], []),
-    Socket = peek_socket(),
-    spawn(fun() -> communication_loop(Socket) end),
-    spawn(fun() -> game_loop() end ).
+    Ref = make_ref(),
+    gen_server:start_link({global, {pong_bot, Ref}}, pong_bot, [], []),
+    Socket = peek_socket(Ref),
+    spawn(fun() -> communication_loop(Socket, Ref) end),
+    spawn(fun() -> game_loop(Ref) end ).
 
-communication_loop(Socket) ->
-    ggs_network:read(Socket),
-    communication_loop(Socket).
+communication_loop(Socket, Ref) ->
+    ggs_network:read(Socket, Ref),
+    communication_loop(Socket, Ref).
  
  
-peek_socket() ->
-    gen_server:call({global, pong_bot}, socket).
+peek_socket(Ref) ->
+    gen_server:call({global, {pong_bot, Ref}}, socket).
     
 
 init(_Args) ->
@@ -41,115 +42,113 @@ new_pos() ->
     {0, 0}.
 
 
-ggsNetworkReceivedCommandWithArgs(Command, Args) ->
+ggsNetworkReceivedCommandWithArgs(Command, Args, Ref) ->
     case Command of
         "welcome" -> 
-            welcome(Args);
+            welcome(Args, Ref);
         "ball" -> 
-            ball(Args);
+            ball(Args, Ref);
         "player1_y" ->
-            player1_y(Args);
+            player1_y(Args, Ref);
         "player2_y" ->
-            player2_y(Args);
+            player2_y(Args, Ref);
         "game" ->
-            game(Args);
+            game(Args, Ref);
         "player1_points" ->
-            new_round();
+            new_round(Ref);
         "player2_points" ->
-            new_round();
+            new_round(Ref);
         _ -> ok
     end.
 
-welcome(Who_am_I) ->
+welcome(Who_am_I, Ref) ->
     case Who_am_I of 
         "1" -> 
-            Me = gen_server:call({global, pong_bot}, player1),
-            gen_server:cast({global, pong_bot}, {me, Me});
+            Me = gen_server:call({global, {pong_bot, Ref}}, player1),
+            gen_server:cast({global, {pong_bot, Ref}}, {me, Me});
         "2" ->
-            Me = gen_server:call({global, pong_bot}, player2),
-            gen_server:cast({global, pong_bot}, {me, Me})
+            Me = gen_server:call({global, {pong_bot, Ref}}, player2),
+            gen_server:cast({global, {pong_bot, Ref}}, {me, Me})
     end.
     
    
     
-game_loop() ->
+game_loop(Ref) ->
     timer:sleep(300),
-    gameTick(),
-    game_loop().
+    gameTick(Ref),
+    game_loop(Ref).
     
-gameTick() ->
-    GamePaused = gen_server:call({global, pong_bot}, paused),       
-    SendStart = gen_server:call({global, pong_bot}, start),
+gameTick(Ref) ->
+    GamePaused = gen_server:call({global, {pong_bot, Ref}}, paused),       
+    SendStart = gen_server:call({global, {pong_bot, Ref}}, start),
     
     case GamePaused of
         true ->
             case SendStart of
                 false ->
-                    ggs_network:send_command("start", ""),
-                    gen_server:cast({global, pong_bot}, {start, true});
+                    ggs_network:send_command("start", "", Ref),
+                    gen_server:cast({global, {pong_bot, Ref}}, {start, true});
                 true ->
                     ok
             end;
         false ->
-            Ball = gen_server:call({global, pong_bot}, ball),
+            Ball = gen_server:call({global, {pong_bot, Ref}}, ball),
             {_, BallY} = Ball,
-            Me = gen_server:call({global, pong_bot}, me),
+            Me = gen_server:call({global, {pong_bot, Ref}}, me),
             {_, MeY} = Me,
             
             case BallY < (MeY - 5) of
                 true ->
-                    ggs_network:send_command("up", "");
+                    ggs_network:send_command("up", "", Ref);
                 _ -> case BallY > ( MeY - 5) of
                         true ->
-                            ggs_network:send_command("down", "");
+                            ggs_network:send_command("down", "", Ref);
                         _ -> ok
                     end
             end
     end.
             
-            
-            
              
-ball(Pos_s) ->
+ball(Pos_s, Ref) ->
     PosList = string:tokens(Pos_s, ","),
     XStr = lists:nth(1,PosList),
     YStr = lists:nth(2,PosList),
     X = list_to_integer(XStr),
     Y = list_to_integer(YStr),
     Pos = {X, Y},
-    gen_server:cast({global, pong_bot}, {ball, Pos}).
+    gen_server:cast({global, {pong_bot, Ref}}, {ball, Pos}).
 
-player1_y(YStr) ->
+player1_y(YStr, Ref) ->
     Y = list_to_integer(YStr),
-    gen_server:cast({global, pong_bot}, {player1_y, Y}).
+    gen_server:cast({global, {pong_bot, Ref}}, {player1_y, Y}).
 
-player2_y(YStr) ->
+player2_y(YStr, Ref) ->
     Y = list_to_integer(YStr),
-    gen_server:cast({global, pong_bot}, {player2_y, Y}).
+    gen_server:cast({global, {pong_bot, Ref}}, {player2_y, Y}).
 
-game(WaitOrStart) ->
+game(WaitOrStart, Ref) ->
     case WaitOrStart of
         "wait" ->
             ok;
         _ ->
-            gen_server:cast({global, pong_bot}, {paused, false})
+            gen_server:cast({global, {pong_bot, Ref}}, {paused, false})
     end.
 
 
-new_round() ->
+new_round(Ref) ->
     Paused = true,
     Start = false,    
-    gen_server:cast({global, pong_bot}, {new_round, Paused, Start}). 
+    gen_server:cast({global, {pong_bot, Ref}}, {new_round, Paused, Start}). 
     
     
-set_game_token(GameToken) ->
-    gen_server:cast({global, pong_bot}, {game_token, GameToken}).  
+set_game_token(GameToken, Ref) ->
+    gen_server:cast({global, {pong_bot, Ref}}, {game_token, GameToken}).  
 
-get_game_token() ->
-    gen_server:call({global, pong_bot}, game_token).
+get_game_token(Ref) ->
+    gen_server:call({global, {pong_bot, Ref}}, game_token).
     
-view() ->
-    gen_server:call({global, pong_bot}, game_token).
+view(Ref) ->
+    gen_server:call({global, {pong_bot, Ref}}, game_token).
         
 handle_call(player1, _From, State) ->
     Player1 = dict:fetch(player1, State),

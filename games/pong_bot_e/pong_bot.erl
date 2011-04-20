@@ -61,15 +61,11 @@ ggsNetworkReceivedCommandWithArgs(Command, Args) ->
     end.
 
 welcome(Who_am_I) ->
-    io:format("Welcome begin~n"),
-    io:format("I am player: ~s~n", [Who_am_I]),
     case Who_am_I of 
         "1" -> 
-            io:format("I made myself into player 1~n"),
             Me = gen_server:call({global, pong_bot}, player1),
             gen_server:cast({global, pong_bot}, {me, Me});
         "2" ->
-            io:format("I made myself into player 2~n"),
             Me = gen_server:call({global, pong_bot}, player2),
             gen_server:cast({global, pong_bot}, {me, Me})
     end.
@@ -89,7 +85,6 @@ gameTick() ->
         true ->
             case SendStart of
                 false ->
-                    io:format("Command start sent~n"),
                     ggs_network:send_command("start", ""),
                     gen_server:cast({global, pong_bot}, {start, true});
                 true ->
@@ -116,25 +111,20 @@ gameTick() ->
             
              
 ball(Pos_s) ->
-    io:format("Ball~n"),
     PosList = string:tokens(Pos_s, ","),
     XStr = lists:nth(1,PosList),
     YStr = lists:nth(2,PosList),
     X = list_to_integer(XStr),
     Y = list_to_integer(YStr),
-    io:format("X~B~n", [X]),
-    io:format("Y~B~n", [Y]),
     Pos = {X, Y},
     gen_server:cast({global, pong_bot}, {ball, Pos}).
 
 player1_y(YStr) ->
     Y = list_to_integer(YStr),
-    io:format("Y in integer: ~B~n", [Y]),
     gen_server:cast({global, pong_bot}, {player1_y, Y}).
 
 player2_y(YStr) ->
     Y = list_to_integer(YStr),
-    io:format("Y in integer: ~B~n", [Y]),
     gen_server:cast({global, pong_bot}, {player2_y, Y}).
 
 game(WaitOrStart) ->
@@ -162,9 +152,7 @@ view() ->
     gen_server:call({global, pong_bot}, game_token).
         
 handle_call(player1, _From, State) ->
-    io:format("Player1 before~n"),
     Player1 = dict:fetch(player1, State),
-    io:format("Player1 after~n"),
     {reply, Player1, State};        
 
 handle_call(player2, _From, State) ->
@@ -192,13 +180,10 @@ handle_call(game_token, _From, State) ->
     {reply, GameToken, State};
 
 handle_call(view, _From, State) ->
-    io:format("View the state.~n"),
-%    StateFromList = lists:nth(1, State)
     {reply, State, State};
 
 handle_call(socket, _From, State) ->
     Socket = dict:fetch(socket, State),
-    %Socket = lists:nth(1, SocketInList),
     {reply, Socket, State};
     
 handle_call(paused, _From, State) ->

@@ -42,11 +42,9 @@ received_command(Headers, Data) ->
     Command = lists:nth(1, CommandList), 
     case Command of
         "hello" ->
-            io:format("Set game token~n"),
             pong_bot:set_game_token(Data),
             send_command("ready", "");
         "defined" -> 
-            io:format("Defined~n"),
             ok;
         Command ->
             pong_bot:ggsNetworkReceivedCommandWithArgs(Command,  Data)
@@ -87,20 +85,6 @@ list_concat([E|ES],Ret) ->
 extract_headers(Source) -> 
     HeaderList = string:tokens(Source, "\n"),
     key_value_strings_to_dict(HeaderList).
-
-
-%extract_data([]) ->
-%    [];
-%extract_data([E|ES]) ->
-%    io:format("~n~s~n~n~n~n", [E]),
-%    KeyValueList = key_value_string_to_list(E),
-%    case length(KeyValueList) of
-%        2 ->
-%            extract_data(ES);
-%        _ ->
-%            E
-%    end.
-
 
 %%%Low-level internals.%%%
 

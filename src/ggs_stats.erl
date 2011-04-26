@@ -46,12 +46,14 @@ handle_cast({add_one, Type}, St) ->
     end,
     {noreply, NewSt};
 
-handle_cast(print, St) ->
-    erlang:display(St#ate.count),
+handle_cast(print, #ate { server_messages = SM, client_messages = CM } = St) ->
+    CS = length(ggs_coordinator:get_all_players()),
+    format:print("CS:~i | CM:~i | SM:~i~n", [CS, SM, CM]),
     {noreply, St};
     
 handle_cast(tick, _St) ->
-    NewSt = #ate { count = 0 },
+    NewSt = #ate { server_messages = 0,
+                   client_messages = 0 },
     {noreply, NewSt}.
 
 

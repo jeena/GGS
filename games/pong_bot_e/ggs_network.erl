@@ -1,39 +1,57 @@
 -module(ggs_network).
 -export([connect/0,append_key_value_strings_to_dict/2,key_value_string_to_list/1]).
--export([read/1, send_command/2]).
+-export([read/2, send_command/3]).
 
 connect() ->
     {ok,Socket} = gen_tcp:connect("localhost", 9000,[{active, false}]),
     Socket.
-    
-    
-read(Message) ->
-    case Message of
-    {ok, M} ->
-        io:format("Message: ~n~n~s~n", [M]),
-        HeaderList = string:tokens(M, "\n"),
-        Headers = extract_headers(HeaderList),
-        Data    = extract_data(HeaderList),
-        io:format("Data: ~s~n", [Data]),
-        received_command(Headers, Data)
-    end.
 
-received_command(Headers, Data) ->
+read(Socket, Ref) ->
+    Content = receive_content(Socket),
+    Headers = extract_headers(Content),
+    ContentSize = dict:fetch("Content-Size", Headers), 
+    ContentSizeI = list_to_integer(lists:nth(1, ContentSize)),
+    Data = receive_data(Socket, ContentSizeI, ""),
+    %io:format("Headers: ~s~n", [Content]),
+    %io:format("Data: ~s~n", [Data]),
+    received_command(Headers, Data, Ref).
+    
+receive_content(Socket) ->
+    receive_content_(0, "", Socket).
+    
+receive_content_(Amount, Headers, Socket) ->
+    {ok, Char1} = gen_tcp:recv(Socket, 1),
+    case Char1 of
+        "\n" -> case Amount of
+                    1 -> Headers;
+                    _ -> receive_content_(Amount + 1,
+                                         Headers ++ Char1, 
+                                         Socket)
+                end;
+        _ -> receive_content_(0, Headers ++ Char1, Socket)
+    end.
+                                        
+receive_data(_, 0, Headers) ->
+    Headers;
+receive_data(Socket, ContentSize, Headers) ->
+    {ok, Char} = gen_tcp:recv(Socket, 1),
+    receive_data(Socket, ContentSize - 1, Headers ++ Char).
+
+received_command(Headers, Data, Ref) ->
     {ok, CommandList} = dict:find("Client-Command", Headers),
     Command = lists:nth(1, CommandList), 
     case Command of
         "hello" ->
-            pong_bot:set_game_token(Data),
-            send_command("ready", "");
+            pong_bot:set_game_token(Data, Ref),
+            send_command("ready", "", Ref);
         "defined" -> 
-            io:format("Defined~n"),
             ok;
         Command ->
-            pong_bot:ggsNetworkReceivedCommandWithArgs(Command,  Data)
+            pong_bot:ggsNetworkReceivedCommandWithArgs(Command,  Data, Ref)
     end.
 
-make_message(ServerOrGame, Command, Args) ->
-    GameToken = pong_bot:get_game_token(),
+make_message(ServerOrGame, Command, Args, Ref) ->
+    GameToken = pong_bot:get_game_token(Ref),
     StrGameToken = string:concat("Token: ", GameToken),
     StrGameTokenln = string:concat(StrGameToken, "\n"),
     StrCommand = string:concat("-Command: ", Command),
@@ -46,11 +64,11 @@ make_message(ServerOrGame, Command, Args) ->
     MessageWithArgs = string:concat(Message, list_concat(Args,[])),
     MessageWithArgs.
 
-send_command(Command, Args) ->
-    write(make_message("Game", Command, Args)).
+send_command(Command, Args, Ref) ->
+    write(make_message("Game", Command, Args, Ref), Ref).
     
-write(Message) ->
-    Socket = gen_server:call({global, pong_bot}, socket),
+write(Message, Ref) ->
+    Socket = gen_server:call({global, {pong_bot, Ref}}, socket),
     gen_tcp:send(Socket, Message).
 
 list_concat([],Ret) ->
@@ -58,28 +76,13 @@ list_concat([],Ret) ->
 list_concat([E|ES],Ret) ->
     NewRet = string:concat(Ret,E),
     list_concat(ES,NewRet).
-    
-
 
 %%%Packet parsing.%%%
 
 
 extract_headers(Source) -> 
-    key_value_strings_to_dict(Source).
-
-
-extract_data([]) ->
-    [];
-extract_data([E|ES]) ->
-    io:format("~n~s~n", [E]),
-    KeyValueList = key_value_string_to_list(E),
-    case length(KeyValueList) of
-        2 ->
-            extract_data(ES);
-        _ ->
-            E
-    end.
-
+    HeaderList = string:tokens(Source, "\n"),
+    key_value_strings_to_dict(HeaderList).
 
 %%%Low-level internals.%%%
 

@@ -23,6 +23,7 @@ class GGSNetwork
   
   def connect(host='localhost', port=9000)
     @socket = TCPSocket.new(host, port)
+    sprintf(@socket)
     read
   end
   
@@ -47,7 +48,7 @@ class GGSNetwork
         key, value = line.split(": ")
         headers[key] = value.strip
       end
-      
+
       if headers.has_key?("Content-Size")
         args = @socket.read(headers["Content-Size"].to_i)
       end

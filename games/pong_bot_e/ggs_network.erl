@@ -4,6 +4,7 @@
 
 connect() ->
     {ok,Socket} = gen_tcp:connect("ggs.jeena.net", 9000,[{active, false}]),
+    %{ok,Socket} = gen_tcp:connect("localhost", 9000,[{active, false}]),
     Socket.
 
 read(Socket, Ref) ->

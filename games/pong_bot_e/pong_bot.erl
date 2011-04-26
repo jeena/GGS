@@ -61,21 +61,24 @@ ggsNetworkReceivedCommandWithArgs(Command, Args, Ref) ->
         "game" ->
             game(Args, Ref);
         "player1_points" ->
+            %io:format("Player1 win~n"),
             new_round(Ref);
         "player2_points" ->
+            %io:format("Player2 win~n"),
             new_round(Ref);
         _ -> ok
     end.
 
 welcome(Who_am_I, Ref) ->
-    case Who_am_I of 
-        "1" -> 
-            Me = gen_server:call({global, {pong_bot, Ref}}, player1),
-            gen_server:cast({global, {pong_bot, Ref}}, {me, Me});
-        "2" ->
-            Me = gen_server:call({global, {pong_bot, Ref}}, player2),
-            gen_server:cast({global, {pong_bot, Ref}}, {me, Me})
-    end.
+    gen_server:cast({global, {pong_bot, Ref}}, {me, Who_am_I}).
+    %case Who_am_I of 
+    %    "1" -> 
+    %        Me = gen_server:call({global, {pong_bot, Ref}}, player1),
+    %        gen_server:cast({global, {pong_bot, Ref}}, {me, Me});
+    %    "2" ->
+    %        Me = gen_server:call({global, {pong_bot, Ref}}, player2),
+    %        gen_server:cast({global, {pong_bot, Ref}}, {me, Me})
+    %end.
     
    
     
@@ -101,14 +104,27 @@ gameTick(Ref) ->
             Ball = gen_server:call({global, {pong_bot, Ref}}, ball),
             {_, BallY} = Ball,
             Me = gen_server:call({global, {pong_bot, Ref}}, me),
-            {_, MeY} = Me,
+            case Me of
+                "1" ->
+                    PlayerMe = gen_server:call({global, {pong_bot, Ref}}, player1);
+                "2" ->
+                    PlayerMe = gen_server:call({global, {pong_bot, Ref}}, player2)
+            end,
+                
+            {_, MeY} = PlayerMe,
             
-            case BallY < (MeY - 5) of
+            case ((BallY - MeY) < 0) of
                 true ->
                     ggs_network:send_command("up", "", Ref);
-                _ -> case BallY > ( MeY - 5) of
+                    %io:format("Player down sent to server~n"),
+                    %io:format("Ball: ~B~n", [BallY]),
+                    %io:format("Player: ~B~n", [MeY]);
+                _ -> case ((BallY - MeY)  > 0) of
                         true ->
                             ggs_network:send_command("down", "", Ref);
+                            %io:format("Player up sent to server~n"),
+                            %io:format("Ball: ~B~n", [BallY]),
+                            %io:format("Player: ~B~n", [MeY]);
                         _ -> ok
                     end
             end
@@ -126,10 +142,12 @@ ball(Pos_s, Ref) ->
 
 player1_y(YStr, Ref) ->
     Y = list_to_integer(YStr),
+    %io:format("Player1_y~n~n~n~n"),
     gen_server:cast({global, {pong_bot, Ref}}, {player1_y, Y}).
 
 player2_y(YStr, Ref) ->
     Y = list_to_integer(YStr),
+    %io:format("Player2_y~n~n~n~n"),
     gen_server:cast({global, {pong_bot, Ref}}, {player2_y, Y}).
 
 game(WaitOrStart, Ref) ->

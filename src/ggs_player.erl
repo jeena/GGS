@@ -111,6 +111,7 @@ handle_cast({srv_cmd, "define", _Headers, Data}, #state { table = Table } = Stat
     {noreply, State};
 
 handle_cast({game_cmd, Command, _Headers, Data}, #state { table = Table } = State) ->
+    ggs_stats:message(),
     ggs_table:notify(Table, self(), {game, Command, Data}),
     {noreply, State};
 

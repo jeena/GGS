@@ -46,9 +46,9 @@ handle_cast({add_one, Type}, St) ->
     end,
     {noreply, NewSt};
 
-handle_cast(print, #ate { server_messages = SM, client_messages = CM } = St) ->
+handle_cast(print, St) ->
     CS = length(ggs_coordinator:get_all_players()),
-    format:print("CS:~i | CM:~i | SM:~i~n", [CS, SM, CM]),
+    io:fwrite("CS:~w | CM:~w | SM:~w~n", [CS, St#ate.server_messages, St#ate.client_messages]),
     {noreply, St};
     
 handle_cast(tick, _St) ->

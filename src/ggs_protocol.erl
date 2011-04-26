@@ -43,7 +43,7 @@ create_message({Command, Data}) ->
 %% Assemble a message which can b
 %e used as a reply to a client
 create_message(Cmd, Enc, Acc, Data) ->
-    ggs_stats:message(),
+    ggs_stats:message(server),
     Length = integer_to_list(string:len(Data)),
     Msg =   "Client-Command: " ++ Cmd ++ "\n" ++
             "Client-Encoding: " ++ Enc ++ "\n" ++
@@ -110,7 +110,7 @@ code_change(_OldVsn, State, _Extra) ->
 
 
 prettify(Args, Data) ->
-    ggs_stats:message(),
+    ggs_stats:message(client),
     case lists:keyfind("Server-Command", 1, Args) of
         {_, Value} ->
             {srv_cmd, Value, Args, Data};
@@ -118,7 +118,7 @@ prettify(Args, Data) ->
             case lists:keyfind("Game-Command", 1, Args) of
                 {_, Value} ->
                     {game_cmd, Value, Args, Data};
-                Other ->
+                _Other ->
                     ok
             end
     end.

@@ -61,8 +61,10 @@ ggsNetworkReceivedCommandWithArgs(Command, Args, Ref) ->
         "game" ->
             game(Args, Ref);
         "player1_points" ->
+            %io:format("Player1 win~n"),
             new_round(Ref);
         "player2_points" ->
+            %io:format("Player2 win~n"),
             new_round(Ref);
         _ -> ok
     end.
@@ -113,16 +115,16 @@ gameTick(Ref) ->
             
             case ((BallY - MeY) < 0) of
                 true ->
-                    ggs_network:send_command("up", "", Ref),
-                    io:format("Player down sent to server~n"),
-                    io:format("Ball: ~B~n", [BallY]),
-                    io:format("Player: ~B~n", [MeY]);
+                    ggs_network:send_command("up", "", Ref);
+                    %io:format("Player down sent to server~n"),
+                    %io:format("Ball: ~B~n", [BallY]),
+                    %io:format("Player: ~B~n", [MeY]);
                 _ -> case ((BallY - MeY)  > 0) of
                         true ->
-                            ggs_network:send_command("down", "", Ref),
-                            io:format("Player up sent to server~n"),
-                            io:format("Ball: ~B~n", [BallY]),
-                            io:format("Player: ~B~n", [MeY]);
+                            ggs_network:send_command("down", "", Ref);
+                            %io:format("Player up sent to server~n"),
+                            %io:format("Ball: ~B~n", [BallY]),
+                            %io:format("Player: ~B~n", [MeY]);
                         _ -> ok
                     end
             end
@@ -140,12 +142,12 @@ ball(Pos_s, Ref) ->
 
 player1_y(YStr, Ref) ->
     Y = list_to_integer(YStr),
-    io:format("Player1_y~n~n~n~n"),
+    %io:format("Player1_y~n~n~n~n"),
     gen_server:cast({global, {pong_bot, Ref}}, {player1_y, Y}).
 
 player2_y(YStr, Ref) ->
     Y = list_to_integer(YStr),
-    io:format("Player2_y~n~n~n~n"),
+    %io:format("Player2_y~n~n~n~n"),
     gen_server:cast({global, {pong_bot, Ref}}, {player2_y, Y}).
 
 game(WaitOrStart, Ref) ->

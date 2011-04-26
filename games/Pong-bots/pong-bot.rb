@@ -40,9 +40,9 @@ class PongBot
       when "player2_points"   then new_round()
     end
   end
-  
+
   protected
-  
+
   def gameTick()
     if @game_paused
       unless @send_start

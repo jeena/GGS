@@ -51,7 +51,7 @@ Content-Type: text\n\
 Content-Length: 23\n\
 \n\
 Hello guys, what's up?\n" % token)
-time.sleep(1)
+time.sleep(3)
 
 
 while True:

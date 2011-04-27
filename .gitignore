@@ -6,4 +6,5 @@ Mnesia.*
 games/Pong/build/**/*
 *~
 games/Pong/Pong.xcodeproj/project.xcworkspace/**/*
+games/Pong/Pong.xcodeproj/project.xcworkspace/xcuserdata/jeena.xcuserdatad/UserInterfaceState.xcuserstate
 games/Pong/Pong.xcodeproj/xcuserdata/**/*

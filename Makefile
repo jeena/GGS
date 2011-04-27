@@ -2,16 +2,20 @@ ERLC=erlc
 ERLCFLAGS=-o
 SRCDIR=src
 TESTDIR=tests
+LIBDIR=lib
 BEAMDIR=ebin
 
-all: compile erlang_js
+all: compile
 
 compile:
 	mkdir -p $(BEAMDIR) ;
 	$(ERLC) $(ERLCFLAGS) $(BEAMDIR) $(SRCDIR)/*.erl ;
 
 erlang_js: force_look
-	cd erlang_js ; $(MAKE) $(MFLAGS);
+	cd $(LIBDIR)/erlang_js ; $(MAKE) $(MFLAGS);
+
+erlv8: force_look
+	cd $(LIBDIR)/erlv8 ; $(MAKE) $(MFLAGS);
 
 test:
 	echo "==> test $(MOD)" ;
@@ -29,14 +33,15 @@ clean:
 	rm -rf $(SRCDIR)/*.beam ;
 	rm -rf erl_crush.dump ;
 	echo "==> clean ggs" ;
-	$(MAKE) -C erlang_js/ clean
+	$(MAKE) -C $(LIBDIR)/erlang_js/ clean
+	$(MAKE) -C $(LIBDIR)/erlv8/ clean
 
 run:
 	erl \
 		-sname ggs \
 		-mnesia dir '"/tmp/ggs"' \
 		-boot start_sasl \
-		-pa erlang_js/ebin/ \
+		-pa $(LIBDIR)/erlv8/ebin/ \
 		-pa ebin \
 		-pa src \
 		-s start_ggs

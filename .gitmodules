@@ -1,6 +1,9 @@
-[submodule "erlang_js"]
-	path = erlang_js
-	url = https://github.com/jonte/erlang_js.git
 [submodule "doc/report"]
 	path = doc/report
 	url = git@github.com:jeena/GGS-report.git
+[submodule "lib/erlv8"]
+	path = lib/erlv8
+	url = https://github.com/beamjs/erlv8.git
+[submodule "lib/erlang_js"]
+	path = lib/erlang_js
+	url = git@github.com:jonte/erlang_js.git

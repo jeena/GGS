@@ -4,10 +4,10 @@
 -module(ggs_gamevm).
 -behaviour(gen_server).
 
--include_lib("erlv8/include/erlv8.hrl").
+-include_lib("lib/erlv8/include/erlv8.hrl").
 
 %% API
--export([start_link/1,stop/1]).
+-export([start/0,start_link/1,stop/1]).
 -export([define/3, player_command/5, call_js/2]). 
 
 %% gen_server callbacks
@@ -24,6 +24,9 @@
 %% ----------------------------------------------------------------------
 % API implementation
 
+start() ->
+    Table = "table",
+    start_link(Table).
 
 %% @doc Create a new VM process. The process ID is returned and can be used
 %% with for example the define method of this module.
@@ -95,25 +98,25 @@ expose_to_js(AccessVM) ->
 %% Helpers
  
 expose_localstorage_set_item(AccessVM) ->
-    gen_server:cast(AccessVM, local_storage_set_item).
+    gen_server:cast(AccessVM, localstorage_set_item).
 
 expose_localstorage_remove_item(AccessVM) ->
-    gen_server:cast(AccessVM, local_storage_remove_item).
+    gen_server:cast(AccessVM, localstorage_remove_item).
 
 expose_localstorage_clear1(AccessVM) ->
-    gen_server:cast(AccessVM, local_storage_clear1).
+    gen_server:cast(AccessVM, localstorage_clear1).
 
 expose_localstorage_clear2(AccessVM) ->
-    gen_server:cast(AccessVM, local_storage_clear2).
+    gen_server:cast(AccessVM, localstorage_clear2).
 
 expose_localstorage_get_item(AccessVM) ->
-    gen_server:cast(AccessVM, local_storage_get_item).
+    gen_server:cast(AccessVM, localstorage_get_item).
                                                                                           
 expose_localstorage_length(AccessVM) ->
-    gen_server:cast(AccessVM, local_storage_length).
+    gen_server:cast(AccessVM, localstorage_length).
 
 expose_localstorage_key(AccessVM) ->
-    gen_server:cast(AccessVM, local_storage_key).
+    gen_server:cast(AccessVM, localstorage_key).
 
 expose_world_set_item(AccessVM) ->
     gen_server:cast(AccessVM, world_set_item).
@@ -260,6 +263,8 @@ handle_cast({define, Key, SourceCode},
     Global:set_value(Key, SourceCode),
     ggs_table:notify_all_players(Table, {"defined", "ok"}), 
     {noreply, State};  
+
+
 
 handle_cast({player_command, Key, Player, Command, Args}, 
             #state { global = Global } = State) ->

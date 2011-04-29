@@ -16,6 +16,10 @@
 
 -record(state, { vm, global, table } ).
 
+%% Macros
+-define(LOCALSTORAGE, "localstorage").
+-define(WORLD, "world").
+-define(PLAYER, "player").
 
 %% ----------------------------------------------------------------------
 % API implementation
@@ -51,28 +55,7 @@ call_js(AccessVM, SourceCode) ->
 stop(AccessVM) ->
     gen_server:cast(AccessVM, stop).
 
-expose_to_js(AccessVM) ->
-    expose_db_set_item(AccessVM),
-    expose_db_remove_item(AccessVM), 
-    expose_db_clear1(AccessVM), 
-    expose_db_clear2(AccessVM),
-    expose_db_get_item(AccessVM),
-    expose_db_length(AccessVM),
-    expose_db_key(AccessVM),
-    expose_table_send_command(AccessVM).
 
-%run() ->
-%    VM = fetch("vm"),
-%    JSApp = fetch("jsapp"),
-%    erlv8_vm:run(VM, JSApp),
-%    erlv8_vm:run(VM,"js_print('Blah!')"),
-%    erlv8_vm:run(VM,"setItem('Token', 'World', 'Key', 'Value')"),
-%    erlv8_vm:run(VM,"setItem('Token', 'World', 'Key2', 'Value2')"),
-%    Length = ggs_db:length("Token", "World"),
-%    Value = ggs_db:getItem("Token", "World", "Key"),
-%    io:format("Length: ~B~n",[Length]),
-%    io:format("Value: ~s~n", [Value]).
-     
 init([Table]) -> 
     process_flag(trap_exit, true),
     application:start(erlv8),    % Start erlv8
@@ -81,71 +64,181 @@ init([Table]) ->
     ggs_db:init(),    % Initialize the database
     {ok, #state { vm = VM, global = Global, table = Table }}.   
 
-%%% Expose ggs_db
+%% Expose to JavaScript 
 
-expose_db_set_item(AccessVM) ->
-    gen_server:cast(AccessVM, set_item).
+expose_to_js(AccessVM) ->
+    expose_localstorage_set_item(AccessVM),
+    expose_localstorage_get_item(AccessVM),
+    expose_localstorage_key(AccessVM),
+    expose_localstorage_length(AccessVM),
+    expose_localstorage_remove_item(AccessVM), 
+    expose_localstorage_clear1(AccessVM), 
+    expose_localstorage_clear2(AccessVM),
 
-expose_db_remove_item(AccessVM) ->
-    gen_server:cast(AccessVM, remove_item).
+    expose_world_set_item(AccessVM),
+    expose_world_get_item(AccessVM),
+    expose_world_key(AccessVM),
+    expose_world_length(AccessVM),
+    expose_world_remove_item(AccessVM), 
+    expose_world_clear1(AccessVM), 
+    expose_world_clear2(AccessVM),
 
-expose_db_clear1(AccessVM) ->
-    gen_server:cast(AccessVM, clear1).
+    expose_player_set_item(AccessVM),
+    expose_player_get_item(AccessVM),
+    expose_player_key(AccessVM),
+    expose_player_length(AccessVM),
+    expose_player_remove_item(AccessVM), 
+     
+    expose_table_send_command(AccessVM).
 
-expose_db_clear2(AccessVM) ->
-    gen_server:cast(AccessVM, clear2).
 
-expose_db_get_item(AccessVM) ->
-    gen_server:cast(AccessVM, get_item).
+%% Helpers
+ 
+expose_localstorage_set_item(AccessVM) ->
+    gen_server:cast(AccessVM, local_storage_set_item).
+
+expose_localstorage_remove_item(AccessVM) ->
+    gen_server:cast(AccessVM, local_storage_remove_item).
+
+expose_localstorage_clear1(AccessVM) ->
+    gen_server:cast(AccessVM, local_storage_clear1).
+
+expose_localstorage_clear2(AccessVM) ->
+    gen_server:cast(AccessVM, local_storage_clear2).
+
+expose_localstorage_get_item(AccessVM) ->
+    gen_server:cast(AccessVM, local_storage_get_item).
                                                                                           
-expose_db_length(AccessVM) ->
-    gen_server:cast(AccessVM, length).
+expose_localstorage_length(AccessVM) ->
+    gen_server:cast(AccessVM, local_storage_length).
 
-expose_db_key(AccessVM) ->
-    gen_server:cast(AccessVM, key).
+expose_localstorage_key(AccessVM) ->
+    gen_server:cast(AccessVM, local_storage_key).
 
+expose_world_set_item(AccessVM) ->
+    gen_server:cast(AccessVM, world_set_item).
 
-%%% Expose ggs_table
+expose_world_remove_item(AccessVM) ->
+    gen_server:cast(AccessVM, world_remove_item).
+
+expose_world_clear1(AccessVM) ->
+    gen_server:cast(AccessVM, world_clear1).
+
+expose_world_clear2(AccessVM) ->
+    gen_server:cast(AccessVM, world_clear2).
+
+expose_world_get_item(AccessVM) ->
+    gen_server:cast(AccessVM, world_get_item).
+                                                                                          
+expose_world_length(AccessVM) ->
+    gen_server:cast(AccessVM, world_length).
+
+expose_world_key(AccessVM) ->
+    gen_server:cast(AccessVM, world_key).
+
+expose_player_set_item(AccessVM) ->
+    gen_server:cast(AccessVM, player_set_item).
+
+expose_player_remove_item(AccessVM) ->
+    gen_server:cast(AccessVM, player_remove_item).
+
+expose_player_get_item(AccessVM) ->
+    gen_server:cast(AccessVM, player_get_item).
+                                                                                          
+expose_player_length(AccessVM) ->
+    gen_server:cast(AccessVM, player_length).
+
+expose_player_key(AccessVM) ->
+    gen_server:cast(AccessVM, player_key).
+ 
+%% Expose ggs_table
 
 expose_table_send_command(AccessVM) ->
     gen_server:cast(AccessVM, send_command).
 
+
 %% TODO: expose_table_send_command_to_all()
 
-%% Makes a function invokable from JavaScript as: "erlang.Name(Args)"
-%expose_fun(Global, Name, Fun) ->
-%    Global:set_value("erlang", erlv8_object:new([{Name, 
-%                                                 fun (#erlv8_fun_invocation{},
-%                                                      [Args]) -> 
-%                                                      Fun(Args) end}])).
 
-expose_fun(Global, Name, Fun, 1) ->
+%% Expose helpers
+
+expose_fun_localstorage(Global, Name, Fun, 1) ->
      Global:set_value("GGS.localStorage", erlv8_object:new([{Name, 
                                                  fun (#erlv8_fun_invocation{},
                                                       [Arg]) -> 
                                                       Fun(Arg) end}]));
      
-expose_fun(Global, Name, Fun, 2) ->
+expose_fun_localstorage(Global, Name, Fun, 2) ->
      Global:set_value("GGS.localStorage", erlv8_object:new([{Name, 
                                                  fun (#erlv8_fun_invocation{},
                                                       [Arg1,Arg2]) -> 
                                                       Fun(Arg1,Arg2) end}]));
  
 
-expose_fun(Global, Name, Fun, 3) ->
+expose_fun_localstorage(Global, Name, Fun, 3) ->
      Global:set_value("GGS.localStorage", erlv8_object:new([{Name, 
                                                  fun (#erlv8_fun_invocation{},
                                                       [Arg1,Arg2,Arg3]) -> 
                                                       Fun(Arg1,Arg2,Arg3) end}]));
 
-expose_fun(Global, Name, Fun, 4) ->
+expose_fun_localstorage(Global, Name, Fun, 4) ->
      Global:set_value("GGS.localStorage", erlv8_object:new([{Name, 
                                                  fun (#erlv8_fun_invocation{},
                                                       [Arg1,Arg2,Arg3,Arg4]) -> 
                                                       Fun(Arg1,Arg2,Arg3,Arg4)
                                                       end}])).
 
+ expose_fun_world(Global, Name, Fun, 1) ->
+     Global:set_value("GGS.world", erlv8_object:new([{Name, 
+                                                 fun (#erlv8_fun_invocation{},
+                                                      [Arg]) -> 
+                                                      Fun(Arg) end}]));
+     
+expose_fun_world(Global, Name, Fun, 2) ->
+     Global:set_value("GGS.world", erlv8_object:new([{Name, 
+                                                 fun (#erlv8_fun_invocation{},
+                                                      [Arg1,Arg2]) -> 
+                                                      Fun(Arg1,Arg2) end}]));
+ 
 
+expose_fun_world(Global, Name, Fun, 3) ->
+     Global:set_value("GGS.world", erlv8_object:new([{Name, 
+                                                 fun (#erlv8_fun_invocation{},
+                                                      [Arg1,Arg2,Arg3]) -> 
+                                                      Fun(Arg1,Arg2,Arg3) end}]));
+
+expose_fun_world(Global, Name, Fun, 4) ->
+     Global:set_value("GGS.world", erlv8_object:new([{Name, 
+                                                 fun (#erlv8_fun_invocation{},
+                                                      [Arg1,Arg2,Arg3,Arg4]) -> 
+                                                      Fun(Arg1,Arg2,Arg3,Arg4)
+                                                      end}])).
+expose_fun_player(Global, Name, Fun, 1) ->
+     Global:set_value("GGS.world", erlv8_object:new([{Name, 
+                                                 fun (#erlv8_fun_invocation{},
+                                                      [Arg]) -> 
+                                                      Fun(Arg) end}]));
+     
+expose_fun_player(Global, Name, Fun, 2) ->
+     Global:set_value("GGS.world", erlv8_object:new([{Name, 
+                                                 fun (#erlv8_fun_invocation{},
+                                                      [Arg1,Arg2]) -> 
+                                                      Fun(Arg1,Arg2) end}]));
+ 
+
+expose_fun_player(Global, Name, Fun, 3) ->
+     Global:set_value("GGS.world", erlv8_object:new([{Name, 
+                                                 fun (#erlv8_fun_invocation{},
+                                                      [Arg1,Arg2,Arg3]) -> 
+                                                      Fun(Arg1,Arg2,Arg3) end}]));
+
+expose_fun_player(Global, Name, Fun, 4) ->
+     Global:set_value("GGS.world", erlv8_object:new([{Name, 
+                                                 fun (#erlv8_fun_invocation{},
+                                                      [Arg1,Arg2,Arg3,Arg4]) -> 
+                                                      Fun(Arg1,Arg2,Arg3,Arg4)
+                                                      end}])).
+  
 %% Retrieve a JavaScript file from hard drive and return it
 %read_js_file(Filename) ->
 %     {ok, JSApp} = file:read_file(Filename),
@@ -180,44 +273,104 @@ handle_cast(stop, #state { vm = VM } = State) ->
     erlv8_vm:stop(VM),
     {stop, normal, State};
 
-handle_cast(set_item, #state { global = Global } = State) ->
-    Fun = (fun(GameToken,Ns,Key,Value) -> ggs_db:setItem(GameToken,Ns,Key,Value) end),
-    expose_fun( Global, "setItem",  Fun, 4),
+ handle_cast(localstorage_set_item, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Key,Value) -> ggs_db:setItem(GameToken,?LOCALSTORAGE,Key,Value) end),
+    expose_fun_localstorage( Global, "setItem",  Fun, 3),
     {noreply, State};
 
-handle_cast(remove_item, #state { global = Global } = State) ->
-    Fun = (fun(GameToken,Ns,Key) -> ggs_db:removeItem(GameToken,Ns,Key) end),
-    expose_fun( Global, "removeItem",  Fun, 3),
+handle_cast(localstorage_get_item, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Key) -> ggs_db:getItem(GameToken,?LOCALSTORAGE,Key) end),
+    expose_fun_localstorage( Global, "getItem",  Fun, 2),
     {noreply, State};
 
-handle_cast(clear1, #state { global = Global } = State) ->
+handle_cast(localstorage_key, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Position) -> ggs_db:key(GameToken,?LOCALSTORAGE,Position) end),
+    expose_fun_localstorage( Global, "key",  Fun, 2),
+    {noreply, State};
+ 
+handle_cast(localstorage_length, #state { global = Global } = State) ->
+    Fun = (fun(GameToken) -> ggs_db:length(GameToken,?LOCALSTORAGE) end),
+    expose_fun_localstorage( Global, "length",  Fun, 1),
+    {noreply, State};
+
+handle_cast(localstorage_remove_item, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Key) -> ggs_db:removeItem(GameToken,?LOCALSTORAGE,Key) end),
+    expose_fun_localstorage( Global, "removeItem",  Fun, 2),
+    {noreply, State};
+ 
+handle_cast(localstorage_clear1, #state { global = Global } = State) ->
     Fun = (fun(GameToken) -> ggs_db:clear(GameToken) end),
-    expose_fun( Global, "clear",  Fun, 1),
+    expose_fun_localstorage( Global, "clear",  Fun, 1),
+    {noreply, State};
+ 
+handle_cast(localstorage_clear2, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Key) -> ggs_db:removeItem(GameToken,?LOCALSTORAGE,Key) end),
+    expose_fun_localstorage( Global, "clear",  Fun, 2),
+    {noreply, State};
+ 
+handle_cast(world_set_item, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Key,Value) -> ggs_db:setItem(GameToken,?WORLD,Key,Value) end),
+    expose_fun_world( Global, "setItem",  Fun, 3),
     {noreply, State};
 
-handle_cast(clear2, #state { global = Global } = State) ->
-    Fun = (fun(GameToken,Ns) -> ggs_db:clear(GameToken,Ns) end),
-    expose_fun( Global, "clear",  Fun, 2),
+handle_cast(world_get_item, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Key) -> ggs_db:getItem(GameToken,?WORLD,Key) end),
+    expose_fun_world( Global, "getItem",  Fun, 2),
     {noreply, State};
 
-handle_cast(get_item, #state { global = Global } = State) ->
-    Fun = (fun(GameToken,Ns,Key) -> ggs_db:getItem(GameToken,Ns,Key) end),
-    expose_fun( Global, "getItem",  Fun, 3),
+handle_cast(world_key, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Position) -> ggs_db:key(GameToken,?WORLD,Position) end),
+    expose_fun_world( Global, "key",  Fun, 2),
+    {noreply, State};
+ 
+handle_cast(world_length, #state { global = Global } = State) ->
+    Fun = (fun(GameToken) -> ggs_db:length(GameToken,?WORLD) end),
+    expose_fun_world( Global, "length",  Fun, 1),
     {noreply, State};
 
-handle_cast(length, #state { global = Global } = State) ->
-    Fun = (fun(GameToken,Ns) -> ggs_db:length(GameToken,Ns) end),
-    expose_fun( Global, "length",  Fun, 2),
+handle_cast(world_remove_item, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Key) -> ggs_db:removeItem(GameToken,?WORLD,Key) end),
+    expose_fun_world( Global, "removeItem",  Fun, 2),
+    {noreply, State};
+ 
+handle_cast(world_clear1, #state { global = Global } = State) ->
+    Fun = (fun(GameToken) -> ggs_db:clear(GameToken) end),
+    expose_fun_world( Global, "clear",  Fun, 1),
+    {noreply, State};
+ 
+handle_cast(world_clear2, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Key) -> ggs_db:removeItem(GameToken,?WORLD,Key,Key) end),
+    expose_fun_world( Global, "clear",  Fun, 2),
     {noreply, State};
 
-handle_cast(key, #state { global = Global } = State) ->
-    Fun = (fun(GameToken,Ns,Position) -> ggs_db:key(GameToken,Ns,Position) end),
-    expose_fun( Global, "key",  Fun, 3),
+handle_cast(player_set_item, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Key,Value) -> ggs_db:setItem(GameToken,?PLAYER,Key,Value) end),
+    expose_fun_player( Global, "setItem",  Fun, 3),
     {noreply, State};
 
+handle_cast(player_get_item, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Key) -> ggs_db:getItem(GameToken,?PLAYER,Key) end),
+    expose_fun_player( Global, "getItem",  Fun, 2),
+    {noreply, State};
+
+handle_cast(player_key, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Position) -> ggs_db:key(GameToken,?PLAYER,Position) end),
+    expose_fun_player( Global, "key",  Fun, 2),
+    {noreply, State};
+ 
+handle_cast(player_length, #state { global = Global } = State) ->
+    Fun = (fun(GameToken) -> ggs_db:length(GameToken,?PLAYER) end),
+    expose_fun_player( Global, "length",  Fun, 1),
+    {noreply, State};
+
+handle_cast(player_remove_item, #state { global = Global } = State) ->
+    Fun = (fun(GameToken,Key) -> ggs_db:removeItem(GameToken,?PLAYER,Key) end),
+    expose_fun_player( Global, "removeItem",  Fun, 2),
+    {noreply, State};
+ 
 handle_cast(send_command, #state { global = Global } = State) ->
     Fun = (fun(GameToken,PlayerToken,Message) -> ggs_table:send_command(GameToken,PlayerToken,Message) end),
-    expose_fun( Global, "sendCommand", Fun, 3),
+    expose_fun_player( Global, "sendCommand", Fun, 3),
     {noreply, State};
 
 handle_cast(Msg, S) ->

@@ -60,8 +60,8 @@ class GGSNetwork
       command = headers["Client-Command"]
       case command
       when "hello"
-        @game_token = data
-        @delegate.ggsNetworkReady(self, true)
+        parse_hello(data)
+        @delegate.ggsNetworkReady(self, @am_i_host)
       when "defined"
         @delegate.ggsNetworkDefined(self, true)
       else
@@ -78,6 +78,11 @@ class GGSNetwork
     message += args if args.length > 0
 
     message
+  end
+  
+  def parse_hello(message)
+    @game_token, shall_define, @table_token = message.split(",")
+    @am_i_host = shall_define == "true"
   end
   
 end

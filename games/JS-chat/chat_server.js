@@ -19,5 +19,5 @@ function changeNick(player_id, nick) {
 
 function message(player_id, message) {
     var nick = GGS.localStorage.getItem("nick_" + player_id);
-    GGS.sendCommandToAll(player_id, 'message', nick + "> " + message);  
+    GGS.sendCommandToAll('message', nick + "> " + message);  
 }

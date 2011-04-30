@@ -13,9 +13,13 @@ class Chat
     @ggs_network.connect("localhost")
   end
   
-  def ggsNetworkReady(ggs_network, ready)
-    source_code = File.open("chat_server.js", "rb").read
-    @ggs_network.define(source_code)  
+  def ggsNetworkReady(ggs_network, am_i_host)
+    unless am_i_host
+      source_code = File.open("chat_server.js", "rb").read
+      @ggs_network.define(source_code)
+    else
+      ggsNetworkDefined(ggs_network, true)
+    end
   end
   
   def ggsNetworkDefined(ggs_network, defined)

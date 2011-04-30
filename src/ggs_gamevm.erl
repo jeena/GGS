@@ -106,12 +106,8 @@ handle_call({eval, SourceCode}, _From, #state { vm = VM } = State) ->
     {reply, Ret, State}.
 
 handle_cast({define, SourceCode}, #state { table = Table, vm = VM } = State) ->
-    R = erlv8_vm:run(VM, "playerCommand"),
-    case R of
-        {throw, _} -> {ok, Ret} = erlv8_vm:run(VM, SourceCode),
-                      ggs_table:notify_all_players(Table, {"defined", "ok"});
-        _          -> ok
-    end
+    {ok, _Ret} = erlv8_vm:run(VM, SourceCode),
+    ggs_table:notify_all_players(Table, {"defined", "ok"}),
     {noreply, State};  
 
 handle_cast({player_command, Player, Command, Args}, #state { vm = VM } = State) ->

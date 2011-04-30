@@ -62,7 +62,12 @@ init([Socket]) ->
     },
     
     %ggs_protocol:parse(Protocol, Data),
-    ggs_player:notify(self(), self(), {"hello", Token}), % send hello to the client
+    TableToken = ggs_coordinator:table_pid_to_token(Table),
+    ShallDefine = case ggs_table:already_defined(Table) of
+        true -> "true";
+        false -> "false"
+    end,
+    ggs_player:notify(self(), self(), {"hello", Token ++ "," ++ ShallDefine ++ "," ++ TableToken}), % send hello to the client
     {ok, State}.
 
 %% @doc Handles incoming messages from the GGS and forwards them through the player
@@ -92,11 +97,11 @@ stop(Player) ->
 %% Internals
 handle_call(_Request, _From, St) -> {stop, unimplemented, St}.
 
-handle_cast({tcp, _Socket, Data}, #state { protocol = Protocol } = _State) ->
+handle_cast({tcp, _Socket, Data}, #state { protocol = Protocol } = State) ->
     ggs_protocol:parse(Protocol, Data),
-    {noreply, State}
+    {noreply, State};
 
-handle_cast({tcp_closed, _Socket}, _State) ->
+handle_cast({tcp_closed, _Socket}, State) ->
     erlang:display("Client disconnected, but THIS IS NOT SUPPORTED YET!~n"),
     {noreply, State};
 
@@ -104,8 +109,14 @@ handle_cast({notify, Message}, #state { socket = Socket } = State) ->
     gen_tcp:send(Socket, ggs_protocol:create_message(Message)),
     {noreply, State};    
 
-handle_cast({srv_cmd, "hello", _Headers, _Data}, #state { token = Token } = State) ->
-    ggs_player:notify(self(), self(), {"hello", Token}),
+handle_cast({srv_cmd, "hello", _Headers, _Data}, #state { token = Token, table = Table } = State) ->
+    ShallDefine = case ggs_table:already_defined(Table) of
+        true -> "true";
+        false -> "false"
+    end,
+    TableToken = ggs_coordinator:table_pid_to_token(Table),
+    erlang:display("hello"),
+    ggs_player:notify(self(), self(), {"hello", "token="++ Token ++ "&define=" ++ ShallDefine ++ "&table_token=" ++ TableToken}),
     {noreply, State};
 
 handle_cast({srv_cmd, "define", _Headers, Data}, #state { table = Table } = State) ->

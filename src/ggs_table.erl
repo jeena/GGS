@@ -7,11 +7,12 @@
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
          terminate/2, code_change/3]).
 
--record(state, { players, game_vm } ).
+-record(state, { players, game_vm, already_defined } ).
 
 %% API
 -export([start/1,
 	add_player/2,
+	already_defined/1,
 	remove_player/2,
 	stop/1,
 	notify/3,
@@ -69,6 +70,9 @@ send_command(TableToken, PlayerToken, Message) ->
     TablePid = ggs_coordinator:table_token_to_pid(TableToken),
     gen_server:cast(TablePid, {notify_player, PlayerToken, self(), Message}).
 
+already_defined(TablePid) ->
+    gen_server:call(TablePid, already_defined).
+
 %% ----------------------------------------------------------------------
 
 %% @private
@@ -77,12 +81,16 @@ init([TableToken]) ->
     GameVM = ggs_gamevm:start_link(TableToken),
     {ok, #state { 
 		  game_vm = GameVM,
-		  players = [] }}.
+		  players = [],
+		  already_defined = false }}.
 
 %% @private
 
 handle_call({remove_player, Player}, _From, #state { players = Players } = State) ->
     {reply, ok, State#state { players = Players -- [Player] }};
+    
+handle_call(already_defined, _From, #state { already_defined = AlreadyDefined} = State) ->
+    {reply, AlreadyDefined, State};
 
 handle_call(get_player_list, _From, #state { players = Players } = State) ->
     TokenPlayers = lists:map(
@@ -101,11 +109,13 @@ handle_cast({notify, Player, Message}, #state { game_vm = GameVM } = State) ->
     PlayerToken = ggs_coordinator:player_pid_to_token(Player),
     case Message of
         {server, define, Args} ->
-            ggs_gamevm:define(GameVM, Args);
+            ggs_gamevm:define(GameVM, Args),
+            NewState = State#state{ already_defined = true };
         {game, Command, Args} ->
-            ggs_gamevm:player_command(GameVM, PlayerToken, Command, Args)
+            ggs_gamevm:player_command(GameVM, PlayerToken, Command, Args),
+            NewState = State
     end,
-    {noreply, State};
+    {noreply, NewState};
 
 handle_cast({add_player, Player}, #state { players = Players } = State) ->
     {noreply, State#state { players = [Player | Players] }};

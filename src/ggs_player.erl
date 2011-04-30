@@ -34,12 +34,12 @@ join_table(Num) ->
             T;
         {error, no_such_table} ->
             case ggs_coordinator:create_table({force, integer_to_list(Num)}) of
-                {ok, TBToken} -> ok
+                {ok, _TBToken} -> ok
             end,
             case ggs_coordinator:join_table(integer_to_list(Num)) of
                 {ok, T} -> %io:format("Creating new table: ~p~n", [T]),
                            T;
-                {error, E} ->   %erlang:display(E),
+                {error, _E} ->   %erlang:display(E),
                                 join_table(Num+1)
             end;
         {error, table_full} ->
@@ -93,16 +93,18 @@ stop(Player) ->
 handle_call(_Request, _From, St) -> {stop, unimplemented, St}.
 
 handle_cast({tcp, _Socket, Data}, #state { protocol = Protocol } = _State) ->
-    ggs_protocol:parse(Protocol, Data);
+    ggs_protocol:parse(Protocol, Data),
+    {noreply, State}
 
 handle_cast({tcp_closed, _Socket}, _State) ->
-    erlang:display("Client disconnected, but THIS IS NOT SUPPORTED YET!~n");
+    erlang:display("Client disconnected, but THIS IS NOT SUPPORTED YET!~n"),
+    {noreply, State};
 
 handle_cast({notify, Message}, #state { socket = Socket } = State) ->
     gen_tcp:send(Socket, ggs_protocol:create_message(Message)),
     {noreply, State};    
 
-handle_cast({srv_cmd, "hello", _Headers, Data}, #state { token = Token } = State) ->
+handle_cast({srv_cmd, "hello", _Headers, _Data}, #state { token = Token } = State) ->
     ggs_player:notify(self(), self(), {"hello", Token}),
     {noreply, State};
 
@@ -114,7 +116,7 @@ handle_cast({game_cmd, Command, _Headers, Data}, #state { table = Table } = Stat
     ggs_table:notify(Table, self(), {game, Command, Data}),
     {noreply, State};
 
-handle_cast(Request, St) ->
+handle_cast(_Request, St) ->
     {stop, unimplemented1, St}.
 
 handle_info({tcp, _Socket, Data}, #state { protocol = Protocol } = State) ->

@@ -5,7 +5,7 @@ TESTDIR=tests
 LIBDIR=lib
 BEAMDIR=ebin
 
-all: compile
+all: compile erlv8
 
 compile:
 	mkdir -p $(BEAMDIR) ;

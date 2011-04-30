@@ -74,7 +74,7 @@ expect_headers({char, $\n}, {Pid,_}, {Strings, Remains}) ->
                     case Int of
                         0 -> ggs_player:notify_game(Pid, prettify(to_dictionary([SecondLast|Rest], []), [])),
                              {reply, ok, expect_headers, {[""], 0}};
-                        _ -> {reply, ok, expect_data_section, {[""|Strings], Int}}
+                        _ -> {reply, ok, expect_data_section, {[""|Strings], Int -1}}
                     end;
                 _Other -> ok
             end;
@@ -92,8 +92,8 @@ expect_data_section({char, Char}, From, {Strings, Remains}) ->
         0 ->
             [LastMsg,_|Rest] = Strings,
             {Pid,_} = From,
-            ggs_player:notify_game(Pid, prettify(to_dictionary(Rest, []), LastMsg)),
-            {reply, ok, expect_headers, {[[Char]], 0}};
+            ggs_player:notify_game(Pid, prettify(to_dictionary(Rest, []), LastMsg  ++ [Char])),
+            {reply, ok, expect_headers, {[""], 0}};
         _Other ->    [LastMsg|Rest] = Strings,
                     NewMsg = LastMsg ++ [Char],
                     {reply, ok, expect_data_section, {[NewMsg|Rest], Remains-1}}

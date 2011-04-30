@@ -226,7 +226,7 @@ intern_start(Table, Player) ->
 					%erlang:display("P2 ready, waiting."),
 					ggs_table:send_command(Table, Player, {"game", "wait"})
 			end;
-		Other ->
+		_Other ->
 			ok
 		    %erlang:display(Other)
 	end.

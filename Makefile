@@ -25,7 +25,7 @@ ifeq ($(strip $(MOD)),)
 	cd $(BEAMDIR) ; erl -noinput -pa ../erlang_js/ebin -eval 'eunit:test({dir, "."}, [verbose]), init:stop()' ;
 else
 	$(ERLC) $(ERLCFLAGS) $(BEAMDIR) $(TESTDIR)/$(MOD)_test.erl ;
-	cd $(BEAMDIR) ; erl -noinput -pa ../erlang_js/ebin -eval 'eunit:test($(MOD)_test, [verbose]), init:stop()' ;
+	cd $(BEAMDIR) ; erl -noinput -pa ../lib/erlv8/ebin -eval 'eunit:test($(MOD)_test, [verbose]), init:stop()' ;
 endif
 
 clean:

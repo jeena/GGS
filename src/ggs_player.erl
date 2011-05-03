@@ -10,7 +10,7 @@
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
          terminate/2, code_change/3]).
 
--export([start/1, notify/3, notify_game/2, get_token/1, stop/1]).
+-export([start/0, stop/1, notify/3, notify_game/2, get_token/1, save_socket/2]).
 
 -vsn(1.0).
 
@@ -24,51 +24,21 @@
 %% an argument for storage and later usage. Creates a unique player token
 %% identifying the player.
 %% @spec start_link(Socket::socket()) -> {ok, Pid} | {error, Reason}
-start(Socket) -> 
-    gen_server:start(?MODULE, [Socket], []).
+start() -> 
+    gen_server:start(?MODULE, [], []).
 
-join_table(Num) ->
-    case ggs_coordinator:join_table(integer_to_list(Num)) of
-        {ok, T} ->
-            %io:format("Joining existing table: ~p~n", [T]),
-            T;
-        {error, no_such_table} ->
-            case ggs_coordinator:create_table({force, integer_to_list(Num)}) of
-                {ok, _TBToken} -> ok
-            end,
-            case ggs_coordinator:join_table(integer_to_list(Num)) of
-                {ok, T} -> %io:format("Creating new table: ~p~n", [T]),
-                           T;
-                {error, _E} ->   %erlang:display(E),
-                                join_table(Num+1)
-            end;
-        {error, table_full} ->
-            %erlang:display("Table full!"),
-            join_table(Num+1)
-    end.
-
-init([Socket]) ->
+init([]) ->
     {ok, Protocol} = ggs_protocol:start_link(),
     {ok, Token} = ggs_coordinator:join_lobby(),
-    
-    erlang:port_connect(Socket, self()),
 
-    Table = join_table(1),
     State = #state{
         token = Token,
-        socket = Socket,
-        table = Table,
         protocol = Protocol
     },
-    
-    %ggs_protocol:parse(Protocol, Data),
-    TableToken = ggs_coordinator:table_pid_to_token(Table),
-    ShallDefine = case ggs_table:already_defined(Table) of
-        true -> "true";
-        false -> "false"
-    end,
-    ggs_player:notify(self(), self(), {"hello", Token ++ "," ++ ShallDefine ++ "," ++ TableToken}), % send hello to the client
     {ok, State}.
+    
+save_socket(Player, Socket) ->
+    gen_server:cast(Player, {save_socket, Socket}).
 
 %% @doc Handles incoming messages from the GGS and forwards them through the player
 %% socket to the player.
@@ -97,48 +67,66 @@ stop(Player) ->
 %% Internals
 handle_call(_Request, _From, St) -> {stop, unimplemented, St}.
 
+handle_cast({save_socket, Socket}, State) ->
+    {noreply, State#state { socket = Socket } };
 handle_cast({tcp, _Socket, Data}, #state { protocol = Protocol } = State) ->
     ggs_protocol:parse(Protocol, Data),
     {noreply, State};
-
-handle_cast({tcp_closed, _Socket}, State) ->
-    erlang:display("Client disconnected, but THIS IS NOT SUPPORTED YET!~n"),
-    {noreply, State};
-
 handle_cast({notify, Message}, #state { socket = Socket } = State) ->
     gen_tcp:send(Socket, ggs_protocol:create_message(Message)),
     {noreply, State};    
-
-handle_cast({srv_cmd, "hello", _Headers, _Data}, #state { token = Token, table = Table } = State) ->
-    ShallDefine = case ggs_table:already_defined(Table) of
-        true -> "true";
-        false -> "false"
+handle_cast({srv_cmd, "hello", _Headers, TableToken}, State) ->
+    Table = case TableToken of
+        "" ->
+            case ggs_coordinator:create_table() of
+                {ok, NewTableToken, TablePid} ->
+                    ggs_coordinator:join_table(NewTableToken),
+                    {ok, NewTableToken, TablePid};
+                E ->
+                    E
+            end;
+        _  ->
+            ggs_coordinator:join_table(TableToken)
     end,
-    TableToken = ggs_coordinator:table_pid_to_token(Table),
-    erlang:display("hello"),
-    ggs_player:notify(self(), self(), {"hello", "token="++ Token ++ "&define=" ++ ShallDefine ++ "&table_token=" ++ TableToken}),
-    {noreply, State};
-
+    erlang:display(Table),
+    case Table of
+        {error, Error} ->
+            ggs_player:notify(self(), self(), {"error", atom_to_list(Error)}),
+            {noreply, State};
+        {ok, TT, TPid} ->
+            ShallDefine = case ggs_table:already_defined(TPid) of
+               true -> "true";
+               false -> "false"
+            end,
+            ggs_player:notify(self(), self(), {"hello", State#state.token ++ "," ++ ShallDefine ++ "," ++ TT}),
+            {noreply, State#state{ table = TPid } }
+    end;
 handle_cast({srv_cmd, "define", _Headers, Data}, #state { table = Table } = State) ->
     ggs_table:notify(Table, self(), {server, define, Data}),
     {noreply, State};
-
 handle_cast({game_cmd, Command, _Headers, Data}, #state { table = Table } = State) ->
     ggs_table:notify(Table, self(), {game, Command, Data}),
     {noreply, State};
-
+handle_cast(stop, State) ->
+    {stop, normal, State};
 handle_cast(_Request, St) ->
     {stop, unimplemented1, St}.
 
 handle_info({tcp, _Socket, Data}, #state { protocol = Protocol } = State) ->
     ggs_protocol:parse(Protocol, Data),
+    {noreply, State};
+handle_info({tcp_closed, _Socket}, State) ->
+    erlang:display("Client disconnected, but THIS IS NOT SUPPORTED YET!~n"),
+    gen_server:cast(self(), stop),
     {noreply, State}.
 
 terminate(Reason, State) -> 
     erlang:display(Reason),
-    ggs_table:remove_player(State#state.table, self()),
+    ggs_protocol:stop(State#state.protocol),
+    %ggs_table:remove_player(State#state.table, self()),
+    gen_tcp:close(State#state.socket),
     % ggs_coordinator:remove_player(self(), self()), % not implemented yet
-    % TODO: release Socket
     ok.
 
-code_change(_OldVsn, St, _Extra) -> {ok, St}.
+code_change(_OldVsn, St, _Extra) ->
+    {ok, St}.

@@ -9,8 +9,10 @@ class Chat
   include GGSDelegate
   
   def initialize
-    @ggs_network = GGSNetwork.new(self)
-    @ggs_network.connect("localhost")
+    print "Table token (empty for new): "
+    table_token = gets.chomp
+    @ggs_network = GGSNetwork.new(self, table_token)
+    @ggs_network.connect("ggs.jeena.net", 9000)
   end
   
   def ggsNetworkReady(ggs_network, am_i_host)

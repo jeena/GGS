@@ -12,7 +12,7 @@
 -export([to_dictionary/2]).
 
 % gen_fsm callbacks..
--export([init/1, handle_info/2, terminate/2, code_change/3, start_link/0]).
+-export([init/1, handle_info/2, handle_event/3, terminate/2, code_change/3, start_link/0, stop/1]).
 
 
 %% API Functions
@@ -22,6 +22,10 @@ parse(Protocol, Data) ->
 
 start_link() ->
     gen_fsm:start_link(?MODULE, [], []).
+    
+stop(Protocol) ->
+    gen_fsm:send_all_state_event(Protocol, stop).
+
     
 % Start state: {[""],0}, meaning:
 %   - Start with no strings parsed
@@ -101,6 +105,9 @@ expect_data_section({char, Char}, From, {Strings, Remains}) ->
     
 %handle_call(_Msg, _From, State) ->
 %    {noreply, State}.
+
+handle_event(stop, _StateName, StateData) ->
+    {stop, normal, StateData}.
 handle_info(_Msg, State) -> 
     {noreply, State}.
 terminate(_Reason, _State) ->

@@ -60,7 +60,7 @@ stop(GameVM) ->
 
 init([Table]) -> 
     process_flag(trap_exit, true),
-    application:start(erlv8),    % Start erlv8
+    application:start(erlv8),    % Start erlv8 FIXME: don't use a new VM every time, only a context
     {ok, VM} = erlv8_vm:start(),    % Create a JavaScript vm
     Global = erlv8_vm:global(VM),    % Retrieve JS global
     ggs_db:init(),    % Initialize the database
@@ -87,7 +87,6 @@ expose(Global, Table) ->
             {"key", fun(#erlv8_fun_invocation{}, [Position])-> ggs_db:key(Table, "world", Position) end}
         ])},
         {"sendCommand", fun(#erlv8_fun_invocation{}, [Player, Command, Args])->
-                erlang:display(Table),
                 ggs_table:send_command(Table, Player, {Command, Args})
             end},
         {"sendCommandToAll", fun(#erlv8_fun_invocation{}, [Command, Args])-> ggs_table:notify_all_players(Table, {Command, Args}) end} 

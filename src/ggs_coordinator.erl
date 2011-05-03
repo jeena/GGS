@@ -4,7 +4,7 @@
 -export([   start_link/0, 
             stop/1, 
             join_table/1, 
-            create_table/1, 
+            create_table/0,
             join_lobby/0,
             respawn_player/2, 
             respawn_table/1, 
@@ -43,8 +43,8 @@ join_table(Token) ->
     gen_server:call(ggs_coordinator, {join_table, Token}). 
 
 %% @doc Create a new table, return {error, Reason} or {ok, TableToken} 
-create_table(Params) ->
-    gen_server:call(ggs_coordinator, {create_table, Params}). 
+create_table() ->
+    gen_server:call(ggs_coordinator, create_table).
 
 %% @doc This is the first function run by a newly created players. 
 %%	Generates a unique token that we use to identify the player.
@@ -109,46 +109,28 @@ handle_call(join_lobby, From, State) ->
 
 handle_call({join_table, Table}, From, State) ->
     {FromPlayer, _Ref}  = From,
-    Tables = State#co_state.tables,
-    case lists:keyfind(Table, 1, Tables) of
-        {_TableID, TablePID} ->
-%            TP = TablePID,
-%            {ok, Players} = (gen_server:call(TP, get_player_list_raw)), % Hack.. deadlock otherwise?
-%            %Players = [1],
-%            NumPlayers = length(Players),
-%            case NumPlayers of
-%                PN when (PN < 2) ->     ggs_table:add_player(TablePID, FromPlayer),
-%                                        back_up(State),
-%                                        {reply, {ok, TablePID}, State};
-%                PN when (PN >= 2) ->    {reply, {error, table_full}, State} % TODO: Fix this limit!! 
-%            end;
-            {TableNum,_} = string:to_integer(Table),
-            %erlang:display(State#co_state.players),
-            CurrentPlayers = length(State#co_state.players),
-            SmallestTable =     case (CurrentPlayers rem 2) of
-                                    0 -> CurrentPlayers / 2;
-                                    1 -> (CurrentPlayers / 2)+1
-                                end, 
-            case (TableNum =< SmallestTable) of
-                true   -> {reply , {error, table_full}, State};
-                false  -> ggs_table:add_player(TablePID, FromPlayer),
-                          {reply, {ok, TablePID}, State}
-            end;
+    case lists:keyfind(Table, 1, State#co_state.tables) of
+        {TableID, TablePID} ->
+            % TODO check if table full
+            ggs_table:add_player(TablePID, FromPlayer),
+            {reply, {ok, TableID, TablePID}, State};
         false ->
             back_up(State),
             {reply, {error, no_such_table}, State}
     end;
-
-handle_call({create_table, {force, TableToken}}, From, State) ->
+ 
+handle_call(create_table, From, State) ->
+    TableToken          = getNewToken(),
     TableIDMap          = State#co_state.player_table_map,
     Tables              = State#co_state.tables,
-    NewTableProc        = ggs_table:start(TableToken), % With start_link, the table dies with the coordinator
+    TablePid            = ggs_table:start(TableToken), % With start_link, the table dies with the coordinator
     NewState = State#co_state{
                             player_table_map = [{From, TableToken} | TableIDMap],
-                            tables           = [{TableToken, NewTableProc} | Tables]
+                            tables           = [{TableToken, TablePid} | Tables]
                             },
     back_up(NewState),
-    {reply, {ok, TableToken}, NewState};
+    {reply, {ok, TableToken, TablePid}, NewState};
+    
 
 handle_call(get_all_players, _From, State) ->
     {reply, State#co_state.players, State};
@@ -196,3 +178,7 @@ terminate(normal, _State) ->
 
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
+
+% helper
+getNewToken() ->
+    string:strip(os:cmd("uuidgen"), right, $\n ).

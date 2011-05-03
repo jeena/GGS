@@ -7,7 +7,7 @@
 
 %% gen_server callback exports
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, 
-            code_change/3]).
+            code_change/3, accept_loop/1]).
 
 -define(SERVER, ?MODULE).
 
@@ -35,34 +35,32 @@ stop(_Reason) -> ggs_logger:not_implemented().
 
 %% @doc Initiate the dispatcher. This is called from gen_server
 init([Port]) ->
-    {ok, LSock} = gen_tcp:listen(Port, [{active, true},
-                                        {reuseaddr, true}]),
-    {ok, LSock, 0}.
+    case gen_tcp:listen(Port, [{active, true}, {reuseaddr, true}]) of
+        {ok, LSock} ->
+            {ok, accept(LSock), 0};
+        {error, Reason} ->
+                {stop, Reason}
+    end.
+    
+handle_cast({accepted, _Pid}, State) ->
+    {noreply, accept(State)}.
+    
+accept_loop({Server, LSocket}) ->
+    {ok, Socket} = gen_tcp:accept(LSocket),
+    % Let the server spawn a new process and replace this loop
+    % with the echo loop, to avoid blocking 
+    gen_server:cast(Server, {accepted, self()}),
+    {ok, Player} = ggs_player:start(),
+    gen_tcp:controlling_process(Socket, Player),
+    ggs_player:save_socket(Player, Socket).
+    
+% To be more robust we should be using spawn_link and trapping exits
+accept(LSocket) ->
+    proc_lib:spawn(?MODULE, accept_loop, [{self(), LSocket}]),
+    LSocket.
 
-handle_call(_Message, _From, State) ->
-    {noreply, State}.
-
-handle_cast(_Message, State) ->
-    {noreply, State}.
-
-handle_info({tcp, _Socket, _Data}, State) ->
-    io:format("Got connect request! ~n"),
-    {noreply, State};
-
-handle_info({tcp_closed, Socket}, State) ->
-    gen_tcp:close(Socket),
-    {stop, "Client closed socket", State};
-
-%% @doc This is our function for accepting connections. When a client connects,
-%% it will immediately time out due to timing settings set in init and here,
-%% and when it does, we accept the connection.
-handle_info(timeout, LSock) ->
-    {ok, Socket} = gen_tcp:accept(LSock),
-    ggs_player:start(Socket),
-    {noreply, LSock, 0}.
-
-terminate(normal, _State) ->
-    ok.
-
-code_change(_OldVsn, State, _Extra) ->
-    {ok, State}.
+% These are just here to suppress warnings.
+handle_call(_Msg, _Caller, State) -> {noreply, State}.
+handle_info(_Msg, Library) -> {noreply, Library}.
+terminate(_Reason, _Library) -> ok.
+code_change(_OldVersion, Library, _Extra) -> {ok, Library}.

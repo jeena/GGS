@@ -9,8 +9,10 @@ class GGSNetwork
   
   attr_accessor :delegate
 
-  def initialize(delegate)
+  def initialize(delegate, table_token="")
+    @table_token = table_token
     @delegate = delegate
+    @player_token = nil
   end
   
   def define(source_code)
@@ -23,12 +25,14 @@ class GGSNetwork
   
   def connect(host='localhost', port=9000)
     @socket = TCPSocket.new(host, port)
+    write( makeMessage(SERVER, "hello", @table_token) )
     read
   end
   
   protected
   
   def write(message)
+    #puts message
     @socket.write(message)
   end
   
@@ -67,13 +71,16 @@ class GGSNetwork
       else
         @delegate.ggsNetworkReceivedCommandWithArgs(self, command, data)
       end
+    else
+      STDERR.print "ERR: " + [headers, data, @socket.inspect].inspect + "\n"
     end
   end
   
   def makeMessage(serverOrGame, command, args)
-    message = "Token: #{@game_token}\n" +
-    "#{serverOrGame}-Command: #{command}\n" +
-    "Content-Length: #{args.length}\n\n"
+    message = ""
+    message += "Token: #{@player_token}\n" unless @player_token.nil?
+    message += "#{serverOrGame}-Command: #{command}\n" +
+               "Content-Length: #{args.length}\n\n"
 
     message += args if args.length > 0
 
@@ -81,8 +88,9 @@ class GGSNetwork
   end
   
   def parse_hello(message)
-    @game_token, shall_define, @table_token = message.split(",")
+    @player_token, shall_define, @table_token = message.split(",")
     @am_i_host = shall_define == "true"
+    puts "Table-Token: " + @table_token
   end
   
 end

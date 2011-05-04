@@ -4,7 +4,7 @@ function playerCommand(player_id, command, args) {
     } else if(command == "message") {
         message(player_id, args);
     } else if(command == "ping") {
-        GGS.sendCommand(player_id, "pong", "");
+        GGS.sendCommand(player_id, "pong", args);
     }
 }
 

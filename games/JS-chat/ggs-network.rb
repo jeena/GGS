@@ -7,7 +7,7 @@ class GGSNetwork
 
   public
   
-  attr_accessor :delegate
+  attr_accessor :delegate, :player_token
 
   def initialize(delegate, table_token="")
     @table_token = table_token

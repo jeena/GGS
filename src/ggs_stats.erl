@@ -45,7 +45,7 @@ handle_cast({add_one, Type}, St) ->
 handle_cast(print, St) ->
     CS = length(ggs_coordinator:get_all_players()),
     S = lists:concat([CS,";",St#ate.server_messages,";",St#ate.client_messages]),
-    log("/tmp/ggs-log.csv", S),
+    log("/tmp/ggs-mps-log.csv", S),
     io:fwrite("CS:~w | CM:~w | SM:~w |~n", [CS, St#ate.server_messages, St#ate.client_messages]),
     {noreply, St};
     

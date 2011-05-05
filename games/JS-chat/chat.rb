@@ -11,7 +11,7 @@ class Chat
   include GGSDelegate
   include MyRandom
   
-  @@log_file_path = "/tmp/ggs-log.csv"
+  @@log_file_path = "/tmp/ggs-ping-log.csv"
   @@bot_threads = []
   
   def initialize(is_bot=false, table_token="")
@@ -26,8 +26,8 @@ class Chat
     table_token = gets.chomp unless @is_bot
     
     @ggs_network = GGSNetwork.new(self, table_token)
-    #@ggs_network.connect("192.168.0.2", 9000)
-    @ggs_network.connect("localhost", 9000)
+    @ggs_network.connect("192.168.0.2", 9000)
+    #@ggs_network.connect("localhost", 9000)
   end
   
   def ggsNetworkReady(ggs_network, am_i_host)    
@@ -146,7 +146,7 @@ class Chat
   end
 
   def pong(server_log)
-    time = (Time.now - @start_ping).to_s
+    time = ((Time.now - @start_ping) * 1000).to_s
     say "<pong: #{time} #{server_log}>"
     
     File.open(@@log_file_path, 'a') {|f| f.write(time << ",#{server_log}\n") } unless @log.nil?

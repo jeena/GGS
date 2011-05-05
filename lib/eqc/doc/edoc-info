@@ -1,0 +1,2 @@
+{packages,[]}.
+{modules,[eqc,eqc_gen,eqc_symbolic]}.

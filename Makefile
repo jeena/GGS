@@ -42,9 +42,19 @@ run:
 		-mnesia dir '"/tmp/ggs"' \
 		-boot start_sasl \
 		-pa $(LIBDIR)/erlv8/ebin/ \
+		-pa $(LIBDIR)/eqc/ebin/ \
 		-pa ebin \
 		-pa src \
 		-s start_ggs
+
+eqc_db:
+	$(ERLC) -pa $(BEAMDIR) -pa $(LIBDIR)/eqc/ebin -pa $(SRCDIR) -pa $(TESTDIR) $(TESTDIR)/ggs_db_eqc_test.erl
+	erl -mnesia dir '"/tmp/ggs"' \
+	-pa $(LIBDIR)/eqc/ebin/ \
+	-pa ebin/ \
+	-pa src/ \
+	-pa tests/ \
+	-s ggs_db_eqc_test
 
 force_look:
 	true

@@ -12,7 +12,7 @@ class Chat
     print "Table token (empty for new): "
     table_token = gets.chomp
     @ggs_network = GGSNetwork.new(self, table_token)
-    @ggs_network.connect("ggs.jeena.net", 9000)
+    @ggs_network.connect("home.jeena.net", 9000)
   end
   
   def ggsNetworkReady(ggs_network, am_i_host)
@@ -44,6 +44,7 @@ class Chat
     case command
       when "message"  then message(args)
       when "notice"   then notice(args)
+      when "pong"     then pong(args)
     end
   end
   
@@ -59,7 +60,22 @@ class Chat
   
   def input
     message = gets.chomp
-    @ggs_network.sendCommand("message", message)
+    if message[0..5] == "/nick "
+      @ggs_network.sendCommand("/nick", message[6,-1])
+    elsif message == "/ping"
+      ping()
+    else
+      @ggs_network.sendCommand("message", message)      
+    end
+  end
+  
+  def ping
+    @start_ping = Time.now
+    @ggs_network.sendCommand("ping", @ggs_network.player_token)
+  end
+
+  def pong(id)
+    puts "<pong: " + (Time.now - @start_ping).to_s + ">"
   end
   
 end

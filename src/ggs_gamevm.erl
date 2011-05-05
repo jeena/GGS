@@ -89,7 +89,10 @@ expose(Global, Table) ->
         {"sendCommand", fun(#erlv8_fun_invocation{}, [Player, Command, Args])->
                 ggs_table:send_command(Table, Player, {Command, Args})
             end},
-        {"sendCommandToAll", fun(#erlv8_fun_invocation{}, [Command, Args])-> ggs_table:notify_all_players(Table, {Command, Args}) end} 
+        {"sendCommandToAll", fun(#erlv8_fun_invocation{}, [Command, Args])->
+            erlang:display(Args),
+            ggs_table:notify_all_players(Table, {Command, Args})
+        end} 
         %{"setTimeout", fund(#erlv8_fun_invocation{}, [Time, FunctionName])-> setTimeout(Time, FunctionName) end}
     ])).
 

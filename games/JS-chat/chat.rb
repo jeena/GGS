@@ -26,6 +26,7 @@ class Chat
     table_token = gets.chomp unless @is_bot
     
     @ggs_network = GGSNetwork.new(self, table_token)
+    #@ggs_network.connect("192.168.0.2", 9000)
     @ggs_network.connect("localhost", 9000)
   end
   

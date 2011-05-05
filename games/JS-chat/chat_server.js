@@ -4,7 +4,7 @@ function playerCommand(player_id, command, args) {
     } else if(command == "message") {
         message(player_id, args);
     } else if(command == "ping") {
-        GGS.sendCommand(player_id, "pong", args);
+        GGS.sendCommand(player_id, "pong", GGS.serverInfo() + "");
     }
 }
 
@@ -13,7 +13,7 @@ function changeNick(player_id, nick) {
     GGS.localStorage.setItem("nick_" + player_id, nick);
     
     if (!old_nick) {
-        GGS.sendCommandToAll("notice", nick + " joined ä");
+        GGS.sendCommandToAll("notice", nick + " joined");
     } else {
         GGS.sendCommandToAll("notice", old_nick + " is now called " + nick);
     }

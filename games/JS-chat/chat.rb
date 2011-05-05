@@ -26,7 +26,7 @@ class Chat
     table_token = gets.chomp unless @is_bot
     
     @ggs_network = GGSNetwork.new(self, table_token)
-    @ggs_network.connect("ggs.jeena.net", 9000)
+    @ggs_network.connect("localhost", 9000)
   end
   
   def ggsNetworkReady(ggs_network, am_i_host)    
@@ -125,6 +125,8 @@ class Chat
       toggle_log
     elsif message == "/help"
       help
+    elsif message == "/exit"
+      exit
     elsif message == "/ignore"
       @ignore = @ignore ? false : true
       if @ignore
@@ -181,6 +183,7 @@ class Chat
     puts "| /bots            |  stop all bots             |"
     puts "| /log             |  toggle logging            |"
     puts "| /ignore          |  toggle ignoring everyone  |"
+    puts "| /exit            |  exit chat                 |"
     puts "| /help            |  show this help            |"
     puts "+-----------------------------------------------+"
   end

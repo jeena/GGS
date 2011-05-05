@@ -37,16 +37,8 @@ init(_Args) ->
 
 handle_cast({add_one, Type}, St) -> 
     case Type of
-        server -> NewSt = #ate {
-                                server_messages = St#ate.server_messages + 1,
-                                client_messages = St#ate.client_messages,
-                                stats = St#ate.stats
-                                };
-        client -> NewSt = #ate {
-                                server_messages = St#ate.server_messages,
-                                client_messages = St#ate.client_messages + 1,
-                                stats = St#ate.stats
-                               }
+        server -> NewSt = St#ate { server_messages = St#ate.server_messages + 1 };
+        client -> NewSt = St#ate { client_messages = St#ate.client_messages + 1 }
     end,
     {noreply, NewSt};
 

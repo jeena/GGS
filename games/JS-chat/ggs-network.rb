@@ -7,7 +7,7 @@ class GGSNetwork
 
   public
   
-  attr_accessor :delegate, :player_token
+  attr_accessor :delegate, :player_token, :table_token
 
   def initialize(delegate, table_token="")
     @table_token = table_token
@@ -80,7 +80,7 @@ class GGSNetwork
     message = ""
     message += "Token: #{@player_token}\n" unless @player_token.nil?
     message += "#{serverOrGame}-Command: #{command}\n" +
-               "Content-Length: #{args.length}\n\n"
+               "Content-Length: #{args.bytesize}\n\n"
 
     message += args if args.length > 0
 
@@ -90,7 +90,6 @@ class GGSNetwork
   def parse_hello(message)
     @player_token, shall_define, @table_token = message.split(",")
     @am_i_host = shall_define == "true"
-    puts "Table-Token: " + @table_token
   end
   
 end

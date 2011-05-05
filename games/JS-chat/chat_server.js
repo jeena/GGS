@@ -13,7 +13,7 @@ function changeNick(player_id, nick) {
     GGS.localStorage.setItem("nick_" + player_id, nick);
     
     if (!old_nick) {
-        GGS.sendCommandToAll("notice", nick + " joined");
+        GGS.sendCommandToAll("notice", nick + " joined ä");
     } else {
         GGS.sendCommandToAll("notice", old_nick + " is now called " + nick);
     }

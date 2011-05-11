@@ -2,10 +2,12 @@
 -export([connect/0,append_key_value_strings_to_dict/2,key_value_string_to_list/1]).
 -export([read/2, send_command/3]).
 
+%For quickcheck
+-export([receive_content/1,receive_data/3]).
+
 connect() ->
     %{ok,Socket} = gen_tcp:connect("ggs.jeena.net", 9000,[{active, false}]),
-    {ok,Socket} = gen_tcp:connect("localhost", 9000,[{active, false}]),
-    Socket.
+    {ok,Socket} = gen_tcp:connect("localhost", 9000,[{active, false}]).
 
 read(Socket, Ref) ->
     Content = receive_content(Socket),

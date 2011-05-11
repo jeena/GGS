@@ -34,7 +34,7 @@ init(_Args) ->
     Ball = new_pos(),
     Paused = true,
     Start = false,
-    Socket = ggs_network:connect(), %Localhost is set internally inside ggs_network.
+    {ok, Socket} = ggs_network:connect(), %Localhost is set internally inside ggs_network.
     State1 = dict:new(),
     State2 = dict:store(player1, Player1, State1),
     State3 = dict:store(player2, Player2, State2),

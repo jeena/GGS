@@ -145,7 +145,7 @@ class GGSTTT:
                message.destroy()
             elif resp == gtk.RESPONSE_OK:
                print "new game"
-                self.s.send("Game-Command: new\n" +
+               self.s.send("Game-Command: new\n" +
                     "Content-Type: text\n" +
                     "Content-Length: 0\n"+
                     "\n")
@@ -160,7 +160,7 @@ class GGSTTT:
                message.destroy()
             elif resp == gtk.RESPONSE_OK:
                print "new game"
-                self.s.send("Game-Command: new\n" +
+               self.s.send("Game-Command: new\n" +
                     "Content-Type: text\n" +
                     "Content-Length: 0\n"+
                     "\n")

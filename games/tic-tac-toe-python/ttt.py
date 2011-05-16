@@ -127,11 +127,13 @@ class GGSTTT:
             self.wTree.get_widget("x2y0").get_child().modify_font(pango.FontDescription("sans 48"))
             self.wTree.get_widget("x2y1").get_child().modify_font(pango.FontDescription("sans 48"))
             self.wTree.get_widget("x2y2").get_child().modify_font(pango.FontDescription("sans 48"))
+            self.setStatus("")
         elif msg["Client-Command"] == "defined":
             self.s.send("Game-Command: hi\n" +
                 "Content-Type: text\n" +
                 "Content-Length: 0\n"+
                 "\n")
+            self.setStatus("")
         elif msg["Client-Command"] == "lusers":
             print msg
             gobject.idle_add(self.updateUsers, msg["DATA"])
@@ -140,6 +142,7 @@ class GGSTTT:
                 "Content-Type: text\n" +
                 "Content-Length: 0\n"+
                 "\n")
+           self.setStatus(msg["DATA"])
 
 
     def connect(self, host,port):

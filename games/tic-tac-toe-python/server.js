@@ -1,9 +1,12 @@
 function playerCommand(player_id, command, args) {
+    var p1_id = GGS.localStorage.getItem("p1_id");
+    var p2_id = GGS.localStorage.getItem("p2_id");
+
     if (command == "hi") {
         hi(player_id);
-    } else if (command == "set") {
+    } else if (command == "set" && p1_id && p2_id) {
         move(player_id, args);
-    } else if (command == "new") {
+    } else if (command == "new" && p1_id && p2_id) {
         newGame();
     }
 }

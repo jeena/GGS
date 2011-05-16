@@ -56,7 +56,9 @@ function move(player_id, args) {
 					GGS.sendCommand(p1_id, "loser", "You lose!");				
 					GGS.sendCommand(p2_id, "winner", "You win!");
 				}
-			}
+			} else if(allFieldsFull(gameBoard)) {
+				GGS.sendCommandToAll("draw", "It was a dwaw!");
+			}allFieldsFull(gameBoard)
 			
 			if (nextPlayer == 1) {
 				GGS.localStorage.setItem("next_player", 2);
@@ -119,6 +121,17 @@ function checkIfWon(gameBoard) {
 	}
 	
 	return false;
+}
+
+function allFieldsFull(gameBoard) {
+	for (var i=0; i < ROWS; i++) {
+		for(var j=0; j < ROWS; j++) {
+			if (gameBoard[i][j] == 0) {
+				return false;
+			}
+		}
+	}
+	return true;
 }
 
 function newGame() {

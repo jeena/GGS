@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, socket, thread, gobject, getpass, time, os
+import sys, socket, thread, gobject, getpass, time, os, pango
 try:
  	import pygtk
   	pygtk.require("2.16")
@@ -38,6 +38,7 @@ class GGSTTT:
         self.wTree.signal_autoconnect(dic)
 
         self.wTree.get_widget("window1").show()
+      
 
     def doConnect(self):
         self.setStatus("Not connected")
@@ -117,6 +118,15 @@ class GGSTTT:
             self.wTree.get_widget("x2y0").set_label(msg["DATA"][6])
             self.wTree.get_widget("x2y1").set_label(msg["DATA"][7])
             self.wTree.get_widget("x2y2").set_label(msg["DATA"][8])
+            self.wTree.get_widget("x0y0").get_child().modify_font(pango.FontDescription("sans 48"))
+            self.wTree.get_widget("x0y1").get_child().modify_font(pango.FontDescription("sans 48"))
+            self.wTree.get_widget("x0y2").get_child().modify_font(pango.FontDescription("sans 48"))
+            self.wTree.get_widget("x1y0").get_child().modify_font(pango.FontDescription("sans 48"))
+            self.wTree.get_widget("x1y1").get_child().modify_font(pango.FontDescription("sans 48"))
+            self.wTree.get_widget("x1y2").get_child().modify_font(pango.FontDescription("sans 48"))
+            self.wTree.get_widget("x2y0").get_child().modify_font(pango.FontDescription("sans 48"))
+            self.wTree.get_widget("x2y1").get_child().modify_font(pango.FontDescription("sans 48"))
+            self.wTree.get_widget("x2y2").get_child().modify_font(pango.FontDescription("sans 48"))
         elif msg["Client-Command"] == "defined":
             self.s.send("Game-Command: hi\n" +
                 "Content-Type: text\n" +
@@ -125,6 +135,37 @@ class GGSTTT:
         elif msg["Client-Command"] == "lusers":
             print msg
             gobject.idle_add(self.updateUsers, msg["DATA"])
+        elif msg["Client-Command"] == "winner":
+            message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO, gtk.BUTTONS_NONE, msg["DATA"])
+            message.add_button("New game", gtk.RESPONSE_OK)
+            message.add_button("Exit", gtk.RESPONSE_CLOSE)
+            resp = message.run()
+            if resp == gtk.RESPONSE_CLOSE:
+               sys.exit(1)
+               message.destroy()
+            elif resp == gtk.RESPONSE_OK:
+               print "new game"
+                self.s.send("Game-Command: new\n" +
+                    "Content-Type: text\n" +
+                    "Content-Length: 0\n"+
+                    "\n")
+               message.destroy()
+        elif msg["Client-Command"] == "loser":
+            message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO, gtk.BUTTONS_NONE, msg["DATA"])
+            message.add_button("New game", gtk.RESPONSE_OK)
+            message.add_button("Exit", gtk.RESPONSE_CLOSE)
+            resp = message.run()
+            if resp == gtk.RESPONSE_CLOSE:
+               sys.exit(1)
+               message.destroy()
+            elif resp == gtk.RESPONSE_OK:
+               print "new game"
+                self.s.send("Game-Command: new\n" +
+                    "Content-Type: text\n" +
+                    "Content-Length: 0\n"+
+                    "\n")
+               message.destroy()
+
 
     def connect(self, host,port):
         print "Connecting"

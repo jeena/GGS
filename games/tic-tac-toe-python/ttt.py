@@ -135,36 +135,11 @@ class GGSTTT:
         elif msg["Client-Command"] == "lusers":
             print msg
             gobject.idle_add(self.updateUsers, msg["DATA"])
-        elif msg["Client-Command"] == "winner":
-            message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO, gtk.BUTTONS_NONE, msg["DATA"])
-            message.add_button("New game", gtk.RESPONSE_OK)
-            message.add_button("Exit", gtk.RESPONSE_CLOSE)
-            resp = message.run()
-            if resp == gtk.RESPONSE_CLOSE:
-               sys.exit(1)
-               message.destroy()
-            elif resp == gtk.RESPONSE_OK:
-               print "new game"
-               self.s.send("Game-Command: new\n" +
-                    "Content-Type: text\n" +
-                    "Content-Length: 0\n"+
-                    "\n")
-               message.destroy()
-        elif msg["Client-Command"] == "loser":
-            message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO, gtk.BUTTONS_NONE, msg["DATA"])
-            message.add_button("New game", gtk.RESPONSE_OK)
-            message.add_button("Exit", gtk.RESPONSE_CLOSE)
-            resp = message.run()
-            if resp == gtk.RESPONSE_CLOSE:
-               sys.exit(1)
-               message.destroy()
-            elif resp == gtk.RESPONSE_OK:
-               print "new game"
-               self.s.send("Game-Command: new\n" +
-                    "Content-Type: text\n" +
-                    "Content-Length: 0\n"+
-                    "\n")
-               message.destroy()
+        elif msg["Client-Command"] == "loser" or msg["Client-Command"] == "winner":
+           self.s.send("Game-Command: new\n" +
+                "Content-Type: text\n" +
+                "Content-Length: 0\n"+
+                "\n")
 
 
     def connect(self, host,port):

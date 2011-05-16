@@ -127,19 +127,27 @@ class GGSTTT:
             self.wTree.get_widget("x2y0").get_child().modify_font(pango.FontDescription("sans 48"))
             self.wTree.get_widget("x2y1").get_child().modify_font(pango.FontDescription("sans 48"))
             self.wTree.get_widget("x2y2").get_child().modify_font(pango.FontDescription("sans 48"))
+            self.setStatus("")
         elif msg["Client-Command"] == "defined":
             self.s.send("Game-Command: hi\n" +
                 "Content-Type: text\n" +
                 "Content-Length: 0\n"+
                 "\n")
+            self.setStatus("")
         elif msg["Client-Command"] == "lusers":
             print msg
             gobject.idle_add(self.updateUsers, msg["DATA"])
-        elif msg["Client-Command"] == "loser" or msg["Client-Command"] == "winner":
+        elif msg["Client-Command"] == "loser" or msg["Client-Command"] == "winner" or msg["Client-Command"] == "draw":
+#           md = gtk.MessageDialog(None, 
+#                gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, 
+#                gtk.BUTTONS_CLOSE, msg["DATA"])
+#           md.run()
+#           md.destroy()
            self.s.send("Game-Command: new\n" +
                 "Content-Type: text\n" +
                 "Content-Length: 0\n"+
                 "\n")
+           self.setStatus(msg["DATA"])
 
 
     def connect(self, host,port):

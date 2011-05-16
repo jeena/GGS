@@ -23,15 +23,15 @@ class GGSTTT:
 
         #Create our dictionay and connect it
         dic = {  "on_window1_destroy_event"         : gtk.main_quit
-                ,"on_x0y0_clicked"     : lambda x: self.sendMove("{'x':0,'y':0}")
-                ,"on_x0y1_clicked"     : lambda x: self.sendMove("{'x':0,'y':1}")
-                ,"on_x0y2_clicked"     : lambda x: self.sendMove("{'x':0,'y':2}")
-                ,"on_x1y0_clicked"     : lambda x: self.sendMove("{'x':1,'y':0}")
-                ,"on_x1y1_clicked"     : lambda x: self.sendMove("{'x':1,'y':1}")
-                ,"on_x1y2_clicked"     : lambda x: self.sendMove("{'x':1,'y':2}")
-                ,"on_x2y0_clicked"     : lambda x: self.sendMove("{'x':2,'y':0}")
-                ,"on_x2y1_clicked"     : lambda x: self.sendMove("{'x':2,'y':1}")
-                ,"on_x2y2_clicked"     : lambda x: self.sendMove("{'x':2,'y':2}")
+                ,"on_x0y0_clicked"     : lambda x: self.sendMove("{\"x\":0,\"y\":0}")
+                ,"on_x0y1_clicked"     : lambda x: self.sendMove("{\"x\":0,\"y\":1}")
+                ,"on_x0y2_clicked"     : lambda x: self.sendMove("{\"x\":0,\"y\":2}")
+                ,"on_x1y0_clicked"     : lambda x: self.sendMove("{\"x\":1,\"y\":0}")
+                ,"on_x1y1_clicked"     : lambda x: self.sendMove("{\"x\":1,\"y\":1}")
+                ,"on_x1y2_clicked"     : lambda x: self.sendMove("{\"x\":1,\"y\":2}")
+                ,"on_x2y0_clicked"     : lambda x: self.sendMove("{\"x\":2,\"y\":0}")
+                ,"on_x2y1_clicked"     : lambda x: self.sendMove("{\"x\":2,\"y\":1}")
+                ,"on_x2y2_clicked"     : lambda x: self.sendMove("{\"x\":2,\"y\":2}")
                 ,"on_connectBtn_clicked" : lambda x: self.doConnect()
             }
 
@@ -53,10 +53,6 @@ class GGSTTT:
             "Content-Length: %s\n" % len(token)+
             "\n"+
             token)
-        self.s.send("Game-Command: hi\n" +
-            "Content-Type: text\n" +
-            "Content-Length: 0\n"+
-            "\n")
 
     def sendMove(self, move):
         print "Sending move", move
@@ -93,15 +89,39 @@ class GGSTTT:
             if defined == "false":
                 print "Defining game"
                 js = open("server.js").read()
+                self.wTree.get_widget("token").set_text(table_token)
                 self.s.send("Server-Command: define\n"+
                             "Content-Type: text\n" +
-                            ("Content-Length: %s\n" % len(js))+
-                            "\n%s" % js)
+                            "Content-Length: %s\n" % str(len(js))+
+                            "\n" +
+                            js)
+            if defined == "true":
+                self.s.send("Game-Command: hi\n" +
+                    "Content-Type: text\n" +
+                    "Content-Length: 0\n"+
+                    "\n")
 
         elif msg["Client-Command"] == "welcome":
-            self.setStatus("You are player %s" % msg["data"])
-        elif msg["Client-Command"] == "chat":
-            gobject.idle_add(self.updateChatText, msg["DATA"])
+            self.setStatus("You are player %s" % msg["DATA"])
+        elif msg["Client-Command"] == "warning":
+            self.setStatus("Warning: %s" % msg["DATA"])
+        elif msg["Client-Command"] == "not_welcome":
+            self.setStatus("You are not welcome: %s" % msg["DATA"])
+        elif msg["Client-Command"] == "game_board":
+            self.wTree.get_widget("x0y0").set_label(msg["DATA"][0])
+            self.wTree.get_widget("x0y1").set_label(msg["DATA"][1])
+            self.wTree.get_widget("x0y2").set_label(msg["DATA"][2])
+            self.wTree.get_widget("x1y0").set_label(msg["DATA"][3])
+            self.wTree.get_widget("x1y1").set_label(msg["DATA"][4])
+            self.wTree.get_widget("x1y2").set_label(msg["DATA"][5])
+            self.wTree.get_widget("x2y0").set_label(msg["DATA"][6])
+            self.wTree.get_widget("x2y1").set_label(msg["DATA"][7])
+            self.wTree.get_widget("x2y2").set_label(msg["DATA"][8])
+        elif msg["Client-Command"] == "defined":
+            self.s.send("Game-Command: hi\n" +
+                "Content-Type: text\n" +
+                "Content-Length: 0\n"+
+                "\n")
         elif msg["Client-Command"] == "lusers":
             print msg
             gobject.idle_add(self.updateUsers, msg["DATA"])

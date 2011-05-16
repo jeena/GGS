@@ -102,6 +102,7 @@ handle_cast({srv_cmd, "hello", _Headers, TableToken}, State) ->
             {noreply, State#state{ table = TPid } }
     end;
 handle_cast({srv_cmd, "define", _Headers, Data}, #state { table = Table } = State) ->
+    erl:display(Data),
     ggs_table:notify(Table, self(), {server, define, Data}),
     {noreply, State};
 handle_cast({game_cmd, Command, _Headers, Data}, #state { table = Table } = State) ->

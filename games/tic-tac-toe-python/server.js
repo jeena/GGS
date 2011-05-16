@@ -15,7 +15,6 @@ function hi(player_id) {
     var p2_id = GGS.localStorage.getItem("p2_id");
     if (!p1_id) {
         GGS.localStorage.setItem("p1_id", player_id);
-		GGS.localStorage.setItem("next_player", 1);
         GGS.sendCommand(player_id, "welcome", "1");
     } else if (!p2_id) {
         GGS.localStorage.setItem("p2_id", player_id);
@@ -48,8 +47,8 @@ function move(player_id, args) {
 			gameBoard[props.x][props.y] = p;
 			GGS.localStorage.setItem("game_board", JSON.stringify(gameBoard));
 			GGS.sendCommandToAll("game_board", boardAsString(gameBoard));
-			
-			if (this.checkIfWon()) {
+			GGS.log(this.checkIfWon(gameBoard))
+			if (this.checkIfWon(gameBoard)) {
 				if (p == 1) {
 					GGS.sendCommand(p1_id, "winner", "You win!");
 					GGS.sendCommand(p2_id, "loser", "You lose!");									
@@ -75,9 +74,9 @@ function move(player_id, args) {
 	}
 }
 
-function checkIfWon() {
+function checkIfWon(gameBoard) {
     
-	var gameBoard = JSON.parse(GGS.localStorage.getItem("game_board"));
+	//var gameBoard = JSON.parse(GGS.localStorage.getItem("game_board"));
 
 	for (i = 0; i < ROWS; ++i) {
 		for (j = 0; j < ROWS; ++j) {
@@ -133,8 +132,9 @@ function newGame() {
 	}
 	
 	GGS.localStorage.setItem("game_board", JSON.stringify(gameBoard));
-    GGS.sendCommandToAll("new_game", "");
+    	GGS.sendCommandToAll("new_game", "");
 	GGS.sendCommandToAll("game_board", boardAsString(gameBoard));
+	GGS.localStorage.setItem("next_player", 1);
 }
 
 function boardAsString(gameBoard) {

@@ -95,8 +95,8 @@ expose(Global, Table) ->
         {"serverInfo", fun(#erlv8_fun_invocation{}, []) -> 
             PlayerList = ggs_coordinator:get_all_players(), 
             integer_to_list(length(PlayerList))
-        end}
-        %{"log", fun(#erlv8_fun_invocation{}, [Arg]) -> erlang:display(Arg) end }
+        end},
+        {"log", fun(#erlv8_fun_invocation{}, [Arg]) -> erlang:display(Arg) end }
         %{"setTimeout", fund(#erlv8_fun_invocation{}, [Time, FunctionName])-> setTimeout(Time, FunctionName) end}
     ])).
 
